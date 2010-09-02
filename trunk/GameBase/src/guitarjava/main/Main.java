@@ -1,31 +1,17 @@
 package guitarjava.main;
 
-import guitarjava.util.Time;
-import javax.swing.JApplet;
-
 /**
  * Main class of this project.
  * @author lucasjadami
  */
-public class Main extends JApplet implements Runnable
+public class Main
 {
     /**
-     * The init method is the 'contructor' of the applet application.
+     * Main method.
+     * @param args Arguments from the command line.
      */
-    @Override
-    public void init()
+    public static void main(String[] args)
     {
-        
-    }
 
-    /**
-     * Main thread method.
-     */
-    public void run()
-    {
-        while (true)
-        {
-            Time.waitSomeTime(1);
-        }
     }
 }
