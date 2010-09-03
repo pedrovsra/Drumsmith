@@ -1,31 +1,37 @@
 package guitarjava.graphics;
 
 import java.applet.Applet;
-import java.awt.Frame;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Implements the GraphicsInterface. This is a 2D implementation.
  * @author brunojadami
  */
-public class Graphics2DContext extends Applet implements GraphicsInterface, Runnable
+public class Graphics2DContext extends Applet implements GraphicsInterface
 {
-
+    static public Component component = null; // The component to add listeners
     private Image dbImage; // Double buffering image
     private Graphics dbg; // Double buffering graphics
-    private List listeners = new ArrayList(); // Listeners for the graphics update
+    private List listeners; // Listeners for the graphics update
+    private long updateRate; // The update rate;
 
     /**
      * Constructor.
+     * @param updateRate the update rate, remember that updateRate = 1000/FPS,
+     * use milliseconds
      */
-    public Graphics2DContext()
+    public Graphics2DContext(long updateRate)
     {
+        listeners = new ArrayList();
+        this.updateRate = updateRate;
     }
 
     /**
@@ -78,21 +84,8 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
     public void init()
     {
         setLayout(null);
-        setSize(640, 480);
-        Frame frame = new Frame("Testing...");
-        frame.add(this);
-        frame.pack(); // Make the frame the size of the Applet
-        frame.setVisible(true);
-        // Enable the close button just to be nice
-        frame.addWindowListener(new WindowAdapter() 
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                stop();
-                System.exit(0);
-            }
-        });
+        setSize(500, 400);
+        component = this;
         start();
     }
 
@@ -102,6 +95,17 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
     @Override
     public void start()
     {
+        // Scheduling to repeatdly call repaint at the FPS rate
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                // Repaint the applet
+                repaint();
+            }
+        }, 0, updateRate);
     }
 
     /**
@@ -126,7 +130,7 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
             dbg = dbImage.getGraphics();
         }
         // Clear screen in background
-        dbg.setColor(getBackground());
+        dbg.setColor(Color.BLACK);
         dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
         // Draw elements in background
         dbg.setColor(getForeground());
@@ -144,26 +148,5 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
     public void paint(Graphics g)
     {
 
-    }
-
-    /**
-     * The Runnable run implementation, a loop to update the graphics.
-     */
-    public void run()
-    {
-        while (true)
-        {
-            // Repaint the applet
-            repaint();
-            try
-            {
-                // Stop thread for 1 milliseconds
-                Thread.sleep(1);
-            }
-            catch (InterruptedException ex)
-            {
-                // Do nothing
-            }
-        }
     }
 }

@@ -1,15 +1,21 @@
 package guitarjava.graphics;
 
+import java.awt.Component;
+
 /**
  * The Graphics context interface.
  * @author lucasjadami
  */
 public interface GraphicsInterface
-{
+{   
     /**
      * Initialize the Graphics context.
      */
     public void init();
+    /**
+     * Stops the Graphics context.
+     */
+    public void stop();
     /**
      * Draws an object to the context.
      * @param data the object drawing data
