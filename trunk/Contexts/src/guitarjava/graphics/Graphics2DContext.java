@@ -11,44 +11,69 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Implements the GraphicsInterface. This is a 2D implementation.
  * @author brunojadami
  */
 public class Graphics2DContext extends Applet implements GraphicsInterface, Runnable
 {
 
-    private Image dbImage;
-    private Graphics dbg;
-    private List listeners = new ArrayList();
+    private Image dbImage; // Double buffering image
+    private Graphics dbg; // Double buffering graphics
+    private List listeners = new ArrayList(); // Listeners for the graphics update
 
+    /**
+     * Constructor.
+     */
     public Graphics2DContext()
     {
     }
 
+    /**
+     * Draws the DrawData onto the screen.
+     * @param data the data to be draw
+     */
     public void draw(DrawData data)
     {
+        if (data != null)
+        {
+
+        }
     }
 
+    /**
+     * Adds an event lister to the GraphicsUpdate event.
+     * @param listener the listener
+     */
     public void addGraphicsUpdateEventListener(GraphicsUpdateListener listener)
     {
         listeners.add(listener);
     }
 
+    /**
+     * Removes an event lister from the GraphicsUpdate event.
+     * @param listener the listener
+     */
     public void removeGraphicsUpdateEventListener(GraphicsUpdateListener listener)
     {
         listeners.remove(listener);
     }
 
-    private synchronized void fireGraphicsUpdateEvent()
+    /**
+     * Fires the GraphicsUpdate event, calling all the listeners.
+     */
+    private void fireGraphicsUpdateEvent()
     {
         GraphicsUpdateEvent event = new GraphicsUpdateEvent(this);
         Iterator i = listeners.iterator();
         while (i.hasNext())
         {
-            ((GraphicsUpdateListener) i.next()).handleUpdateEvent(event);
+            ((GraphicsUpdateListener) i.next()).graphicsUpdateEvent(event);
         }
     }
 
+    /**
+     * Initializing the context.
+     */
     @Override
     public void init()
     {
@@ -56,11 +81,11 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
         setSize(640, 480);
         Frame frame = new Frame("Testing...");
         frame.add(this);
-        frame.pack();// make the frame the size of the Applet
+        frame.pack(); // Make the frame the size of the Applet
         frame.setVisible(true);
-        frame.addWindowListener(new WindowAdapter() // Enable the close button just to be nice
+        // Enable the close button just to be nice
+        frame.addWindowListener(new WindowAdapter() 
         {
-
             @Override
             public void windowClosing(WindowEvent e)
             {
@@ -71,16 +96,26 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
         start();
     }
 
+    /**
+     * Starts the context, automatically called on the init method.
+     */
     @Override
     public void start()
     {
     }
 
+    /**
+     * Stops the context.
+     */
     @Override
     public void stop()
     {
     }
 
+    /**
+     * Updates the context.
+     * @param g the graphics to update
+     */
     @Override
     public void update(Graphics g)
     {
@@ -101,12 +136,19 @@ public class Graphics2DContext extends Applet implements GraphicsInterface, Runn
         g.drawImage(dbImage, 0, 0, this);
     }
 
+    /**
+     * Painting the context.
+     * @param g the graphics to paint
+     */
     @Override
     public void paint(Graphics g)
     {
 
     }
 
+    /**
+     * The Runnable run implementation, a loop to update the graphics.
+     */
     public void run()
     {
         while (true)
