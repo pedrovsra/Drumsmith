@@ -114,7 +114,7 @@ public class Music
      * @return If the time is equal or greater than the current time, the entity
      * of the next node. Null otherwise.
      */
-    public NoteXml getNextNote(float time)
+    public NoteXml getNextNote(double time)
     {
         if (notePointer == notes.size())
             return null;
@@ -125,6 +125,14 @@ public class Music
             return noteXml;
 
         return null;
+    }
+
+    /**
+     * @param silent
+     */
+    public void setSilent(boolean silent)
+    {
+
     }
 
     /**
