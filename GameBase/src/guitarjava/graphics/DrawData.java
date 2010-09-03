@@ -1,4 +1,4 @@
-package guitarjava.game;
+package guitarjava.graphics;
 
 /**
  * Contains all informations about the drawing.

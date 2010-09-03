@@ -1,5 +1,8 @@
 package guitarjava.main;
 
+import guitarjava.game.GameEngine;
+import guitarjava.graphics.Graphics2DContext;
+
 /**
  * Main class of this project.
  * @author lucasjadami
@@ -12,6 +15,8 @@ public class Main
      */
     public static void main(String[] args)
     {
-
+        Graphics2DContext graphicsContext = null; // TODO: Create it.
+        GameEngine gameEngine = null; // TODO: Create it.
+        graphicsContext.addGraphicsUpdateEventListener(gameEngine);
     }
 }
