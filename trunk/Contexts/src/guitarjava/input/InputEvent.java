@@ -10,6 +10,7 @@ public class InputEvent extends EventObject
 {
     public static final int INPUT_RELEASED = 0; // Release type
     public static final int INPUT_PRESSED = 1; // Press type
+    public static final int INPUT_JOYSTICK = 2; // Joystick type
 
     private int type;
     private int keyCode;

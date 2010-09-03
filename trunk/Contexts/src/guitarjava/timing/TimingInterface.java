@@ -11,8 +11,12 @@ public interface TimingInterface
      */
     public void init();
     /**
+     * Stops the Timing context.
+     */
+    public void stop();
+    /**
      * Gets the delta time.
      * @return the delta time in milliseconds
      */
-    public double getDeltaTime();
+    public float getDeltaTime();
 }

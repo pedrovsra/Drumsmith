@@ -11,6 +11,10 @@ public interface InputInterface
      */
     public void init();
     /**
+     * Stops the Input context.
+     */
+    public void stop();
+    /**
      * Adds an Input event listener.
      * @param listener the listener
      */

@@ -22,6 +22,7 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
     private Graphics dbg; // Double buffering graphics
     private List listeners; // Listeners for the graphics update
     private long updateRate; // The update rate;
+    private Timer timer; // Timer to update the graphics
 
     /**
      * Constructor.
@@ -42,7 +43,11 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
     {
         if (data != null)
         {
-
+            dbg.setColor(data.color);
+            if (data.type == DrawData.DRAW_BOX)
+                dbg.fillRect((int)data.x, (int)data.y, (int)data.width, (int)data.height);
+            else if (data.type == DrawData.DRAW_SPHERE)
+                dbg.fillArc((int)data.x, (int)data.y, (int)data.width, (int)data.height, 0, 360);
         }
     }
 
@@ -96,7 +101,7 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
     public void start()
     {
         // Scheduling to repeatdly call repaint at the FPS rate
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -114,6 +119,7 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
     @Override
     public void stop()
     {
+        timer.cancel();
     }
 
     /**
