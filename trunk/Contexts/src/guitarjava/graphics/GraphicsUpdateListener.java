@@ -8,5 +8,9 @@ import java.util.EventObject;
  */
 public interface GraphicsUpdateListener
 {
+    /**
+     * The method to handle the event.
+     * @param e the event object
+     */
     public void graphicsUpdateEvent(EventObject e);
 }

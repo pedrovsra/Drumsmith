@@ -8,6 +8,9 @@ import java.util.EventObject;
  */
 public class GraphicsUpdateEvent extends EventObject
 {
+    /**
+     * Constructor.
+     */
     public GraphicsUpdateEvent(Object source)
     {
         super(source);
