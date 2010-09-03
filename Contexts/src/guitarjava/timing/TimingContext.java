@@ -24,14 +24,22 @@ public class TimingContext implements TimingInterface
     }
 
     /**
+     * Stops the context.
+     */
+    public void stop()
+    {
+        
+    }
+
+    /**
      * Gets the delta time and updates the current time. Should be called
      * once on update event.
      * @return the delta time in milliseconds
      */
-    public double getDeltaTime()
+    public float getDeltaTime()
     {
         long now = System.nanoTime();
-        double ret = (now - last);
+        float ret = (now - last);
         ret /= 1000000;
         last = now;
         return ret;
