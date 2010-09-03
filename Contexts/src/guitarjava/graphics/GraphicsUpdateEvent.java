@@ -3,10 +3,10 @@ package guitarjava.graphics;
 import java.util.EventObject;
 
 /**
- *
+ * The GraphicsUpdate event.
  * @author brunojadami
  */
-class GraphicsUpdateEvent extends EventObject
+public class GraphicsUpdateEvent extends EventObject
 {
     public GraphicsUpdateEvent(Object source)
     {
