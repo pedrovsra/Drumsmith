@@ -118,6 +118,7 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
             }
         });
         // Others
+        getContentPane().setBackground(Color.black);
         setVisible(true);
         requestFocus();
         createBufferStrategy(2);

@@ -1,5 +1,6 @@
 package guitarjava.main;
 
+import guitarjava.components.ErrorWindow;
 import guitarjava.graphics.DrawData;
 import guitarjava.graphics.Graphics2DContext;
 import guitarjava.graphics.GraphicsInterface;
@@ -24,6 +25,8 @@ public class Main
      */
     public static void main(String[] args)
     {
+        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow("http://www.google.com"));
+
         final DrawData ddata = new DrawData();
         final GraphicsInterface graphics = new Graphics2DContext(33);
         final InputInterface input = new InputContext();
@@ -33,7 +36,7 @@ public class Main
         {
         public void graphicsUpdateEvent(EventObject e)
         {
-        System.out.println(timing.getDeltaTime());
+            System.out.println(timing.getDeltaTime());
         }
         });*/
 
