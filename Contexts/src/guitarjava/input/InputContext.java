@@ -2,9 +2,12 @@ package guitarjava.input;
 
 import com.centralnexus.input.Joystick;
 import com.centralnexus.input.JoystickListener;
-import guitarjava.graphics.Graphics2DContext;
+import guitarjava.components.ErrorWindow;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,14 +38,28 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
     /**
      * Initializing the context.
      */
-    public void init()
+    public void init(Window component)
     {
-        if (Graphics2DContext.component != null)
+        // Starting
+        if (component != null)
         {
-            Graphics2DContext.component.addKeyListener(this);
+            component.addKeyListener(this);
         }
         else
-            throw new RuntimeException("Could not find any Graphic context to add Input listeners.");
+        {
+            ErrorWindow error = new ErrorWindow(new RuntimeException("Could not find any Graphic context to add Input listeners."), null);
+            error.showWindow();
+        }
+        // Adding close listener
+        component.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                stop();
+            }
+        });
+        // Start thread
         thread.start();
     }
 
@@ -141,7 +158,6 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
         PollRunner pollRunner = null; // Poll runner
         while (!quit)
         {
-            //TODO: Fix the joystick.poll() blocking when removes the joystick
             try
             {
                 if (joystick == null)
@@ -174,6 +190,9 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
                     {
                         pollThread.interrupt();
                         quit = true;
+                        ErrorWindow error = new ErrorWindow(
+                                new RuntimeException("Joystick removed, it may cause library leakages, please restart the app."), null);
+                        error.showWindow();
                     }
                 }
                 Thread.sleep(POLL_TIME);
