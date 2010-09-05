@@ -21,7 +21,7 @@ import javax.swing.WindowConstants;
 public class Graphics2DContext extends JFrame implements GraphicsInterface
 {
     static final public int GRAPHICS_WIDTH = 500; // Width
-    static final public int GRAPHICS_HEIGHT = 400; // Height
+    static final public int GRAPHICS_HEIGHT = 600; // Height
 
     private Graphics dbg; // Double buffering graphics
     private List listeners; // Listeners for the graphics update
@@ -96,7 +96,7 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIgnoreRepaint(true);
         setLayout(null);
-        setSize(500, 400);
+        setSize(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
         // Scheduling to repeatdly call repaint at the FPS rate
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -118,7 +118,6 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
             }
         });
         // Others
-        getContentPane().setBackground(Color.black);
         setVisible(true);
         requestFocus();
         createBufferStrategy(2);
