@@ -19,24 +19,51 @@ import javax.swing.JTextArea;
  *
  * @author brunojadami
  */
-public class ErrorWindow extends JDialog implements ActionListener
+public class ErrorWindow extends JDialog implements ActionListener, Thread.UncaughtExceptionHandler
 {
 
     private Picture background; // Background image
     private Library library; // Lib to load things
     private Button okButton; // Button to report
     private String url; // Url to go when button pressed
-    private Exception ex; // Exception
+    private Throwable ex; // Exception
+
+    /**
+     * Default constructor.
+     */
+    public ErrorWindow(String url)
+    {
+        this.url = url;
+    }
 
     /**
      * Constructor. It will construct the window, call showWindow to show it..
      * @param ex the error
      * @param url the url report to send the user
      */
-    public ErrorWindow(Exception ex, String url)
+    public ErrorWindow(Throwable ex, String url)
     {
         // Initializing
         this.url = url;
+        this.ex = ex;
+    }
+    
+    /**
+     * Shows the error window.
+     * @param ex the error
+     * @param url the url report to send the user
+     */
+    public void showWindow(Throwable ex)
+    {
+        this.ex = ex;
+        showWindow();
+    }
+
+    /**
+     * Shows the error window.
+     */
+    public void showWindow()
+    {
         setTitle("An Error has occured!");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -52,14 +79,6 @@ public class ErrorWindow extends JDialog implements ActionListener
                 trueClose();
             }
         });
-        this.ex = ex;
-    }
-
-    /**
-     * Shows the error window.
-     */
-    public void showWindow()
-    {
         try
         {
             background = new Picture(library.getPicture("ErrorBackground"), 0, 0);
@@ -88,7 +107,7 @@ public class ErrorWindow extends JDialog implements ActionListener
      * Preparing error image and message.
      * @param ex the error
      */
-    private void prepareTrace(Exception ex)
+    private void prepareTrace(Throwable ex)
     {
         String message = ex.toString();
         StackTraceElement[] stackTrace = ex.getStackTrace();
@@ -147,5 +166,10 @@ public class ErrorWindow extends JDialog implements ActionListener
         {
             trueClose();
         }
+    }
+
+    public void uncaughtException(Thread t, Throwable e)
+    {
+        showWindow(e);
     }
 }
