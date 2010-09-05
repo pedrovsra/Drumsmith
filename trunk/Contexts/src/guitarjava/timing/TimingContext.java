@@ -1,5 +1,9 @@
 package guitarjava.timing;
 
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * A Timing context.
  * @author brunojadami
@@ -18,8 +22,17 @@ public class TimingContext implements TimingInterface
     /**
      * Initialize the Timing context.
      */
-    public void init()
+    public void init(Window component)
     {
+        // Adding close listener
+        component.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                stop();
+            }
+        });
         last = System.nanoTime();
     }
 

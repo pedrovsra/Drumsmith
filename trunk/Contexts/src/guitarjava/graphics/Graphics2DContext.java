@@ -1,28 +1,33 @@
 package guitarjava.graphics;
 
-import java.applet.Applet;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * Implements the GraphicsInterface. This is a 2D implementation.
  * @author brunojadami
  */
-public class Graphics2DContext extends Applet implements GraphicsInterface
+public class Graphics2DContext extends JFrame implements GraphicsInterface
 {
-    static public Component component = null; // The component to add listeners
-    private Image dbImage; // Double buffering image
+    static final public int GRAPHICS_WIDTH = 500; // Width
+    static final public int GRAPHICS_HEIGHT = 400; // Height
+
     private Graphics dbg; // Double buffering graphics
     private List listeners; // Listeners for the graphics update
     private long updateRate; // The update rate;
     private Timer timer; // Timer to update the graphics
+    private BufferStrategy buffer; // Buffer image
 
     /**
      * Constructor.
@@ -85,21 +90,13 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
     /**
      * Initializing the context.
      */
-    @Override
-    public void init()
+    public void init(Window component)
     {
+        // Starting
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setIgnoreRepaint(true);
         setLayout(null);
         setSize(500, 400);
-        component = this;
-        start();
-    }
-
-    /**
-     * Starts the context, automatically called on the init method.
-     */
-    @Override
-    public void start()
-    {
         // Scheduling to repeatdly call repaint at the FPS rate
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -108,15 +105,27 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
             public void run()
             {
                 // Repaint the applet
-                repaint();
+                update();
             }
         }, 0, updateRate);
+        // Adding close operation
+        component.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                stop();
+            }
+        });
+        // Others
+        setVisible(true);
+        requestFocus();
+        createBufferStrategy(2);
     }
 
     /**
      * Stops the context.
      */
-    @Override
     public void stop()
     {
         timer.cancel();
@@ -124,35 +133,25 @@ public class Graphics2DContext extends Applet implements GraphicsInterface
 
     /**
      * Updates the context.
-     * @param g the graphics to update
      */
-    @Override
-    public void update(Graphics g)
+    private void update()
     {
-        // Create if not created
-        if (dbImage == null)
+        if (buffer == null)
         {
-            dbImage = createImage(this.getSize().width, this.getSize().height);
-            dbg = dbImage.getGraphics();
+            buffer = getBufferStrategy();
         }
-        // Clear screen in background
-        dbg.setColor(Color.BLACK);
-        dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
-        // Draw elements in background
-        dbg.setColor(getForeground());
-        fireGraphicsUpdateEvent();
-        paint(dbg);
-        // Draw image on the screen
-        g.drawImage(dbImage, 0, 0, this);
-    }
-
-    /**
-     * Painting the context.
-     * @param g the graphics to paint
-     */
-    @Override
-    public void paint(Graphics g)
-    {
-
+        else
+        {
+            dbg = buffer.getDrawGraphics();
+            // Clear screen in background
+            dbg.setColor(Color.BLACK);
+            dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+            // Draw elements in background
+            dbg.setColor(getForeground());
+            fireGraphicsUpdateEvent();
+            // Draw buffer on the screen
+            if (!buffer.contentsLost())
+                buffer.show();
+        }
     }
 }
