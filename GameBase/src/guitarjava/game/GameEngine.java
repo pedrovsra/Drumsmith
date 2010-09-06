@@ -110,12 +110,20 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                     music.setSilent(false);
 
                 graphics.draw(note.getDrawData());
+
+                if (note.getNoteExtension() != null)
+                    graphics.draw(note.getNoteExtension().getDrawData());
             }
         }
 
         for (int i = 0; i < 5; ++i)
         {
+            guitarButtons[i].think(deltaTime);
+
             graphics.draw(guitarButtons[i].getDrawData());
+
+            if (guitarButtons[i].getFlame() != null)
+                graphics.draw(guitarButtons[i].getFlame().getDrawData());
         }
     }
 

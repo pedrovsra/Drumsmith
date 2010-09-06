@@ -15,7 +15,12 @@ public abstract class TrackObject extends GameObject
 
     public TrackObject(int track, int y, int z)
     {
-        super(TRACK_SPACEMENT * (track + 1), y, 1, TrackObject.getColorByTrack(track));
+        this(track, 0f, y, z);
+    }
+
+    public TrackObject(int track, float spacement, int y, int z)
+    {
+        super(TRACK_SPACEMENT * (track + 1) + spacement, y, 1, TrackObject.getColorByTrack(track));
 
         this.track = track;
     }

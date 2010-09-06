@@ -1,5 +1,7 @@
 package guitarjava.game;
 
+import java.awt.Color;
+
 /**
  * Represents the button where when the notes are passing trough, you should press the button.
  * @author lucasjadami
@@ -10,7 +12,7 @@ public class GuitarButton extends TrackObject
 
     private int track;
     private boolean pressed;
-    private Note notePowning;
+    private Flame flame;
 
     public GuitarButton(int track)
     {
@@ -24,9 +26,11 @@ public class GuitarButton extends TrackObject
     @Override
     public void think(double deltaTime)
     {
-        if (notePowning != null)
+        if (flame != null)
         {
-
+            flame.think(deltaTime);
+            if (flame.canExtinguish())
+                flame = null;
         }
     }
 
@@ -42,7 +46,9 @@ public class GuitarButton extends TrackObject
         if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
         {
             note.setPowned();
-            notePowning = note;
+            
+            double duration = note.getDuration() + TrackObject.OBJECT_SIZE * Note.DEFAULT_SPEED;
+            flame = new Flame(track, duration);
         }
 
         return note.isPowned();
@@ -54,5 +60,18 @@ public class GuitarButton extends TrackObject
     public void setPressed(boolean pressed)
     {
         this.pressed = pressed;
+
+        if (pressed)
+            drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+        else
+            drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+    }
+
+    /**
+     * @return
+     */
+    public Flame getFlame()
+    {
+        return flame;
     }
 }
