@@ -12,12 +12,12 @@ public class DrawData
     protected static final int DRAW_SPHERE = 1;
 
     // Variables, protected to give a faster access to Graphics package
-    protected float x;
-    protected float y;
-    protected float z;
-    protected float width;
-    protected float height;
-    protected float depth;
+    protected double x;
+    protected double y;
+    protected double z;
+    protected double width;
+    protected double height;
+    protected double depth;
     protected int type;
     protected Color color;
 
@@ -66,7 +66,7 @@ public class DrawData
     /**
      * Set the position.
      */
-    public void setPosition(float x, float y, float z)
+    public void setPosition(double x, double y, double z)
     {
         this.x = x;
         this.y = y;

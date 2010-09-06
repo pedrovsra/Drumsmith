@@ -1,5 +1,6 @@
 package guitarjava.main;
 
+import guitarjava.components.ErrorWindow;
 import guitarjava.game.Constant;
 import guitarjava.game.GameEngine;
 import guitarjava.game.Music;
@@ -19,6 +20,8 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
+        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(null));
+
         Graphics2DContext graphicsContext = new Graphics2DContext(Constant.FRAME_DURATION);
         TimingContext timingContext = new TimingContext();
         InputContext inputContext = null;

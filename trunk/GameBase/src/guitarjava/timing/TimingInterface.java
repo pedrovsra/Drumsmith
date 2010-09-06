@@ -21,5 +21,5 @@ public interface TimingInterface
      * Gets the delta time.
      * @return the delta time in milliseconds
      */
-    public float getDeltaTime();
+    public double getDeltaTime();
 }
