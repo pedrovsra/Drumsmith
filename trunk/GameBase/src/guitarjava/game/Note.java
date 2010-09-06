@@ -6,7 +6,7 @@ package guitarjava.game;
  */
 public class Note extends TrackObject
 {
-    public static final int DEFAULT_SPEED = 6;
+    public static final float DEFAULT_SPEED = 0.24f;
 
     private float duration;
     private boolean powned;
@@ -23,12 +23,7 @@ public class Note extends TrackObject
     @Override
     public void think(double deltaTime)
     {
-        double timesToThink = (deltaTime + deltaTimeRest) / Constant.FRAME_DURATION;
-        int timesToThinkInt = (int) timesToThink;
-        this.deltaTimeRest = timesToThink - timesToThinkInt;
-
-        y += DEFAULT_SPEED * timesToThinkInt;
-        
+        y += DEFAULT_SPEED * deltaTime;
         drawData.setPosition(x, y, z);
     }
 

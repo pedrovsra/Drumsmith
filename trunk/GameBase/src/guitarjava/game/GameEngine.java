@@ -25,7 +25,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     private Music music;
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
-    private double executionTime;
+    private float executionTime;
 
     /**
      * Constructor of the engine.
@@ -72,10 +72,10 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     public void graphicsUpdateEvent(EventObject e)
     {
         // Gets the delta time and update the execuiton time.
-        double deltaTime = timing.getDeltaTime();
+        float deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y + TrackObject.OBJECT_SIZE)
+        float time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y + TrackObject.OBJECT_SIZE)
                 / Note.DEFAULT_SPEED;
         time /= 1000;
 
