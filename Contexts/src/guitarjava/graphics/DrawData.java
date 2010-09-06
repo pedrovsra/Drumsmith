@@ -9,7 +9,8 @@ import java.awt.Color;
 public class DrawData
 {
     protected static final int DRAW_BOX = 0;
-    protected static final int DRAW_SPHERE = 1;
+    protected static final int DRAW_FILLED_BOX = 1;
+    protected static final int DRAW_SPHERE = 2;
 
     // Variables, protected to give a faster access to Graphics package
     protected double x;
@@ -41,6 +42,20 @@ public class DrawData
         this.height = height;
         this.depth = depth;
         type = DRAW_BOX;
+    }
+
+    /**
+     * Create the Data base as a box.
+     * @param width the box width
+     * @param height the box height
+     * @param depth the box depth
+     */
+    public void createAsFilledBox(int width, int height, int depth)
+    {
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+        type = DRAW_FILLED_BOX;
     }
     
     /**
