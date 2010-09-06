@@ -25,7 +25,7 @@ public class Main
      */
     public static void main(String[] args)
     {
-        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow("http://www.google.com"));
+        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(null));
 
         final DrawData ddata = new DrawData();
         final GraphicsInterface graphics = new Graphics2DContext(33);
