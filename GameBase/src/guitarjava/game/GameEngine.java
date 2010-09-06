@@ -25,7 +25,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     private Music music;
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
-    private float executionTime;
+    private double executionTime;
 
     /**
      * Constructor of the engine.
@@ -59,7 +59,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     public void start() throws JavaLayerException
     {
         graphics.init((Window) graphics);
-        //input.init((Window) graphics);
+        input.init((Window) graphics);
         timing.init((Window) graphics);
 
         music.play();
@@ -76,7 +76,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         executionTime += deltaTime;
 
         double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y -
-                1.5 * TrackObject.OBJECT_SIZE) / Note.PIXELS_JUMP_PER_FRAME;
+                1 * TrackObject.OBJECT_SIZE) / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.
@@ -109,7 +109,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                 if (!note.isPowned() && guitarButton.collide(note))
                     music.setSilent(false);
 
-                graphics.draw(note.getDrawData());
+                if (!note.isPowned())
+                    graphics.draw(note.getDrawData());
 
                 if (note.getNoteExtension() != null)
                     graphics.draw(note.getNoteExtension().getDrawData());
@@ -137,15 +138,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
         switch (e.getKeyCode())
         {
-            case 'a':
+            case 'A':
                 track = 0; break;
-            case 's':
+            case 'S':
                 track = 1; break;
-            case 'd':
+            case 'J':
                 track = 2; break;
-            case 'f':
+            case 'K':
                 track = 3; break;
-            case 'g':
+            case 'L':
                 track = 4; break;
             default:
                 return;

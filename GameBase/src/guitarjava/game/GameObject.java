@@ -10,16 +10,16 @@ import java.awt.Color;
 public abstract class GameObject
 {
     protected DrawData drawData;
-    protected float x;
-    protected float y;
-    protected float z;
+    protected double x;
+    protected double y;
+    protected double z;
 
     /**
      * @param x
      * @param y
      * @param z
      */
-    public GameObject(float x, float y, float z, Color color)
+    public GameObject(double x, double y, double z, Color color)
     {
         drawData = new DrawData();
         
@@ -46,7 +46,7 @@ public abstract class GameObject
     /**
      * @return
      */
-    public float getX()
+    public double getX()
     {
         return x;
     }
@@ -54,7 +54,7 @@ public abstract class GameObject
     /**
      * @return 
      */
-    public float getY()
+    public double getY()
     {
         return y;
     }

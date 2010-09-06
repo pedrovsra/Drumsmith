@@ -59,6 +59,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     public void showWindow(Throwable ex)
     {
         this.ex = ex;
+        ex.printStackTrace();
         showWindow();
     }
 
@@ -124,13 +125,14 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         }
         JTextArea txt = new JTextArea();
         txt.setEditable(false);
-        scrollPane = new JScrollPane(txt);
-        scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
         txt.setText(message);
         txt.setFont(library.getDefaultFont());
         txt.setForeground(Color.red);
+        scrollPane = new JScrollPane(txt, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
         add(scrollPane);
         txt.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.3f));
+        //scrollPane.add
         scrollPane.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.3f));
     }
 

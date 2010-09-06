@@ -103,7 +103,7 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void keyPressed(KeyEvent e)
     {
-        InputEvent event = new InputEvent(this, e.getKeyCode(), InputEvent.INPUT_PRESSED);
+        InputEvent event = new InputEvent(this, InputEvent.INPUT_PRESSED, e.getKeyCode());
         fireInputEvent(event);
     }
 
@@ -113,7 +113,7 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void keyReleased(KeyEvent e)
     {
-        InputEvent event = new InputEvent(this, e.getKeyCode(), InputEvent.INPUT_RELEASED);
+        InputEvent event = new InputEvent(this, InputEvent.INPUT_RELEASED, e.getKeyCode());
         fireInputEvent(event);
     }
 
@@ -144,7 +144,7 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void joystickButtonChanged(Joystick j)
     {
-        InputEvent event = new InputEvent(this, j.getButtons(), InputEvent.INPUT_JOYSTICK);
+        InputEvent event = new InputEvent(this, InputEvent.INPUT_JOYSTICK, j.getButtons());
         fireInputEvent(event);
     }
 
@@ -174,6 +174,11 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
                     catch (IOException ex)
                     {
                         joystick = null;
+                    }
+                    catch (Throwable ex)
+                    {
+                        joystick = null;
+                        //throw new RuntimeException("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     }
                     if (joystick == null)
                         quit = true;

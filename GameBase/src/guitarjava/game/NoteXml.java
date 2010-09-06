@@ -6,8 +6,8 @@ package guitarjava.game;
  */
 public class NoteXml
 {
-    private float time;
-    private float duration;
+    private double time;
+    private double duration;
     private int track;
 
     /**
@@ -15,7 +15,7 @@ public class NoteXml
      * @param duration Duration.
      * @param track Track.
      */
-    public NoteXml(float time, float duration, int track)
+    public NoteXml(double time, double duration, int track)
     {
         this.time = time;
         this.duration = duration;
@@ -25,7 +25,7 @@ public class NoteXml
     /**
      * @return The time.
      */
-    public float getTime()
+    public double getTime()
     {
         return time;
     }
@@ -33,7 +33,7 @@ public class NoteXml
     /**
      * @return The duration.
      */
-    public float getDuration()
+    public double getDuration()
     {
         return duration;
     }
