@@ -191,14 +191,14 @@ public class Music
         {
             Node node = nodes.item(i);
 
-            float time = -1;
-            float duration = -1;
+            double time = -1;
+            double duration = -1;
             int track = -1;
 
             NamedNodeMap attributes = node.getAttributes();
 
-            time = Float.parseFloat(attributes.getNamedItem("time").getNodeValue());
-            duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
+            time = Double.parseDouble(attributes.getNamedItem("time").getNodeValue());
+            duration = Double.parseDouble(attributes.getNamedItem("duration").getNodeValue());
             track = Integer.parseInt(attributes.getNamedItem("track").getNodeValue());
 
             notes.add(new NoteXml(time, duration, track));

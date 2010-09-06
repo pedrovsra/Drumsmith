@@ -24,12 +24,12 @@ public class Main
 
         Graphics2DContext graphicsContext = new Graphics2DContext(Constant.FRAME_DURATION);
         TimingContext timingContext = new TimingContext();
-        InputContext inputContext = null;
+        InputContext inputContext = new InputContext();
 
-        GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, null, new Music("TestMusic.xml", "TestMusic.mp3"));
+        GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, inputContext, new Music("TestMusic.xml", "TestMusic.mp3"));
 
         graphicsContext.addGraphicsUpdateEventListener(gameEngine);
-        //inputContext.addInputEventListener(gameEngine);
+        inputContext.addInputEventListener(gameEngine);
         
         gameEngine.start();
     }

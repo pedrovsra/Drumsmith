@@ -1,17 +1,16 @@
 package guitarjava.game;
 
-import java.awt.Color;
-
 /**
  * Represents the button where when the notes are passing trough, you should press the button.
  * @author lucasjadami
  */
-public class GuitarButton extends TrackObject
+public class GuitarButton extends TrackObject implements BurningInterface
 {
-    public static final int POSITION_Y = 520;
+    public static final int POSITION_Y = 490;
 
     private int track;
     private boolean pressed;
+    private boolean enabled;
     private Flame flame;
 
     public GuitarButton(int track)
@@ -20,12 +19,18 @@ public class GuitarButton extends TrackObject
 
         this.track = track;
 
+        enabled = true;
+
         drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
     }
 
     @Override
     public void think(double deltaTime)
     {
+        // After testing all collisions, if the button is pressed, disable it.
+        if (pressed)
+            enabled = false;
+        
         if (flame != null)
         {
             flame.think(deltaTime);
@@ -40,14 +45,15 @@ public class GuitarButton extends TrackObject
      */
     public boolean collide(Note note)
     {
-        if (!pressed || note.getTrack() != track)
+        if (!pressed || note.getTrack() != track || !enabled)
             return false;
 
         if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
         {
-            note.setPowned();
+            note.setPowned(this);
             
-            double duration = note.getDuration() + TrackObject.OBJECT_SIZE * Note.DEFAULT_SPEED;
+            double duration = note.getDuration() * 1000 + TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+                    * Constant.FRAME_DURATION;
             flame = new Flame(track, duration);
         }
 
@@ -64,7 +70,11 @@ public class GuitarButton extends TrackObject
         if (pressed)
             drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
         else
+        {
             drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+            flame = null;
+            enabled = true;
+        }
     }
 
     /**
@@ -73,5 +83,10 @@ public class GuitarButton extends TrackObject
     public Flame getFlame()
     {
         return flame;
+    }
+
+    public boolean isBurning()
+    {
+        return pressed;
     }
 }
