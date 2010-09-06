@@ -8,17 +8,21 @@ import guitarjava.graphics.Graphics2DContext;
  */
 public class Note extends TrackObject
 {
-    public static final float DEFAULT_SPEED = 0.24f;
-    public static final int PIXELS_JUMP_PER_FRAME = 6; // DEFAULT_SPEED * FRAME_DURATION;
+    public static final float DEFAULT_SPEED = 0.4f;
+    public static final int PIXELS_JUMP_PER_FRAME = 10; // DEFAULT_SPEED * FRAME_DURATION;
 
     private float duration;
     private boolean powned;
+    private NoteExtension noteExtension;
 
     public Note(int track, float duration)
     {
         super(track, -TrackObject.OBJECT_SIZE, 1);
 
         this.duration = duration;
+
+        if (duration > 0)
+            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED));
         
         drawData.createAsSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
     }
@@ -28,6 +32,9 @@ public class Note extends TrackObject
     {
         y += DEFAULT_SPEED * deltaTime;
         drawData.setPosition(x, y, z);
+
+        if (noteExtension != null)
+            noteExtension.think(deltaTime);
     }
 
     /**
@@ -35,7 +42,7 @@ public class Note extends TrackObject
      */
     public boolean isVisible()
     {
-        return (y < Graphics2DContext.GRAPHICS_HEIGHT + duration * DEFAULT_SPEED);
+        return (y < Graphics2DContext.GRAPHICS_HEIGHT + duration * 1000 * DEFAULT_SPEED);
     }
 
     /**
@@ -47,10 +54,26 @@ public class Note extends TrackObject
     }
 
     /**
+     * @return
+     */
+    public float getDuration()
+    {
+        return duration;
+    }
+
+    /**
      * @param powned
      */
     public void setPowned()
     {
         powned = true;
+    }
+
+    /**
+     * @return
+     */
+    public NoteExtension getNoteExtension()
+    {
+        return noteExtension;
     }
 }
