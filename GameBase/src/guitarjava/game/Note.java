@@ -1,5 +1,7 @@
 package guitarjava.game;
 
+import guitarjava.graphics.Graphics2DContext;
+
 /**
  * Represents a music note.
  * @author lucasjadami
@@ -7,13 +9,14 @@ package guitarjava.game;
 public class Note extends TrackObject
 {
     public static final float DEFAULT_SPEED = 0.24f;
+    public static final int PIXELS_JUMP_PER_FRAME = 6; // DEFAULT_SPEED * FRAME_DURATION;
 
     private float duration;
     private boolean powned;
 
     public Note(int track, float duration)
     {
-        super(track, 0, 1);
+        super(track, -TrackObject.OBJECT_SIZE, 1);
 
         this.duration = duration;
         
@@ -32,7 +35,7 @@ public class Note extends TrackObject
      */
     public boolean isVisible()
     {
-        return (y < Constant.WINDOW_HEIGHT + duration * DEFAULT_SPEED);
+        return (y < Graphics2DContext.GRAPHICS_HEIGHT + duration * DEFAULT_SPEED);
     }
 
     /**
