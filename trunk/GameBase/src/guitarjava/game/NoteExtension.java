@@ -41,6 +41,13 @@ public class NoteExtension extends TrackObject
     {
         powned = true;
         this.burningState = burningState;
+
+        double deltaY = y - (GuitarButton.POSITION_Y - height);
+        height = Math.max(0, height - deltaY);
+        y = GuitarButton.POSITION_Y - height;
+        drawData.createAsFilledBox(WIDTH, (int) height, 1);
+
+        drawData.setPosition(x, y, z);
     }
 
 }
