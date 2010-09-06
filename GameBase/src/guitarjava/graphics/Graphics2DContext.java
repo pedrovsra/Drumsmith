@@ -142,7 +142,16 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
         }
         else
         {
-            dbg = buffer.getDrawGraphics();
+            try
+            {
+                dbg = buffer.getDrawGraphics();
+            }
+            catch(Exception ex)
+            {
+                // Buffer not ready
+                buffer = null;
+                return;
+            }
             // Clear screen in background
             dbg.setColor(Color.BLACK);
             dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
