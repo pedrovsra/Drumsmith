@@ -1,6 +1,6 @@
 package guitarjava.graphics;
 
-import java.awt.Component;
+import java.awt.Window;
 
 /**
  * The Graphics context interface.
@@ -10,8 +10,9 @@ public interface GraphicsInterface
 {   
     /**
      * Initialize the Graphics context.
+     * @param component the component to add listeners like close operations
      */
-    public void init();
+    public void init(Window component);
     /**
      * Stops the Graphics context.
      */

@@ -1,11 +1,14 @@
 package guitarjava.game;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -28,18 +31,10 @@ public class Music
     private int length;
     private int notePointer;
     private List<NoteXml> notes;
+    private AdvancedPlayer player;
 
-    /**
-     * @param music
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws NumberFormatException
-     * @throws NullPointerException
-     * @throws DOMException
-     */
-    public Music(String music) throws ParserConfigurationException, SAXException, IOException,
-            NumberFormatException, NullPointerException, DOMException
+    public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
+            NumberFormatException, NullPointerException, DOMException, JavaLayerException
     {
         notes = new ArrayList<NoteXml>();
 
@@ -47,10 +42,13 @@ public class Music
 
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
 
-        Document document = documentBuilder.parse(music);
+        Document document = documentBuilder.parse(musicXml);
 
         readProperties(document);
         readNotes(document);
+
+        FileInputStream input = new FileInputStream(musicMP3);
+        player = new AdvancedPlayer(input);
     }
 
     /**
@@ -119,12 +117,23 @@ public class Music
         if (notePointer == notes.size())
             return null;
 
-        NoteXml noteXml = notes.get(notePointer++);
+        NoteXml noteXml = notes.get(notePointer);
 
         if (time > noteXml.getTime())
+        {
+            notePointer++;
             return noteXml;
+        }
 
         return null;
+    }
+
+    /**
+     *
+     */
+    public void play() throws JavaLayerException
+    {
+        player.play();
     }
 
     /**

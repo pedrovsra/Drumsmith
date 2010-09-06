@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
  */
 public class MusicTest
 {
-    private static String MUSIC_NAME = "TestMusic.xml";
+    private static String MUSIC_NAME_XML = "TestMusic.xml";
+    private static String MUSIC_NAME_MP3 = "TestMusic.mp3";
     private static String VERSION = "0.1";
     private static String NAME = "Can't Stop";
     private static String ARTIST = "Red Hot Chili Peppers";
@@ -36,7 +37,10 @@ public class MusicTest
     @Test
     public void testLoadMusic() throws Exception
     {
-        music = new Music("TestMusic.xml");
+        music = new Music("TestMusic.xml", "TestMusic.mp3");
+        music.play();
+
+        Thread.sleep(5000);
 
         assertTrue(music.getVersion().equals(VERSION));
         assertTrue(music.getName().equals(NAME));

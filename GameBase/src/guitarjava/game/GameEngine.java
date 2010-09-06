@@ -6,10 +6,12 @@ import guitarjava.input.InputEvent;
 import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
+import java.awt.Window;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * It is the game engine.
@@ -46,8 +48,21 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         guitarButtons = new GuitarButton[5];
         for (int i = 0; i < guitarButtons.length; ++i)
         {
-            guitarButtons[i] = new GuitarButton();
+            guitarButtons[i] = new GuitarButton(i);
         }
+    }
+
+    /**
+     * Start the music.
+     * @throws JavaLayerException
+     */
+    public void start() throws JavaLayerException
+    {
+        graphics.init((Window) graphics);
+        //input.init((Window) graphics);
+        timing.init((Window) graphics);
+
+        music.play();
     }
 
     /**
@@ -60,11 +75,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         double deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
+        double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y + TrackObject.OBJECT_SIZE)
+                / Note.DEFAULT_SPEED;
+        time /= 1000;
+
         // Creates new notes that need to appear on the track.
-        for (NoteXml noteXml = music.getNextNote(executionTime); noteXml != null; 
-            noteXml = music.getNextNote(executionTime))
+        for (NoteXml noteXml = music.getNextNote(time); noteXml != null; noteXml = music.getNextNote(time))
         {
-            Note note = new Note();
+            Note note = new Note(noteXml.getTrack(), noteXml.getDuration());
             notes.add(note);
         }
 
@@ -81,7 +99,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                 if (!note.isPowned())
                     music.setSilent(true);
 
-                notes.remove(note);
+                it.remove();
             }
             else
             {
@@ -93,6 +111,11 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
                 graphics.draw(note.getDrawData());
             }
+        }
+
+        for (int i = 0; i < 5; ++i)
+        {
+            graphics.draw(guitarButtons[i].getDrawData());
         }
     }
 
