@@ -53,7 +53,7 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
                 dbg.drawRect((int)data.x, (int)data.y, (int)data.width, (int)data.height);
             else if (data.type == DrawData.DRAW_FILLED_BOX)
                 dbg.fillRect((int)data.x, (int)data.y, (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_SPHERE)
+            else if (data.type == DrawData.DRAW_HALF_SPHERE)
                 dbg.fillArc((int)data.x, (int)data.y, (int)data.width, (int)data.height, 0, 360);
         }
     }
@@ -161,6 +161,7 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
             dbg.setColor(getForeground());
             fireGraphicsUpdateEvent();
             // Draw buffer on the screen
+            
             if (!buffer.contentsLost())
                 buffer.show();
         }

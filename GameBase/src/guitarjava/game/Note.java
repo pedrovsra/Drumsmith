@@ -24,7 +24,7 @@ public class Note extends TrackObject
         if (duration > 0)
             noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED - TrackObject.OBJECT_SIZE));
         
-        drawData.createAsSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
+        drawData.createAsHalfSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
     }
 
     @Override
