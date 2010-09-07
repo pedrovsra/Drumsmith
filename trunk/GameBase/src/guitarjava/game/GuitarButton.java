@@ -37,7 +37,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
         if (flame != null)
         {
             flame.think(deltaTime);
-            if (flame.canExtinguish())
+            if (flame.canExtinguish() || (flame.canExtinguishNote() && !pressed))
                 flame = null;
         }
     }
@@ -58,9 +58,10 @@ public class GuitarButton extends TrackObject implements BurningInterface
             note.setPowned(this);
 
             // After powning the note, calculates the flame duration and create it.
-            double duration = note.getDuration() * 1000 + TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+            double duration = TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
                     * Constant.FRAME_DURATION;
-            flame = new Flame(track, duration);
+            double totalDuration = duration + note.getDuration() * 1000;
+            flame = new Flame(track, totalDuration, duration);
         }
 
         return note.isPowned();
@@ -79,7 +80,6 @@ public class GuitarButton extends TrackObject implements BurningInterface
         {
             // The button is up, extinguish the flame and set it enabled again.
             drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
-            flame = null;
             enabled = true;
         }
     }
