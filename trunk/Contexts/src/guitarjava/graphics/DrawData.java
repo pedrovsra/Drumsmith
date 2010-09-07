@@ -10,7 +10,7 @@ public class DrawData
 {
     protected static final int DRAW_BOX = 0;
     protected static final int DRAW_FILLED_BOX = 1;
-    protected static final int DRAW_SPHERE = 2;
+    protected static final int DRAW_HALF_SPHERE = 2;
 
     // Variables, protected to give a faster access to Graphics package
     protected double x;
@@ -27,7 +27,7 @@ public class DrawData
      */
     public DrawData()
     {
-
+        color = Color.WHITE;
     }
 
     /**
@@ -63,11 +63,11 @@ public class DrawData
      * @param width the box width
      * @param height the box height
      */
-    public void createAsSphere(int width, int height)
+    public void createAsHalfSphere(int radius, int height)
     {
-        this.width = width;
+        this.width = radius;
         this.height = height;
-        type = DRAW_SPHERE;
+        type = DRAW_HALF_SPHERE;
     }
 
     /**
