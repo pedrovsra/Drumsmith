@@ -7,6 +7,7 @@ import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
 import java.awt.Window;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -58,8 +59,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     public void start() throws JavaLayerException
     {
-        graphics.init((Window) graphics);
         input.init((Window) graphics);
+        graphics.init((Window) graphics);
         timing.init((Window) graphics);
 
         music.play();
@@ -75,8 +76,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         double deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * GuitarButton.POSITION_Y /
-                Note.PIXELS_JUMP_PER_FRAME;
+        double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y + TrackObject.OBJECT_SIZE / 2)
+                / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.
@@ -103,12 +104,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             }
             else
             {
-                // Checks if the note is going to be powned.
-                GuitarButton guitarButton = guitarButtons[note.getTrack()];
-
-                if (!note.isPowned() && guitarButton.collide(note))
-                    music.setSilent(false);
-
                 if (!note.isPowned())
                     graphics.draw(note.getDrawData());
 
@@ -157,8 +152,27 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         GuitarButton guitarButton = guitarButtons[track];
 
         if (e.getType() == InputEvent.INPUT_PRESSED)
-            guitarButton.setPressed(true);
+        {
+            if (guitarButton.press(getNotesOfTrack(track)))
+                music.setSilent(false);
+        }
         else if (e.getType() == InputEvent.INPUT_RELEASED)
-            guitarButton.setPressed(false);
+            guitarButton.unpress();
+    }
+
+    private List<Note> getNotesOfTrack(int track)
+    {
+        List<Note> trackNotes = new ArrayList<Note>();
+
+        Iterator<Note> it = notes.iterator();
+        while (it.hasNext())
+        {
+            Note note = it.next();
+
+            if (note.getTrack() == track && !note.isPowned())
+                trackNotes.add(note);
+        }
+
+        return trackNotes;
     }
 }

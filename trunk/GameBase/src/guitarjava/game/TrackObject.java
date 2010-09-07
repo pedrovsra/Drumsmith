@@ -42,7 +42,7 @@ public abstract class TrackObject extends GameObject
      */
     public TrackObject(int track, double horizontalSize, int y, int z, Color color)
     {
-        super(TRACK_SPACEMENT * (track + 1) + (2*OBJECT_SIZE - horizontalSize) / 2, y, 1, color);
+        super(TRACK_SPACEMENT * (track + 1) + (2*OBJECT_SIZE - horizontalSize) / 2, y, z, color);
 
         this.track = track;
     }
