@@ -1,7 +1,7 @@
 package guitarjava.game;
 
 /**
- *
+ * Global constants.
  * @author lucasjadami
  */
 public class Constant

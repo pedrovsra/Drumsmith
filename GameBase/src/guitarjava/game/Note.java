@@ -15,6 +15,10 @@ public class Note extends TrackObject
     private boolean powned;
     private NoteExtension noteExtension;
 
+    /**
+     * @param track The track of the note.
+     * @param duration The duration.
+     */
     public Note(int track, double duration)
     {
         super(track, -TrackObject.OBJECT_SIZE, 1);
@@ -22,7 +26,7 @@ public class Note extends TrackObject
         this.duration = duration;
 
         if (duration > 0)
-            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED - TrackObject.OBJECT_SIZE));
+            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED));
         
         drawData.createAsHalfSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
     }
@@ -38,7 +42,7 @@ public class Note extends TrackObject
     }
 
     /**
-     * @return
+     * @return True if the note is visible.
      */
     public boolean isVisible()
     {
@@ -46,7 +50,7 @@ public class Note extends TrackObject
     }
 
     /**
-     * @return
+     * @return True if the note is powned.
      */
     public boolean isPowned()
     {
@@ -54,7 +58,7 @@ public class Note extends TrackObject
     }
 
     /**
-     * @return
+     * @return The duration.
      */
     public double getDuration()
     {
@@ -62,7 +66,7 @@ public class Note extends TrackObject
     }
 
     /**
-     * @param button
+     * @param burningState An interface that indicates if the noteExtension needs to keep burning.
      */
     public void setPowned(BurningInterface burningState)
     {
@@ -72,7 +76,7 @@ public class Note extends TrackObject
     }
 
     /**
-     * @return
+     * @return The note extension.
      */
     public NoteExtension getNoteExtension()
     {

@@ -117,6 +117,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             }
         }
 
+        // Do the guitar buttons logic/draw operations.
         for (int i = 0; i < 5; ++i)
         {
             guitarButtons[i].think(deltaTime);

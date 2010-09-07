@@ -3,10 +3,10 @@ package guitarjava.game;
 import java.awt.Color;
 
 /**
- *
+ * A flam is an object shown when the player hits a note correctly.
  * @author lucasjadami
  */
-public class Flame extends GameObject
+public class Flame extends TrackObject
 {
     private static final int SIZE = 30;
 
@@ -14,10 +14,13 @@ public class Flame extends GameObject
     private double timeElapsed;
     private boolean extinguish;
 
+    /**
+     * @param track Which track the it is in.
+     * @param duration The duration of the flame.
+     */
     public Flame(int track, double duration)
     {
-        super(TrackObject.TRACK_SPACEMENT * (track + 1) + (TrackObject.OBJECT_SIZE - SIZE) / 2,
-                GuitarButton.POSITION_Y, 1, Color.WHITE);
+        super(track, SIZE, GuitarButton.POSITION_Y, 1, Color.WHITE);
 
         this.duration = duration;
 
@@ -32,6 +35,9 @@ public class Flame extends GameObject
             extinguish = true;
     }
 
+    /**
+     * @return True if the duration has already ended.
+     */
     public boolean canExtinguish()
     {
         return extinguish;

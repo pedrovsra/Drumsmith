@@ -15,9 +15,10 @@ public abstract class GameObject
     protected double z;
 
     /**
-     * @param x
-     * @param y
-     * @param z
+     * @param x Position x.
+     * @param y Position y.
+     * @param z Position z.
+     * @param color Color.
      */
     public GameObject(double x, double y, double z, Color color)
     {
@@ -44,7 +45,7 @@ public abstract class GameObject
     }
 
     /**
-     * @return
+     * @return Position x.
      */
     public double getX()
     {
@@ -52,7 +53,7 @@ public abstract class GameObject
     }
 
     /**
-     * @return 
+     * @return Position y.
      */
     public double getY()
     {
