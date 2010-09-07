@@ -18,7 +18,7 @@ public class NoteExtension extends TrackObject
      */
     public NoteExtension(int track, int height)
     {
-        super(track, (TrackObject.OBJECT_SIZE - WIDTH) / 2, -height, 1);
+        super(track, WIDTH, -height, 1);
 
         this.height = height;
         drawData.createAsFilledBox(WIDTH, height, 1);
