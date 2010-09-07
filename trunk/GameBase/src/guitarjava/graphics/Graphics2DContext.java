@@ -46,15 +46,18 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
      */
     public void draw(DrawData data)
     {
-        if (data != null)
+        if (data != null && buffer != null)
         {
             dbg.setColor(data.color);
             if (data.type == DrawData.DRAW_BOX)
-                dbg.drawRect((int)data.x, (int)data.y, (int)data.width, (int)data.height);
+                dbg.drawRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+                        (int)data.width, (int)data.height);
             else if (data.type == DrawData.DRAW_FILLED_BOX)
-                dbg.fillRect((int)data.x, (int)data.y, (int)data.width, (int)data.height);
+                dbg.fillRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+                        (int)data.width, (int)data.height);
             else if (data.type == DrawData.DRAW_HALF_SPHERE)
-                dbg.fillArc((int)data.x, (int)data.y, (int)data.width, (int)data.height, 0, 360);
+                dbg.fillArc((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+                        (int)data.width, (int)data.height, 0, 360);
         }
     }
 
@@ -147,6 +150,16 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
             try
             {
                 dbg = buffer.getDrawGraphics();
+                // Clear screen in background
+                dbg.setColor(Color.BLACK);
+                dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+                // Draw elements in background
+                dbg.setColor(getForeground());
+                fireGraphicsUpdateEvent();
+                // Draw buffer on the screen
+
+                if (!buffer.contentsLost())
+                    buffer.show();
             }
             catch(Exception ex)
             {
@@ -154,16 +167,14 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
                 buffer = null;
                 return;
             }
-            // Clear screen in background
-            dbg.setColor(Color.BLACK);
-            dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
-            // Draw elements in background
-            dbg.setColor(getForeground());
-            fireGraphicsUpdateEvent();
-            // Draw buffer on the screen
-            
-            if (!buffer.contentsLost())
-                buffer.show();
         }
+    }
+
+    /**
+     * Do nothing, 2D context dont have a camera.
+     */
+    public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz)
+    {
+        
     }
 }

@@ -35,9 +35,16 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
     static final public int GRAPHICS_HEIGHT = 600; // Height
     private List listeners; // Listeners for the graphics update
     private Animator animator; // Animator for OpenGL canvas
-    GL glDrawable; // To use on draw operations
-    private double cameraY = -12;
-    private double cameraZ = 5;
+    private GL glDrawable; // To use on draw operations
+    private GLCanvas canvas; // OpenGL Canvas
+    private int mulY = -1; // To invert y axis
+    // Camera variables
+    private double cameraFromX = 0;
+    private double cameraFromY = 0;
+    private double cameraFromZ = 0;
+    private double cameraToX = 0;
+    private double cameraToY = 0;
+    private double cameraToZ = 0;
 
     /**
      * Constructor.
@@ -56,10 +63,14 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
         if (data != null)
         {
             glDrawable.glLoadIdentity();
-            glDrawable.glTranslated(data.x, data.y, 0);
             glDrawable.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
                     / 256f, data.color.getBlue() / 256f);
+            glDrawable.glTranslated(data.x, mulY*data.y, 0);
             if (data.type == DrawData.DRAW_BOX)
+            {
+                drawBox(data);
+            }
+            else if (data.type == DrawData.DRAW_FILLED_BOX)
             {
                 drawBox(data);
             }
@@ -68,10 +79,18 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
                 GLU glu = new GLU();
                 GLUquadric quadric = glu.gluNewQuadric();
                 glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
-                glu.gluDisk(quadric, 0.12, 0.3, 32, 32);
+                glu.gluDisk(quadric, data.width / 4, data.width / 2, 32, 32);
                 glu.gluDeleteQuadric(quadric);
             }
         }
+    }
+
+    /**
+     * Setting mulY, to invert y axis.
+     */
+    public void setMulY(int mulY)
+    {
+        this.mulY = mulY;
     }
 
     /**
@@ -113,7 +132,7 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
         // Starting
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // Setting up opengl
-        final GLCanvas canvas = new GLCanvas();
+        canvas = new GLCanvas();
         canvas.addGLEventListener(this);
         add(canvas);
         setResizable(false);
@@ -141,15 +160,15 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
             public void keyPressed(KeyEvent e)
             {
                 if (e.getKeyCode() == 'A')
-                    ++cameraY;
+                    ++cameraFromY;
                 else if (e.getKeyCode() == 'S')
-                    --cameraY;
+                    --cameraFromY;
                 else if (e.getKeyCode() == 'Q')
-                    ++cameraZ;
+                    ++cameraFromZ;
                 else if (e.getKeyCode() == 'W')
-                    --cameraZ;
+                    --cameraFromZ;
                 canvas.reshape(0, 0, getWidth(), getHeight());
-                System.out.println(cameraY + " " + cameraZ);
+                System.out.println(cameraFromY + " " + cameraFromZ);
             }
         });
     }
@@ -185,8 +204,8 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 1000);
-        glu.gluLookAt(0, cameraY, cameraZ, 0, 0, 0, 0, 1, 0);
+        glu.gluPerspective(45.0f, h, 1.0, 2000);
+        glu.gluLookAt(cameraFromX, cameraFromY, cameraFromZ, cameraToX, cameraToY, cameraToZ, 0, 1, 0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
@@ -255,31 +274,29 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
     private void drawBox(DrawData data)
     {
         glDrawable.glBegin(GL.GL_QUADS);
-        glDrawable.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Quad (Top)
-        glDrawable.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Top)
-        glDrawable.glVertex3f(-1.0f, 1.0f, 1.0f); // Bottom Left Of The Quad (Top)
-        glDrawable.glVertex3f(1.0f, 1.0f, 1.0f); // Bottom Right Of The Quad (Top)
-        glDrawable.glVertex3f(1.0f, -1.0f, 1.0f); // Top Right Of The Quad (Bottom)
-        glDrawable.glVertex3f(-1.0f, -1.0f, 1.0f); // Top Left Of The Quad (Bottom)
-        glDrawable.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Left Of The Quad (Bottom)
-        glDrawable.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Bottom)
-        glDrawable.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Quad (Front)
-        glDrawable.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Quad (Front)
-        glDrawable.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Quad (Front)
-        glDrawable.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Quad (Front)
-        glDrawable.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Left Of The Quad (Back)
-        glDrawable.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Back)
-        glDrawable.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Right Of The Quad (Back)
-        glDrawable.glVertex3f(1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Back)
-        glDrawable.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Quad (Left)
-        glDrawable.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Left)
-        glDrawable.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Left Of The Quad (Left)
-        glDrawable.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Quad (Left)
-        glDrawable.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Quad (Right)
-        glDrawable.glVertex3f(1.0f, 1.0f, 1.0f); // Top Left Of The Quad (Right)
-        glDrawable.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Quad (Right)
-        glDrawable.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Right)
+        glDrawable.glVertex3d(-data.width / 2, -data.height / 2, 0);
+        glDrawable.glVertex3d(data.width / 2, -data.height / 2, 0);
+        glDrawable.glVertex3d(data.width / 2, data.height / 2, 0);
+        glDrawable.glVertex3d(-data.width / 2, data.height / 2, 0);
         glDrawable.glEnd(); // Done Drawing The Quad
-
+    }
+    /**
+     * Setting camera, used only for 3D contexts.
+     * @param fx camera x position
+     * @param fy camera y position
+     * @param fz camera z position
+     * @param tx looking at x pos
+     * @param ty looking at y pos
+     * @param tz looking at z pos
+     */
+    public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz)
+    {
+        cameraToX = tx;
+        cameraToY = ty;
+        cameraToZ = tz;
+        cameraFromX = fx;
+        cameraFromY = fy;
+        cameraFromZ = fz;
+        canvas.reshape(0, 0, getWidth(), getHeight());
     }
 }
