@@ -1,5 +1,8 @@
 package guitarjava.game;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Represents the button where when the notes are passing trough, you should press the button.
  * @author lucasjadami
@@ -10,8 +13,6 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
     private int track;
     private boolean pressed;
-    private boolean loopedWhilePressed;
-    private boolean enabled; // Used so the player has to release the button and hit it again on every note.
     private Flame flame;
 
     /**
@@ -23,72 +24,45 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
         this.track = track;
 
-        enabled = true;
-
         drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
     }
 
     @Override
     public void think(double deltaTime)
     {
-        // If the button is pressed and its think method has ben called twice disable it.
-        if (pressed)
-        {
-            if (!loopedWhilePressed)
-                loopedWhilePressed = true;
-            else
-                enabled = false;
-        }
-        
         if (flame != null)
         {
             flame.think(deltaTime);
+
             if (flame.canExtinguish() || (flame.canExtinguishNote() && !pressed))
                 flame = null;
         }
     }
 
-    /**
-     * @param note The note to test the collision.
-     * @return True if the collision happened.
-     */
-    public boolean collide(Note note)
+    public void unpress()
     {
-        if (note.getTrack() != track || !pressed || !enabled)
-            return false;
-
-        if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
-        {
-            // Passes this to the note as BurningState so the track extension of the note can check if
-            // it still have to burn.
-            note.setPowned(this);
-
-            // After powning the note, calculates the flame duration and create it.
-            double duration = TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
-                    * Constant.FRAME_DURATION;
-            double totalDuration = duration + note.getDuration() * 1000;
-            flame = new Flame(track, totalDuration, duration);
-        }
-
-        return note.isPowned();
+        pressed = false;
+        drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
     }
 
-    /**
-     * @param pressed The new pressed state.
-     */
-    public void setPressed(boolean pressed)
+    public boolean press(List<Note> notes)
     {
-        this.pressed = pressed;
-
-        if (pressed)
-            drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
-        else
+        pressed = true;
+        drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+            
+        boolean pownedNote = false;
+        
+        Iterator<Note> it = notes.iterator();
+        while (it.hasNext())
         {
-            // The button is up, extinguish the flame and set it enabled again.
-            drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
-            enabled = true;
-            loopedWhilePressed = false;
+            Note note = it.next();
+
+            boolean result = collide(note);
+            if (result)
+                return true;
         }
+
+        return false;
     }
 
     /**
@@ -105,5 +79,28 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public boolean isBurning()
     {
         return pressed;
+    }
+
+    /**
+     * @param note The note to test the collision.
+     * @return True if the collision happened.
+     */
+    private boolean collide(Note note)
+    {
+        if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
+        {
+            // Passes this to the note as BurningState so the track extension of the note can check if
+            // it still have to burn.
+            note.setPowned(this);
+
+            // After powning the note, calculates the flame duration and create it.
+            double duration = TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+                    * Constant.FRAME_DURATION;
+            double totalDuration = duration + note.getDuration() * 1000;
+
+            flame = new Flame(track, totalDuration, duration);
+        }
+
+        return note.isPowned();
     }
 }

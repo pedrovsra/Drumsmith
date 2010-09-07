@@ -21,12 +21,12 @@ public class Note extends TrackObject
      */
     public Note(int track, double duration)
     {
-        super(track, -TrackObject.OBJECT_SIZE, 1);
+        super(track, -TrackObject.OBJECT_SIZE / 2, 1);
 
         this.duration = duration;
 
         if (duration > 0)
-            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED));
+            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED) / 2);
         
         drawData.createAsHalfSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
     }
