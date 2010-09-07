@@ -10,6 +10,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
     private int track;
     private boolean pressed;
+    private boolean loopedWhilePressed;
     private boolean enabled; // Used so the player has to release the button and hit it again on every note.
     private Flame flame;
 
@@ -30,9 +31,14 @@ public class GuitarButton extends TrackObject implements BurningInterface
     @Override
     public void think(double deltaTime)
     {
-        // After testing all collisions, if the button is pressed, disable it.
+        // If the button is pressed and its think method has ben called twice disable it.
         if (pressed)
-            enabled = false;
+        {
+            if (!loopedWhilePressed)
+                loopedWhilePressed = true;
+            else
+                enabled = false;
+        }
         
         if (flame != null)
         {
@@ -48,7 +54,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     public boolean collide(Note note)
     {
-        if (!pressed || note.getTrack() != track || !enabled)
+        if (note.getTrack() != track || !pressed || !enabled)
             return false;
 
         if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
@@ -81,6 +87,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
             // The button is up, extinguish the flame and set it enabled again.
             drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
             enabled = true;
+            loopedWhilePressed = false;
         }
     }
 

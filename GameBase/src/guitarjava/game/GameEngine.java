@@ -75,7 +75,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         double deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y - TrackObject.OBJECT_SIZE) /
+        double time = executionTime + Constant.FRAME_DURATION * GuitarButton.POSITION_Y /
                 Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
@@ -135,6 +135,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     public void inputEvent(InputEvent e)
     {
+        System.out.println(e.getType());
         int track = -1;
 
         switch (e.getKeyCode())
