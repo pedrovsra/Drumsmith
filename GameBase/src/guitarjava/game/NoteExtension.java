@@ -8,7 +8,7 @@ public class NoteExtension extends TrackObject
 {
     private static final int WIDTH = 5;
 
-    private boolean powned;
+    private boolean powning;
     private double height;
     private BurningInterface burningState;
 
@@ -29,14 +29,12 @@ public class NoteExtension extends TrackObject
     {
         y += Note.DEFAULT_SPEED * deltaTime;
         
-        if (powned)
+        if (powning)
         {
-            // If it is powned, checks if it is still burning.
-            if (burningState.isBurning())
-            {
-                height = Math.max(0, height - Note.DEFAULT_SPEED * deltaTime);
-                drawData.createAsFilledBox(WIDTH, (int) height, 1);
-            }
+            height = Math.max(0, height - Note.DEFAULT_SPEED * deltaTime);
+            drawData.createAsFilledBox(WIDTH, (int) height, 1);
+
+            powning = burningState.isBurning();
         }
 
         drawData.setPosition(x, y, z);
@@ -47,7 +45,7 @@ public class NoteExtension extends TrackObject
      */
     public void setPowned(BurningInterface burningState)
     {
-        powned = true;
+        powning = true;
         this.burningState = burningState;
 
         // Realocates and resizes it to centralize on the guitarButton object.
