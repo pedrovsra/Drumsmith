@@ -3,6 +3,7 @@ package guitarjava.main;
 import guitarjava.components.ErrorWindow;
 import guitarjava.graphics.DrawData;
 import guitarjava.graphics.Graphics2DContext;
+import guitarjava.graphics.Graphics3DContext;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
 import guitarjava.input.InputContext;
@@ -27,32 +28,34 @@ public class Main
     {
         Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(null));
 
-        final DrawData ddata = new DrawData();
-        final GraphicsInterface graphics = new Graphics2DContext(33);
+        final DrawData datas[] = new DrawData[5];
+        final GraphicsInterface graphics = new Graphics3DContext();
         final InputInterface input = new InputContext();
         final TimingInterface timing = new TimingContext();
 
-        /*graphics.addGraphicsUpdateEventListener(new GraphicsUpdateListener()
-        {
-        public void graphicsUpdateEvent(EventObject e)
-        {
-            System.out.println(timing.getDeltaTime());
-        }
-        });*/
-
         // Initializing
         graphics.init((Window) graphics);
-        input.init((Window) graphics);
+        //input.init((Window) graphics);
         timing.init((Window) graphics);
-        ddata.createAsSphere(60, 60);
-        ddata.setColor(Color.yellow);
+        for (int x = 0; x < datas.length; ++x)
+        {
+            datas[x] = new DrawData();
+            datas[x].createAsHalfSphere(0, 0);
+        }
 
         graphics.addGraphicsUpdateEventListener(new GraphicsUpdateListener()
         {
-
+            double aux = 10;
             public void graphicsUpdateEvent(EventObject e)
             {
-                graphics.draw(ddata);
+                aux -= 0.1;
+                for (int x = 0; x < datas.length; ++x)
+                {
+                    datas[x].setPosition(x - 2, aux, 0);
+                    graphics.draw(datas[x]);
+                }
+                if (aux < -8)
+                    aux = 10;
             }
         });
     }

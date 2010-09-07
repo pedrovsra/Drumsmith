@@ -178,7 +178,6 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
                     catch (Throwable ex)
                     {
                         joystick = null;
-                        //throw new RuntimeException("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     }
                     if (joystick == null)
                         quit = true;
