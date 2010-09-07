@@ -27,7 +27,7 @@ public class DrawData
      */
     public DrawData()
     {
-
+        color = Color.WHITE;
     }
 
     /**
