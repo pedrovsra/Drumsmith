@@ -1,5 +1,6 @@
 package guitarjava.game;
 
+import guitarjava.graphics.Graphics2DContext;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
 import guitarjava.input.InputEvent;
@@ -62,6 +63,9 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         input.init((Window) graphics);
         graphics.init((Window) graphics);
         timing.init((Window) graphics);
+
+        graphics.setCamera(Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, Graphics2DContext.GRAPHICS_HEIGHT,
+                Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, 0);
 
         music.play();
     }

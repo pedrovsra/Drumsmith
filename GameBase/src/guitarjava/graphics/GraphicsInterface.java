@@ -18,9 +18,21 @@ public interface GraphicsInterface
      */
     public void stop();
     /**
+     * Setting camera, used only for 3D contexts.
+     * @param fx camera x position
+     * @param fy camera y position
+     * @param fz camera z position
+     * @param tx looking at x pos
+     * @param ty looking at y pos
+     * @param tz looking at z pos
+     */
+    public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz);
+    /**
      * Draws an object to the context.
      * @param data the object drawing data
      */
+
+
     public void draw(DrawData data);
     /**
      * Adds a GraphicsUpdate event listener.
