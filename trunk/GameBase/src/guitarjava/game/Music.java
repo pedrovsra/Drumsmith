@@ -33,6 +33,17 @@ public class Music
     private List<NoteXml> notes;
     private AdvancedPlayer player;
 
+    /**
+     * @param musicXml Path to the music on xml format.
+     * @param musicMP3 Path to the music on mp3 format.
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws NumberFormatException
+     * @throws NullPointerException
+     * @throws DOMException
+     * @throws JavaLayerException
+     */
     public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
             NumberFormatException, NullPointerException, DOMException, JavaLayerException
     {
@@ -129,7 +140,8 @@ public class Music
     }
 
     /**
-     *
+     * Plays the music.
+     * @throws JavaLayerException
      */
     public void play() throws JavaLayerException
     {
@@ -137,11 +149,11 @@ public class Music
     }
 
     /**
-     * @param silent
+     * @param silent True to mute the music, false to unmute.
      */
     public void setSilent(boolean silent)
     {
-
+        // TODO.
     }
 
     /**

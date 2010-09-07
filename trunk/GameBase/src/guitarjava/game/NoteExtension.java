@@ -1,7 +1,7 @@
 package guitarjava.game;
 
 /**
- *
+ * Class that respresents a note extension.
  * @author lucasjadami
  */
 public class NoteExtension extends TrackObject
@@ -11,12 +11,16 @@ public class NoteExtension extends TrackObject
     private boolean powned;
     private double height;
     private BurningInterface burningState;
-    
+
+    /**
+     * @param track Track of this object.
+     * @param height Height of the extension.
+     */
     public NoteExtension(int track, int height)
     {
-        super(track, (TrackObject.OBJECT_SIZE - WIDTH) / 2, -(TrackObject.OBJECT_SIZE + height), 1);
+        super(track, (TrackObject.OBJECT_SIZE - WIDTH) / 2, -height, 1);
 
-        this.height = TrackObject.OBJECT_SIZE + height;
+        this.height = height;
         drawData.createAsFilledBox(WIDTH, height, 1);
     }
 
@@ -27,6 +31,7 @@ public class NoteExtension extends TrackObject
         
         if (powned)
         {
+            // If it is powned, checks if it is still burning.
             if (burningState.isBurning())
             {
                 height = Math.max(0, height - Note.DEFAULT_SPEED * deltaTime);
@@ -37,11 +42,15 @@ public class NoteExtension extends TrackObject
         drawData.setPosition(x, y, z);
     }
 
+    /**
+     * @param burningState An interface that indicates if it needs to keep burning.
+     */
     public void setPowned(BurningInterface burningState)
     {
         powned = true;
         this.burningState = burningState;
 
+        // Realocates and resizes it to centralize on the guitarButton object.
         double deltaY = y - (GuitarButton.POSITION_Y - height);
         height = Math.max(0, height - deltaY);
         y = GuitarButton.POSITION_Y - height;
