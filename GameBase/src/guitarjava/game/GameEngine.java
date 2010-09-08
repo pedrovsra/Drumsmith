@@ -1,5 +1,6 @@
 package guitarjava.game;
 
+import guitarjava.components.GameWindow;
 import guitarjava.graphics.Graphics2DContext;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
@@ -28,6 +29,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
     private double executionTime;
+    private GameWindow window;
 
     /**
      * Constructor of the engine.
@@ -37,11 +39,12 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      * @param music Music played in the game.
      */
     public GameEngine(GraphicsInterface graphics, TimingInterface timing,
-            InputInterface input, Music music)
+            InputInterface input, GameWindow window, Music music)
     {
         this.graphics = graphics;
         this.timing = timing;
         this.input = input;
+        this.window = window;
 
         this.music = music;
 
@@ -60,16 +63,17 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     public void start() throws JavaLayerException
     {
-        input.init((Window) graphics);
-        graphics.init((Window) graphics);
+        input.init(window);
+        graphics.init(window);
+        timing.init(window);
 
-        graphics.setCamera(Graphics2DContext.GRAPHICS_WIDTH / 2, -770, 260,
-                Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, 0);
-        
-        timing.init((Window) graphics);
+        graphics.setCamera(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2,
+                Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_HEIGHT / 2, 0);
 
         input.addInputEventListener(this);
         graphics.addGraphicsUpdateEventListener(this);
+
+        window.showWindow();
 
         // Reset the deltaTime.
         timing.getDeltaTime();
@@ -88,8 +92,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
         if (executionTime == 0)
         {
-            System.out.println(music.getCurrentPosition());
-            System.out.println(deltaTime);
             executionTime = music.getCurrentPosition();
         }
         else

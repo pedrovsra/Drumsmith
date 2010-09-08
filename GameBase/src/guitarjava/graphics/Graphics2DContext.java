@@ -16,18 +16,17 @@ import javax.swing.WindowConstants;
 
 /**
  * Implements the GraphicsInterface. This is a 2D implementation.
+ * @deprecated this class is not implemented anymore, use the 3D context :D
  * @author brunojadami
  */
-public class Graphics2DContext extends JFrame implements GraphicsInterface
+public class Graphics2DContext implements GraphicsInterface
 {
-    static final public int GRAPHICS_WIDTH = 800; // Width
-    static final public int GRAPHICS_HEIGHT = 600; // Height
-
     private Graphics dbg; // Double buffering graphics
     private List listeners; // Listeners for the graphics update
     private long updateRate; // The update rate;
     private Timer timer; // Timer to update the graphics
     private BufferStrategy buffer; // Buffer image
+    private Window window;
 
     /**
      * Constructor.
@@ -97,11 +96,7 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
      */
     public void init(Window component)
     {
-        // Starting
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setIgnoreRepaint(true);
-        setLayout(null);
-        setSize(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
+        window = component;
         // Scheduling to repeatdly call repaint at the FPS rate
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -122,10 +117,6 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
                 stop();
             }
         });
-        // Others
-        setVisible(true);
-        requestFocus();
-        createBufferStrategy(2);
     }
 
     /**
@@ -143,7 +134,12 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
     {
         if (buffer == null)
         {
-            buffer = getBufferStrategy();
+            buffer = window.getBufferStrategy();
+            if (buffer == null && window.isVisible())
+            {
+                window.createBufferStrategy(2);
+                buffer = window.getBufferStrategy();
+            }
         }
         else
         {
@@ -152,9 +148,9 @@ public class Graphics2DContext extends JFrame implements GraphicsInterface
                 dbg = buffer.getDrawGraphics();
                 // Clear screen in background
                 dbg.setColor(Color.BLACK);
-                dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+                dbg.fillRect(0, 0, window.getSize().width, window.getSize().height);
                 // Draw elements in background
-                dbg.setColor(getForeground());
+                dbg.setColor(window.getForeground());
                 fireGraphicsUpdateEvent();
                 // Draw buffer on the screen
 

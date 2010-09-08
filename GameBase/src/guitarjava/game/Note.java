@@ -9,7 +9,7 @@ import guitarjava.graphics.Graphics2DContext;
 public class Note extends TrackObject
 {
     public static final int PIXELS_JUMP_PER_FRAME = (int)(TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
-    public static final double ORIGIN_Y = -1000;
+    public static final double ORIGIN_Y = -1200;
 
     private double duration;
     private boolean powned;
