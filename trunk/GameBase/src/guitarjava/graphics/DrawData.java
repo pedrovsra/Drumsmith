@@ -8,9 +8,9 @@ import java.awt.Color;
  */
 public class DrawData
 {
-    protected static final int DRAW_BOX = 0;
-    protected static final int DRAW_FILLED_BOX = 1;
-    protected static final int DRAW_HALF_SPHERE = 2;
+    protected static final int DRAW_2D_RECT = 0;
+    protected static final int DRAW_2D_FILL_RECT = 1;
+    protected static final int DRAW_NOTE = 2;
 
     // Variables, protected to give a faster access to Graphics package
     protected double x;
@@ -31,43 +31,40 @@ public class DrawData
     }
 
     /**
-     * Create the Data base as a box.
+     * Create the Data base as a 2D rect.
      * @param width the box width
      * @param height the box height
      * @param depth the box depth
      */
-    public void createAsBox(int width, int height, int depth)
+    public void createAs2DRect(double width, double height)
     {
         this.width = width;
         this.height = height;
-        this.depth = depth;
-        type = DRAW_BOX;
+        type = DRAW_2D_RECT;
     }
 
     /**
-     * Create the Data base as a box.
+     * Create the Data base as filled 2D rect.
      * @param width the box width
      * @param height the box height
      * @param depth the box depth
      */
-    public void createAsFilledBox(int width, int height, int depth)
+    public void createAs2DFillRect(double width, double height)
     {
         this.width = width;
         this.height = height;
-        this.depth = depth;
-        type = DRAW_FILLED_BOX;
+        type = DRAW_2D_FILL_RECT;
     }
     
     /**
-     * Create the Data base as a sphere.
+     * Create the Data base as a note.
      * @param width the box width
      * @param height the box height
      */
-    public void createAsHalfSphere(int radius, int height)
+    public void createAsNote(double radius)
     {
         this.width = radius;
-        this.height = height;
-        type = DRAW_HALF_SPHERE;
+        type = DRAW_NOTE;
     }
 
     /**

@@ -29,7 +29,7 @@ public class Flame extends TrackObject
         this.duration = duration;
         this.noteDuration = noteDuration;
 
-        drawData.createAsFilledBox((int) width, (int) height, 1);
+        drawData.createAs2DFillRect((int) width, (int) height);
     }
     
     @Override

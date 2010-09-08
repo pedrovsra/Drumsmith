@@ -19,7 +19,7 @@ public class NoteExtension extends TrackObject
     {
         super(track, -(height / 2 + 1.5*noteHeight) + noteOriginY, 0, WIDTH, height);
 
-        drawData.createAsFilledBox(WIDTH, (int) height, 1);
+        drawData.createAs2DFillRect(WIDTH, (int) height);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NoteExtension extends TrackObject
         if (powning && y > TrackObject.BURNING_POSITION_Y - height / 2)
         {
             height = Math.max(0, height - TRACK_DEFAULT_SPEED * deltaTime);
-            drawData.createAsFilledBox(WIDTH, (int) height, 1);
+            drawData.createAs2DFillRect(WIDTH, (int) height);
 
             y -= TRACK_DEFAULT_SPEED * deltaTime / 2;
 
@@ -48,7 +48,7 @@ public class NoteExtension extends TrackObject
         powning = true;
         this.burningState = burningState;
 
-        drawData.createAsFilledBox((int) width, (int) height, 1);
+        drawData.createAs2DFillRect((int) width, (int) height);
     }
 
 }

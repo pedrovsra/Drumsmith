@@ -48,13 +48,13 @@ public class Graphics2DContext implements GraphicsInterface
         if (data != null && buffer != null)
         {
             dbg.setColor(data.color);
-            if (data.type == DrawData.DRAW_BOX)
+            if (data.type == DrawData.DRAW_2D_RECT)
                 dbg.drawRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_FILLED_BOX)
+            else if (data.type == DrawData.DRAW_2D_FILL_RECT)
                 dbg.fillRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_HALF_SPHERE)
+            else if (data.type == DrawData.DRAW_NOTE)
                 dbg.fillArc((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height, 0, 360);
         }
