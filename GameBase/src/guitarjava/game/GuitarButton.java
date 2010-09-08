@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class GuitarButton extends TrackObject implements BurningInterface
 {
-    public static final int POSITION_Y = 490;
-
     private int track;
     private boolean pressed;
     private Flame flame;
@@ -20,11 +18,11 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     public GuitarButton(int track)
     {
-        super(track, POSITION_Y, 1, TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
+        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE, DEFAULT_OBJECT_SIZE);
 
         this.track = track;
 
-        drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+        drawData.createAsBox((int) width, (int) height, 1);
     }
 
     @Override
@@ -42,13 +40,13 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public void unpress()
     {
         pressed = false;
-        drawData.createAsBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+        drawData.createAsBox((int) width, (int) height, 1);
     }
 
     public boolean press(List<Note> notes)
     {
         pressed = true;
-        drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
+        drawData.createAsFilledBox((int) width, (int) height, 1);
         
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
@@ -85,14 +83,14 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     private boolean collide(Note note)
     {
-        if (note.getY() > y - TrackObject.OBJECT_SIZE && note.getY() < y + TrackObject.OBJECT_SIZE)
+        if (note.getY() > y - DEFAULT_OBJECT_SIZE && note.getY() < y + DEFAULT_OBJECT_SIZE)
         {
             // Passes this to the note as BurningState so the track extension of the note can check if
             // it still have to burn.
             note.setPowned(this);
 
             // After powning the note, calculates the flame duration and create it.
-            double duration = TrackObject.OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+            double duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
                     * Constant.FRAME_DURATION;
             double totalDuration = duration + note.getDuration() * 1000;
 

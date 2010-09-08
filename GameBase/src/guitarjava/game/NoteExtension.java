@@ -25,14 +25,14 @@ public class NoteExtension extends TrackObject
     @Override
     public void think(double deltaTime)
     {
-        y += Note.DEFAULT_SPEED * deltaTime;
+        y += TRACK_DEFAULT_SPEED * deltaTime;
         
-        if (powning && y > GuitarButton.POSITION_Y - height / 2)
+        if (powning && y > TrackObject.BURNING_POSITION_Y - height / 2)
         {
-            height = Math.max(0, height - Note.DEFAULT_SPEED * deltaTime);
+            height = Math.max(0, height - TRACK_DEFAULT_SPEED * deltaTime);
             drawData.createAsFilledBox(WIDTH, (int) height, 1);
 
-            y -= Note.DEFAULT_SPEED * deltaTime / 2;
+            y -= TRACK_DEFAULT_SPEED * deltaTime / 2;
 
             powning = burningState.isBurning();
         }

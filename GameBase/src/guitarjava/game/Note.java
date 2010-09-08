@@ -8,8 +8,7 @@ import guitarjava.graphics.Graphics2DContext;
  */
 public class Note extends TrackObject
 {
-    public static final double DEFAULT_SPEED = 0.32;
-    public static final int PIXELS_JUMP_PER_FRAME = (int)(DEFAULT_SPEED * Constant.FRAME_DURATION);
+    public static final int PIXELS_JUMP_PER_FRAME = (int)(TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
     public static final double ORIGIN_Y = -1000;
 
     private double duration;
@@ -22,20 +21,22 @@ public class Note extends TrackObject
      */
     public Note(int track, double duration)
     {
-        super(track, -TrackObject.OBJECT_SIZE + ORIGIN_Y, 1, TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
+        super(track, -DEFAULT_OBJECT_SIZE + ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
+                DEFAULT_OBJECT_SIZE);
 
         this.duration = duration;
 
         if (duration > 0)
-            noteExtension = new NoteExtension(track, duration * 1000 * DEFAULT_SPEED, ORIGIN_Y, height);
+            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED,
+                    ORIGIN_Y, height);
         
-        drawData.createAsHalfSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
+        drawData.createAsHalfSphere((int) width, (int)  height);
     }
 
     @Override
     public void think(double deltaTime)
     {
-        y += DEFAULT_SPEED * deltaTime;
+        y += TRACK_DEFAULT_SPEED * deltaTime;
         drawData.setPosition(x, y, z);
 
         if (noteExtension != null)
@@ -47,7 +48,7 @@ public class Note extends TrackObject
      */
     public boolean isVisible()
     {
-        return (y < Graphics2DContext.GRAPHICS_HEIGHT + duration * 1000 * DEFAULT_SPEED);
+        return (y < Constant.WINDOW_HEIGHT + duration * 1000 * TRACK_DEFAULT_SPEED);
     }
 
     /**
@@ -55,7 +56,7 @@ public class Note extends TrackObject
      */
     public boolean isPowned()
     {
-        return y > GuitarButton.POSITION_Y - height / 2 && powned;
+        return y > BURNING_POSITION_Y - height / 2 && powned;
     }
 
     /**
