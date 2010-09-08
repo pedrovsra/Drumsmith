@@ -1,7 +1,5 @@
 package guitarjava.game;
 
-import guitarjava.graphics.Graphics2DContext;
-
 /**
  * Represents a music note.
  * @author lucasjadami
@@ -48,7 +46,7 @@ public class Note extends TrackObject
      */
     public boolean isVisible()
     {
-        return (y < Constant.WINDOW_HEIGHT + duration * 1000 * TRACK_DEFAULT_SPEED);
+        return (y < Constant.WINDOW_HEIGHT + duration * 1000 * TRACK_DEFAULT_SPEED + height / 2);
     }
 
     /**
@@ -56,7 +54,7 @@ public class Note extends TrackObject
      */
     public boolean isPowned()
     {
-        return y > BURNING_POSITION_Y - height / 2 && powned;
+        return y > BURNING_POSITION_Y && powned;
     }
 
     /**
