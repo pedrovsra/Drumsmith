@@ -153,31 +153,52 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     public void inputEvent(InputEvent e)
     {
         int track = -1;
-
-        switch (e.getKeyCode())
+        if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED ||
+                e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED)
         {
-            case 'A':
-                track = 0; break;
-            case 'S':
-                track = 1; break;
-            case 'J':
-                track = 2; break;
-            case 'K':
-                track = 3; break;
-            case 'L':
-                track = 4; break;
-            default:
-                return;
+            switch (e.getKeyCode())
+            {
+                case 'A':
+                    track = 0; break;
+                case 'S':
+                    track = 1; break;
+                case 'J':
+                    track = 2; break;
+                case 'K':
+                    track = 3; break;
+                case 'L':
+                    track = 4; break;
+                default:
+                    return;
+            }
+        }
+        else
+        {
+            switch (e.getKeyCode())
+            {
+                case 6:
+                    track = 0; break;
+                case 4:
+                    track = 1; break;
+                case 5:
+                    track = 2; break;
+                case 7:
+                    track = 3; break;
+                case 2:
+                    track = 4; break;
+                default:
+                    return;
+            }
         }
 
         GuitarButton guitarButton = guitarButtons[track];
 
-        if (e.getType() == InputEvent.INPUT_PRESSED)
+        if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED || e.getType() == InputEvent.INPUT_JOYSTICK_PRESSED)
         {
             if (guitarButton.press(getNotesOfTrack(track)))
                 music.setSilent(false);
         }
-        else if (e.getType() == InputEvent.INPUT_RELEASED)
+        else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
             guitarButton.unpress();
     }
 
