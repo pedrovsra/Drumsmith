@@ -31,7 +31,7 @@ import javax.swing.WindowConstants;
 public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEventListener
 {
 
-    static final public int GRAPHICS_WIDTH = 500; // Width
+    static final public int GRAPHICS_WIDTH = 800; // Width
     static final public int GRAPHICS_HEIGHT = 600; // Height
     private List listeners; // Listeners for the graphics update
     private Animator animator; // Animator for OpenGL canvas
@@ -159,14 +159,14 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
             @Override
             public void keyPressed(KeyEvent e)
             {
-                if (e.getKeyCode() == 'A')
-                    ++cameraFromY;
-                else if (e.getKeyCode() == 'S')
-                    --cameraFromY;
-                else if (e.getKeyCode() == 'Q')
-                    ++cameraFromZ;
-                else if (e.getKeyCode() == 'W')
-                    --cameraFromZ;
+                if (e.getKeyCode() == KeyEvent.VK_UP)
+                    cameraFromY += 5;
+                else if (e.getKeyCode() == KeyEvent.VK_DOWN)
+                    cameraFromY -= 5;
+                else if (e.getKeyCode() == 'N')
+                    cameraFromZ += 5;
+                else if (e.getKeyCode() == 'M')
+                    cameraFromZ -= 5;
                 canvas.reshape(0, 0, getWidth(), getHeight());
                 System.out.println(cameraFromY + " " + cameraFromZ);
             }

@@ -64,7 +64,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         graphics.init((Window) graphics);
         timing.init((Window) graphics);
 
-        graphics.setCamera(Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, Graphics2DContext.GRAPHICS_HEIGHT,
+        graphics.setCamera(Graphics2DContext.GRAPHICS_WIDTH / 2, -770, 260,
                 Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, 0);
 
         music.play();
