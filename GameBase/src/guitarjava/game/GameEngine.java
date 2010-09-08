@@ -68,6 +68,12 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         
         timing.init((Window) graphics);
 
+        input.addInputEventListener(this);
+        graphics.addGraphicsUpdateEventListener(this);
+
+        // Reset the deltaTime.
+        timing.getDeltaTime();
+
         music.play();
     }
 
@@ -76,13 +82,21 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      * @param EventObject
      */
     public void graphicsUpdateEvent(EventObject e)
-    {
+    {      
         // Gets the delta time and update the execuiton time.
         double deltaTime = timing.getDeltaTime();
-        executionTime += deltaTime;
+
+        if (executionTime == 0)
+        {
+            System.out.println(music.getCurrentPosition());
+            System.out.println(deltaTime);
+            executionTime = music.getCurrentPosition();
+        }
+        else
+            executionTime += deltaTime;
 
         double time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + 
-                TrackObject.BURNING_POSITION_Y - TrackObject.DEFAULT_OBJECT_SIZE) /
+                TrackObject.BURNING_POSITION_Y + TrackObject.DEFAULT_OBJECT_SIZE / 2) /
                 Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 

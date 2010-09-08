@@ -156,6 +156,11 @@ public class Music
         // TODO.
     }
 
+    public int getCurrentPosition()
+    {
+        return player.getCurrentPosition();
+    }
+
     /**
      * Read the properties of the xml document.
      * @param document The xml document.
