@@ -80,8 +80,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         double deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * (GuitarButton.POSITION_Y + TrackObject.OBJECT_SIZE / 2)
-                / Note.PIXELS_JUMP_PER_FRAME;
+        double time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + GuitarButton.POSITION_Y) / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.

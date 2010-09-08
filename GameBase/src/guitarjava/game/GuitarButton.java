@@ -20,7 +20,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     public GuitarButton(int track)
     {
-        super(track, POSITION_Y, 1);
+        super(track, POSITION_Y, 1, TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
 
         this.track = track;
 
@@ -49,8 +49,6 @@ public class GuitarButton extends TrackObject implements BurningInterface
     {
         pressed = true;
         drawData.createAsFilledBox(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE, 1);
-            
-        boolean pownedNote = false;
         
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())

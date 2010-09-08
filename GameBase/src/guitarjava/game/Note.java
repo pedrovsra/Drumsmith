@@ -10,6 +10,7 @@ public class Note extends TrackObject
 {
     public static final double DEFAULT_SPEED = 0.32;
     public static final int PIXELS_JUMP_PER_FRAME = (int)(DEFAULT_SPEED * Constant.FRAME_DURATION);
+    public static final double ORIGIN_Y = -1000;
 
     private double duration;
     private boolean powned;
@@ -21,12 +22,12 @@ public class Note extends TrackObject
      */
     public Note(int track, double duration)
     {
-        super(track, -TrackObject.OBJECT_SIZE / 2, 1);
+        super(track, -TrackObject.OBJECT_SIZE + ORIGIN_Y, 1, TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
 
         this.duration = duration;
 
         if (duration > 0)
-            noteExtension = new NoteExtension(track, (int) (duration * 1000 * DEFAULT_SPEED) / 2);
+            noteExtension = new NoteExtension(track, duration * 1000 * DEFAULT_SPEED, ORIGIN_Y, height);
         
         drawData.createAsHalfSphere(TrackObject.OBJECT_SIZE, TrackObject.OBJECT_SIZE);
     }
@@ -54,7 +55,7 @@ public class Note extends TrackObject
      */
     public boolean isPowned()
     {
-        return powned;
+        return y > GuitarButton.POSITION_Y - height / 2 && powned;
     }
 
     /**

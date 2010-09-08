@@ -9,19 +9,17 @@ public class NoteExtension extends TrackObject
     private static final int WIDTH = 5;
 
     private boolean powning;
-    private double height;
     private BurningInterface burningState;
 
     /**
      * @param track Track of this object.
      * @param height Height of the extension.
      */
-    public NoteExtension(int track, int height)
+    public NoteExtension(int track, double height, double noteOriginY, double noteHeight)
     {
-        super(track, WIDTH, -height, 1);
+        super(track, -(height / 2 + 1.5*noteHeight) + noteOriginY, 1, WIDTH, height);
 
-        this.height = height;
-        drawData.createAsFilledBox(WIDTH, height, 1);
+        drawData.createAsFilledBox(WIDTH, (int) height, 1);
     }
 
     @Override
@@ -29,10 +27,12 @@ public class NoteExtension extends TrackObject
     {
         y += Note.DEFAULT_SPEED * deltaTime;
         
-        if (powning)
+        if (powning && y > GuitarButton.POSITION_Y - height / 2)
         {
             height = Math.max(0, height - Note.DEFAULT_SPEED * deltaTime);
             drawData.createAsFilledBox(WIDTH, (int) height, 1);
+
+            y -= Note.DEFAULT_SPEED * deltaTime / 2;
 
             powning = burningState.isBurning();
         }
@@ -48,13 +48,7 @@ public class NoteExtension extends TrackObject
         powning = true;
         this.burningState = burningState;
 
-        // Realocates and resizes it to centralize on the guitarButton object.
-        double deltaY = y - (GuitarButton.POSITION_Y - height);
-        height = Math.max(0, height - deltaY);
-        y = GuitarButton.POSITION_Y - height;
-        drawData.createAsFilledBox(WIDTH, (int) height, 1);
-
-        drawData.setPosition(x, y, z);
+        drawData.createAsFilledBox((int) width, (int) height, 1);
     }
 
 }

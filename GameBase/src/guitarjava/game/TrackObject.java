@@ -10,17 +10,19 @@ public abstract class TrackObject extends GameObject
 {
     public static final int TRACK_SPACEMENT = 70;
     public static final int OBJECT_SIZE = 60;
+    private static final double START_X = (Constant.WINDOW_WIDTH - TRACK_SPACEMENT * 6) / 2;
 
     private int track;
 
     /**
      * @param track The track.
+     * @param horizontalSize Adjustable spacement for objects with width smaller than the track object size.
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, int y, int z)
+    public TrackObject(int track, double y, double z, double width, double height)
     {
-        this(track, OBJECT_SIZE, y, z);
+        this(track, y, z, width, height, getColorByTrack(track));
     }
 
     /**
@@ -29,20 +31,9 @@ public abstract class TrackObject extends GameObject
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, double horizontalSize, int y, int z)
+    public TrackObject(int track, double y, double z, double width, double height, Color color)
     {
-        this(track, horizontalSize, y, z, getColorByTrack(track));
-    }
-
-    /**
-     * @param track The track.
-     * @param horizontalSize Adjustable spacement for objects with width smaller than the track object size.
-     * @param y Position y.
-     * @param z Position z.
-     */
-    public TrackObject(int track, double horizontalSize, int y, int z, Color color)
-    {
-        super(TRACK_SPACEMENT * (track + 1) + (2*OBJECT_SIZE - horizontalSize) / 2, y, z, color);
+        super(START_X + TRACK_SPACEMENT * (track + 1), y, z, width, height, color);
 
         this.track = track;
     }
