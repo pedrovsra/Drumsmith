@@ -23,7 +23,7 @@ public class Flame extends TrackObject
      */
     public Flame(int track, double duration, double noteDuration)
     {
-        super(track, SIZE, GuitarButton.POSITION_Y, 1, Color.WHITE);
+        super(track, GuitarButton.POSITION_Y, 1, SIZE, SIZE, Color.WHITE);
 
         this.duration = duration;
         this.noteDuration = noteDuration;

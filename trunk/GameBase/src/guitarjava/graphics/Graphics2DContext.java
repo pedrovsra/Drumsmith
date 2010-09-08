@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
  */
 public class Graphics2DContext extends JFrame implements GraphicsInterface
 {
-    static final public int GRAPHICS_WIDTH = 500; // Width
+    static final public int GRAPHICS_WIDTH = 800; // Width
     static final public int GRAPHICS_HEIGHT = 600; // Height
 
     private Graphics dbg; // Double buffering graphics
