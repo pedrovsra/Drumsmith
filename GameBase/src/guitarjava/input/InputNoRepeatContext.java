@@ -22,10 +22,12 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
 
     private static final int POLL_TIME = 50; // Poll time
     private static final int MAX_KEYS = 256;
+    private static final int MAX_JKEYS = 32;
     private List listeners; // Listeners for the input event
     private Joystick joystick; // USB Joystick
     private Thread thread; // Thread to pool input
-    private int keys[]; // Keys presses
+    private int keys[]; // Keyboard keys
+    private int jkeys[]; // Joystick keys
 
     /**
      * Constructor.
@@ -36,9 +38,14 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
         joystick = null;
         thread = new Thread(this);
         keys = new int[MAX_KEYS];
+        jkeys = new int[MAX_JKEYS];
         for (int x = 0; x < MAX_KEYS; ++x)
         {
             keys[x] = -1;
+        }
+        for (int x = 0; x < MAX_JKEYS; ++x)
+        {
+            jkeys[x] = 0;
         }
     }
 
@@ -115,7 +122,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
         {
             if (keys[e.getKeyCode()] == -1)
             {
-                InputEvent event = new InputEvent(this, InputEvent.INPUT_PRESSED, e.getKeyCode());
+                InputEvent event = new InputEvent(this, InputEvent.INPUT_KEYBOARD_PRESSED, e.getKeyCode());
                 fireInputEvent(event);
             }
             keys[e.getKeyCode()] = 2;
@@ -160,8 +167,23 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      */
     public void joystickButtonChanged(Joystick j)
     {
-        InputEvent event = new InputEvent(this, InputEvent.INPUT_JOYSTICK, j.getButtons());
-        fireInputEvent(event);
+        int b = j.getButtons();
+        for (int x = 0; x < MAX_JKEYS; ++x)
+        {
+            int v = b >> x & 0x1;
+            if (v == 1 && jkeys[x] == 0)
+            {
+                InputEvent event = new InputEvent(this, InputEvent.INPUT_JOYSTICK_PRESSED, x);
+                fireInputEvent(event);
+            }
+            else if (v == 0 && jkeys[x] == 1)
+            {
+                InputEvent event = new InputEvent(this, InputEvent.INPUT_JOYSTICK_RELEASED, x);
+                fireInputEvent(event);
+            }
+            jkeys[x] = v;
+        }
+        
     }
 
     /**
@@ -230,7 +252,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
                         --keys[x];
                         if (keys[x] == -1)
                         {
-                            InputEvent event = new InputEvent(this, InputEvent.INPUT_RELEASED, x);
+                            InputEvent event = new InputEvent(this, InputEvent.INPUT_KEYBOARD_RELEASED, x);
                             fireInputEvent(event);
                         }
                     }

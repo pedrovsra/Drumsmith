@@ -8,9 +8,10 @@ import java.util.EventObject;
  */
 public class InputEvent extends EventObject
 {
-    public static final int INPUT_RELEASED = 0; // Release type
-    public static final int INPUT_PRESSED = 1; // Press type
-    public static final int INPUT_JOYSTICK = 2; // Joystick type
+    public static final int INPUT_KEYBOARD_RELEASED = 0; // Keyboard release type
+    public static final int INPUT_KEYBOARD_PRESSED = 1; // Keyboard press type
+    public static final int INPUT_JOYSTICK_PRESSED = 2; // Joystick press type
+    public static final int INPUT_JOYSTICK_RELEASED = 3; // Joystick release type
 
     private int type;
     private int keyCode;
