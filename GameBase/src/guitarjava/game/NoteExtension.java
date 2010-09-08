@@ -6,7 +6,7 @@ package guitarjava.game;
  */
 public class NoteExtension extends TrackObject
 {
-    private static final int WIDTH = 5;
+    private static final int WIDTH = 20;
 
     private boolean powning;
     private BurningInterface burningState;
