@@ -35,10 +35,7 @@ public class Main3D
         TimingContext timingContext = new TimingContext();
         InputContext inputContext = new InputContext();
 
-        GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, inputContext, new Music("Smoke2.xml", "Smoke.mp3"));
-
-        graphicsContext.addGraphicsUpdateEventListener(gameEngine);
-        inputContext.addInputEventListener(gameEngine);
+        GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, inputContext, new Music("IronMan4.xml", "IronMan.mp3"));
 
         gameEngine.start();
     }
