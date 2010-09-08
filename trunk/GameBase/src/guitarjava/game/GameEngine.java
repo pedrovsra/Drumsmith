@@ -62,10 +62,11 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     {
         input.init((Window) graphics);
         graphics.init((Window) graphics);
-        timing.init((Window) graphics);
 
         graphics.setCamera(Graphics2DContext.GRAPHICS_WIDTH / 2, -770, 260,
                 Graphics2DContext.GRAPHICS_WIDTH / 2, -Graphics2DContext.GRAPHICS_HEIGHT / 2, 0);
+        
+        timing.init((Window) graphics);
 
         music.play();
     }
@@ -80,7 +81,9 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         double deltaTime = timing.getDeltaTime();
         executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + GuitarButton.POSITION_Y) / Note.PIXELS_JUMP_PER_FRAME;
+        double time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + 
+                TrackObject.BURNING_POSITION_Y - TrackObject.DEFAULT_OBJECT_SIZE) /
+                Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.
@@ -133,7 +136,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     public void inputEvent(InputEvent e)
     {
-        System.out.println(e.getType());
         int track = -1;
 
         switch (e.getKeyCode())

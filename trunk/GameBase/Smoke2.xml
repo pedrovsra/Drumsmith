@@ -6,15 +6,8 @@
         <Artist>Deep Purple</Artist>
         <Album>Vazio</Album>
         <Year>0</Year>
-        <BeatsPerSecond>16.0</BeatsPerSecond>
         <BeatOffset>0.0</BeatOffset>
-        <HammerOnTime>0.25</HammerOnTime>
-        <PullOffTime>0.25</PullOffTime>
-        <Difficulty>EXPERT</Difficulty>
-        <AllowableErrorTime>0.25</AllowableErrorTime>
         <Length>358</Length>
-        <MusicFileName></MusicFileName>
-        <MusicDirectoryHint>C:\</MusicDirectoryHint>
     </Properties>
 
     <Data>

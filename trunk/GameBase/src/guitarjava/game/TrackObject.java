@@ -9,8 +9,10 @@ import java.awt.Color;
 public abstract class TrackObject extends GameObject
 {
     public static final int TRACK_SPACEMENT = 70;
-    public static final int OBJECT_SIZE = 60;
+    public static final int DEFAULT_OBJECT_SIZE = 60;
+    public static final int BURNING_POSITION_Y = 490;
     private static final double START_X = (Constant.WINDOW_WIDTH - TRACK_SPACEMENT * 6) / 2;
+    public static final double TRACK_DEFAULT_SPEED = .4;
 
     private int track;
 

@@ -8,7 +8,8 @@ import java.awt.Color;
  */
 public class Flame extends TrackObject
 {
-    private static final int SIZE = 30;
+    private static final int DEFAULT_WIDTH = 30;
+    private static final int DEFAULT_HEIGHT = 30;
 
     private double duration;
     private double noteDuration;
@@ -23,12 +24,12 @@ public class Flame extends TrackObject
      */
     public Flame(int track, double duration, double noteDuration)
     {
-        super(track, GuitarButton.POSITION_Y, 1, SIZE, SIZE, Color.WHITE);
+        super(track, BURNING_POSITION_Y, 1, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE);
 
         this.duration = duration;
         this.noteDuration = noteDuration;
 
-        drawData.createAsFilledBox(SIZE, SIZE, 1);
+        drawData.createAsFilledBox((int) width, (int) height, 1);
     }
     
     @Override
