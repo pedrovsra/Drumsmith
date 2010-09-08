@@ -31,7 +31,7 @@ public class Main3D
     {
         Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(null));
 
-        GraphicsInterface graphicsContext = new Graphics2DContext(1);
+        GraphicsInterface graphicsContext = new Graphics3DContext();
         TimingContext timingContext = new TimingContext();
         InputContext inputContext = new InputContext();
 
