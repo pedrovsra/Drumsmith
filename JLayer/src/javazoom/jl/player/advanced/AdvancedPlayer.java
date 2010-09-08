@@ -69,6 +69,9 @@ public class AdvancedPlayer {
 
     public int getCurrentPosition()
     {
+        if (audio == null)
+            return 0;
+        
         return audio.getPosition();
     }
 
