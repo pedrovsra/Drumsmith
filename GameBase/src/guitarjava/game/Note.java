@@ -28,7 +28,7 @@ public class Note extends TrackObject
             noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED,
                     ORIGIN_Y, height);
         
-        drawData.createAsHalfSphere((int) width, (int)  height);
+        drawData.createAsNote((int) width);
     }
 
     @Override

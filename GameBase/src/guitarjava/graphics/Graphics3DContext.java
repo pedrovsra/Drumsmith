@@ -64,20 +64,24 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             gl.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
                     / 256f, data.color.getBlue() / 256f);
             gl.glTranslated(data.x, mulY*data.y, data.z);
-            if (data.type == DrawData.DRAW_BOX)
+            if (data.type == DrawData.DRAW_2D_RECT)
             {
                 drawBox(data);
             }
-            else if (data.type == DrawData.DRAW_FILLED_BOX)
+            else if (data.type == DrawData.DRAW_2D_FILL_RECT)
             {
                 drawFilledBox(data);
             }
-            else if (data.type == DrawData.DRAW_HALF_SPHERE)
+            else if (data.type == DrawData.DRAW_NOTE)
             {
                 GLU glu = new GLU();
                 GLUquadric quadric = glu.gluNewQuadric();
                 glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
-                glu.gluDisk(quadric, data.width / 4, data.width / 2, 32, 32);
+                glu.gluSphere(quadric, data.width / 5, 32, 32);
+                glu.gluDeleteQuadric(quadric);
+                quadric = glu.gluNewQuadric();
+                glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
+                glu.gluDisk(quadric, data.width / 5, data.width / 2, 32, 32);
                 glu.gluDeleteQuadric(quadric);
             }
         }
@@ -175,13 +179,23 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl = drawable.getGL();
         // Enable VSync
         gl.setSwapInterval(1);
-        // Setup the drawing area and shading mode
+        // Setup other stuff
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glDepthFunc(GL.GL_LEQUAL);
-        //gl.glEnable(GL.GL_LINE_SMOOTH);
-        //gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
+        gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH);
+        // Setting light
+        float[] lightPos = {(float)cameraFromX, (float)cameraFromY, (float)cameraFromZ, 1};
+        float[] lightAmbient = {1.0f, 1.0f, 1.0f, 1.0f};
+        float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+        // Set light parameters.
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightAmbient, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, lightDiffuse, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPos, 0);
+        gl.glEnable(GL.GL_LIGHT1);
+        gl.glEnable(GL.GL_LIGHTING);
     }
 
     /**
@@ -213,7 +227,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl = drawable.getGL();
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        //setLight();
         // Fire draw events
         fireGraphicsUpdateEvent();
         // Flush all drawing operations to the graphics card
@@ -225,33 +238,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      */
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged)
     {
-    }
-
-    /**
-     * Setting light.
-     */
-    private void setLight()
-    {
-        // Prepare light parameters.
-        float SHINE_ALL_DIRECTIONS = 1;
-        float[] lightPos = {0, -10, 5, SHINE_ALL_DIRECTIONS};
-        float[] lightColorAmbient = {0.2f, 0.2f, 0.2f, 1f};
-        float[] lightColorSpecular = {0.8f, 0.8f, 0.8f, 1f};
-
-        // Set light parameters.
-        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPos, 0);
-        gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightColorAmbient, 0);
-        gl.glLightfv(GL.GL_LIGHT1, GL.GL_SPECULAR, lightColorSpecular, 0);
-
-        // Enable lighting in GL.
-        gl.glEnable(GL.GL_LIGHT1);
-        gl.glEnable(GL.GL_LIGHTING);
-
-        // Set material properties.
-        float[] rgba = {0.3f, 0.5f, 1f};
-        gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, rgba, 0);
-        gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, rgba, 0);
-        gl.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, 0.5f);
     }
 
     /**
@@ -268,6 +254,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     private void drawFilledBox(DrawData data)
     {
         gl.glBegin(GL.GL_QUADS);
+        gl.glNormal3f( 0.0f, 0.0f, 1.0f);
         gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
         gl.glVertex3d(data.width / 2, -data.height / 2, 0);
         gl.glVertex3d(data.width / 2, data.height / 2, 0);
@@ -282,18 +269,16 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     {
         //gl.glLineWidth(100);
         gl.glBegin(GL.GL_LINES);
+        gl.glNormal3f( 0.0f, 0.0f, 1.0f);
         gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
         gl.glVertex3d(data.width / 2, -data.height / 2, 0);
-        gl.glEnd();
-        gl.glBegin(GL.GL_LINES);
+        gl.glNormal3f( 0.0f, 0.0f, 1.0f);
         gl.glVertex3d(data.width / 2, -data.height / 2, 0);
         gl.glVertex3d(data.width / 2, data.height / 2, 0);
-        gl.glEnd();
-        gl.glBegin(GL.GL_LINES);
+        gl.glNormal3f( 0.0f, 0.0f, 1.0f);
         gl.glVertex3d(data.width / 2, data.height / 2, 0);
         gl.glVertex3d(-data.width / 2, data.height / 2, 0);
-        gl.glEnd();
-        gl.glBegin(GL.GL_LINES);
+        gl.glNormal3f( 0.0f, 0.0f, 1.0f);;
         gl.glVertex3d(-data.width / 2, data.height / 2, 0);
         gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
         gl.glEnd();

@@ -22,7 +22,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
         this.track = track;
 
-        drawData.createAsBox((int) width, (int) height, 1);
+        drawData.createAs2DRect((int) width, (int) height);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public void unpress()
     {
         pressed = false;
-        drawData.createAsBox((int) width, (int) height, 1);
+        drawData.createAs2DRect((int) width, (int) height);
     }
 
     public boolean press(List<Note> notes)
     {
         pressed = true;
-        drawData.createAsFilledBox((int) width, (int) height, 1);
+        drawData.createAs2DFillRect((int) width, (int) height);
         
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
