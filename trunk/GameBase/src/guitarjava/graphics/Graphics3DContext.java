@@ -28,16 +28,14 @@ import javax.swing.WindowConstants;
  * Implements the GraphicsInterface. This is a 3D implementation.
  * @author brunojadami
  */
-public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEventListener
+public class Graphics3DContext implements GraphicsInterface, GLEventListener
 {
-
-    static final public int GRAPHICS_WIDTH = 800; // Width
-    static final public int GRAPHICS_HEIGHT = 600; // Height
     private List listeners; // Listeners for the graphics update
     private Animator animator; // Animator for OpenGL canvas
-    private GL glDrawable; // To use on draw operations
+    private GL gl; // To use on draw operations
     private GLCanvas canvas; // OpenGL Canvas
     private int mulY = -1; // To invert y axis
+    private int zFar = 2000; // zFar
     // Camera variables
     private double cameraFromX = 0;
     private double cameraFromY = 0;
@@ -62,17 +60,17 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
     {
         if (data != null)
         {
-            glDrawable.glLoadIdentity();
-            glDrawable.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
+            gl.glLoadIdentity();
+            gl.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
                     / 256f, data.color.getBlue() / 256f);
-            glDrawable.glTranslated(data.x, mulY*data.y, 0);
+            gl.glTranslated(data.x, mulY*data.y, data.z);
             if (data.type == DrawData.DRAW_BOX)
             {
                 drawBox(data);
             }
             else if (data.type == DrawData.DRAW_FILLED_BOX)
             {
-                drawBox(data);
+                drawFilledBox(data);
             }
             else if (data.type == DrawData.DRAW_HALF_SPHERE)
             {
@@ -127,17 +125,14 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
     /**
      * Initializing the context.
      */
-    public void init(Window component)
+    public void init(final Window component)
     {
         // Starting
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
         // Setting up opengl
         canvas = new GLCanvas();
         canvas.addGLEventListener(this);
-        add(canvas);
-        setResizable(false);
-        setIgnoreRepaint(true);
-        setSize(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
+        component.add(canvas);
         animator = new Animator(canvas);
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
@@ -149,12 +144,9 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
             }
         });
         // Others
-        setLocationRelativeTo(null);
-        setVisible(true);
-        requestFocus();
         animator.start();
 
-        addKeyListener(new KeyAdapter()
+        component.addKeyListener(new KeyAdapter()
         {
             @Override
             public void keyPressed(KeyEvent e)
@@ -167,7 +159,9 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
                     cameraFromZ += 5;
                 else if (e.getKeyCode() == 'M')
                     cameraFromZ -= 5;
-                canvas.reshape(0, 0, getWidth(), getHeight());
+                else
+                    return;
+                canvas.reshape(0, 0, component.getWidth(), component.getHeight());
                 System.out.println(cameraFromY + " " + cameraFromZ);
             }
         });
@@ -178,13 +172,14 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
      */
     public void init(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        gl = drawable.getGL();
         // Enable VSync
         gl.setSwapInterval(1);
         // Setup the drawing area and shading mode
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glDepthFunc(GL.GL_LEQUAL);
-        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+        //gl.glEnable(GL.GL_LINE_SMOOTH);
+        //gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH);
     }
@@ -194,7 +189,7 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
     {
-        GL gl = drawable.getGL();
+        gl = drawable.getGL();
         GLU glu = new GLU();
         if (height <= 0) // Avoid a divide by zero error
         {
@@ -204,7 +199,7 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 2000);
+        glu.gluPerspective(45.0f, h, 1.0, zFar);
         glu.gluLookAt(cameraFromX, cameraFromY, cameraFromZ, cameraToX, cameraToY, cameraToZ, 0, 1, 0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
@@ -215,8 +210,7 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
      */
     public void display(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
-        glDrawable = gl;
+        gl = drawable.getGL();
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         //setLight();
@@ -245,19 +239,19 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
         float[] lightColorSpecular = {0.8f, 0.8f, 0.8f, 1f};
 
         // Set light parameters.
-        glDrawable.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPos, 0);
-        glDrawable.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightColorAmbient, 0);
-        glDrawable.glLightfv(GL.GL_LIGHT1, GL.GL_SPECULAR, lightColorSpecular, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPos, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightColorAmbient, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_SPECULAR, lightColorSpecular, 0);
 
         // Enable lighting in GL.
-        glDrawable.glEnable(GL.GL_LIGHT1);
-        glDrawable.glEnable(GL.GL_LIGHTING);
+        gl.glEnable(GL.GL_LIGHT1);
+        gl.glEnable(GL.GL_LIGHTING);
 
         // Set material properties.
         float[] rgba = {0.3f, 0.5f, 1f};
-        glDrawable.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, rgba, 0);
-        glDrawable.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, rgba, 0);
-        glDrawable.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, 0.5f);
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, rgba, 0);
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, rgba, 0);
+        gl.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, 0.5f);
     }
 
     /**
@@ -269,17 +263,42 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
     }
 
     /**
+     * Drawing a filled box.
+     */
+    private void drawFilledBox(DrawData data)
+    {
+        gl.glBegin(GL.GL_QUADS);
+        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
+        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
+        gl.glVertex3d(data.width / 2, data.height / 2, 0);
+        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
+        gl.glEnd(); // Done Drawing The Quad
+    }
+
+    /**
      * Drawing a box.
      */
     private void drawBox(DrawData data)
     {
-        glDrawable.glBegin(GL.GL_QUADS);
-        glDrawable.glVertex3d(-data.width / 2, -data.height / 2, 0);
-        glDrawable.glVertex3d(data.width / 2, -data.height / 2, 0);
-        glDrawable.glVertex3d(data.width / 2, data.height / 2, 0);
-        glDrawable.glVertex3d(-data.width / 2, data.height / 2, 0);
-        glDrawable.glEnd(); // Done Drawing The Quad
+        //gl.glLineWidth(100);
+        gl.glBegin(GL.GL_LINES);
+        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
+        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
+        gl.glEnd();
+        gl.glBegin(GL.GL_LINES);
+        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
+        gl.glVertex3d(data.width / 2, data.height / 2, 0);
+        gl.glEnd();
+        gl.glBegin(GL.GL_LINES);
+        gl.glVertex3d(data.width / 2, data.height / 2, 0);
+        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
+        gl.glEnd();
+        gl.glBegin(GL.GL_LINES);
+        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
+        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
+        gl.glEnd();
     }
+
     /**
      * Setting camera, used only for 3D contexts.
      * @param fx camera x position
@@ -291,12 +310,12 @@ public class Graphics3DContext extends JFrame implements GraphicsInterface, GLEv
      */
     public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz)
     {
-        cameraToX = tx;
+        cameraToX = tx; // Center
         cameraToY = ty;
         cameraToZ = tz;
-        cameraFromX = fx;
+        cameraFromX = fx; // Eye
         cameraFromY = fy;
         cameraFromZ = fz;
-        canvas.reshape(0, 0, getWidth(), getHeight());
+        canvas.reshape(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }

@@ -24,7 +24,7 @@ public class Flame extends TrackObject
      */
     public Flame(int track, double duration, double noteDuration)
     {
-        super(track, BURNING_POSITION_Y, 1, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE);
+        super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE);
 
         this.duration = duration;
         this.noteDuration = noteDuration;

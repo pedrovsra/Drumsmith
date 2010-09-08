@@ -14,25 +14,32 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An Input context.
+ * An Input context. It ignores key repeats.
  * @author brunojadami
  */
-public class InputContext implements InputInterface, KeyListener, JoystickListener, Runnable
+public class InputNoRepeatContext implements InputInterface, KeyListener, JoystickListener, Runnable
 {
-    private static final int POLL_TIME = 50; // Poll time
 
+    private static final int POLL_TIME = 50; // Poll time
+    private static final int MAX_KEYS = 256;
     private List listeners; // Listeners for the input event
     private Joystick joystick; // USB Joystick
     private Thread thread; // Thread to pool input
+    private int keys[]; // Keys presses
 
     /**
      * Constructor.
      */
-    public InputContext()
+    public InputNoRepeatContext()
     {
         listeners = new ArrayList();
         joystick = null;
         thread = new Thread(this);
+        keys = new int[MAX_KEYS];
+        for (int x = 0; x < MAX_KEYS; ++x)
+        {
+            keys[x] = -1;
+        }
     }
 
     /**
@@ -53,6 +60,7 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
         // Adding close listener
         component.addWindowListener(new WindowAdapter()
         {
+
             @Override
             public void windowClosing(WindowEvent e)
             {
@@ -103,8 +111,15 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void keyPressed(KeyEvent e)
     {
-        InputEvent event = new InputEvent(this, InputEvent.INPUT_PRESSED, e.getKeyCode());
-        fireInputEvent(event);
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < MAX_KEYS)
+        {
+            if (keys[e.getKeyCode()] == -1)
+            {
+                InputEvent event = new InputEvent(this, InputEvent.INPUT_PRESSED, e.getKeyCode());
+                fireInputEvent(event);
+            }
+            keys[e.getKeyCode()] = 2;
+        }
     }
 
     /**
@@ -113,8 +128,10 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void keyReleased(KeyEvent e)
     {
-        InputEvent event = new InputEvent(this, InputEvent.INPUT_RELEASED, e.getKeyCode());
-        fireInputEvent(event);
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < MAX_KEYS)
+        {
+            keys[e.getKeyCode()] = 1;
+        }
     }
 
     /**
@@ -135,7 +152,6 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
      */
     public void joystickAxisChanged(Joystick j)
     {
-        
     }
 
     /**
@@ -149,6 +165,33 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
     }
 
     /**
+     * Preparing joystick.
+     */
+    private void prepareJoystick()
+    {
+        if (joystick == null)
+        {
+            try
+            {
+                joystick = Joystick.createInstance();
+                if (joystick != null)
+                {
+                    joystick.setPollInterval(POLL_TIME);
+                    joystick.addJoystickListener(this);
+                }
+            }
+            catch (IOException ex)
+            {
+                joystick = null;
+            }
+            catch (Throwable ex)
+            {
+                joystick = null;
+            }
+        }
+    }
+
+    /**
      * Run method for pooling and finding a joystick.
      */
     public void run()
@@ -156,33 +199,13 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
         boolean quit = false; // Quit flag
         Thread pollThread = null; // Thread to poll
         PollRunner pollRunner = null; // Poll runner
+        prepareJoystick();
         while (!quit)
         {
             try
             {
-                if (joystick == null)
-                {
-                    try
-                    {
-                        joystick = Joystick.createInstance();
-                        if (joystick != null)
-                        {
-                            joystick.setPollInterval(POLL_TIME);
-                            joystick.addJoystickListener(this);
-                        }
-                    }
-                    catch (IOException ex)
-                    {
-                        joystick = null;
-                    }
-                    catch (Throwable ex)
-                    {
-                        joystick = null;
-                    }
-                    if (joystick == null)
-                        quit = true;
-                }
-                else
+                // Joystick poll
+                if (joystick != null)
                 {
                     if (pollThread == null || pollRunner.done)
                     {
@@ -199,6 +222,21 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
                         error.showWindow();
                     }
                 }
+                // Keyboard poll
+                for (int x = 0; x < MAX_KEYS; ++x)
+                {
+                    if (keys[x] > -1 && keys[x] < 2)
+                    {
+                        --keys[x];
+                        if (keys[x] == -1)
+                        {
+                            InputEvent event = new InputEvent(this, InputEvent.INPUT_RELEASED, x);
+                            fireInputEvent(event);
+                        }
+                    }
+
+                }
+                // Sleep
                 Thread.sleep(POLL_TIME);
             }
             catch (InterruptedException ex)
@@ -206,7 +244,6 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
             }
         }
     }
-
 }
 
 /**
@@ -215,6 +252,7 @@ public class InputContext implements InputInterface, KeyListener, JoystickListen
  */
 class PollRunner implements Runnable
 {
+
     private Joystick joystick; // Joystick object
     protected boolean done; // Done polling
 
@@ -223,6 +261,7 @@ class PollRunner implements Runnable
         this.joystick = joystick;
         done = false;
     }
+
     /**
      * Run method.
      */
@@ -231,5 +270,4 @@ class PollRunner implements Runnable
         joystick.poll();
         done = true;
     }
-
 }
