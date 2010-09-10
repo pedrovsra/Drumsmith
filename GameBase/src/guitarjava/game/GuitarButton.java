@@ -32,7 +32,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
         {
             flame.think(deltaTime);
 
-            if (flame.canExtinguish() || (flame.canExtinguishNote() && !pressed))
+            if (flame.canExtinguish())
             {
                 flame = null;
             }
@@ -98,7 +98,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
                     * Constant.FRAME_DURATION;
             float totalDuration = duration + note.getDuration() * 1000;
 
-            flame = new Flame(track, totalDuration, duration);
+            flame = new Flame(this, track, totalDuration);
         }
 
         return note.isPowned();

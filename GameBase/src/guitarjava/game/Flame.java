@@ -19,22 +19,21 @@ public class Flame extends TrackObject
     private float noteDuration;
     private float timeElapsed;
     private boolean extinguish;
-    private boolean extinguishNote;
-    private List<Particle> flames;
+    private List<Particle> particles;
+    private BurningInterface burningState;
 
     /**
      * @param track Which track the it is in.
      * @param duration The total duration of the flame.
-     * @param noteDuration The duration of the flame burning the note.
      */
-    public Flame(int track, float duration, float noteDuration)
+    public Flame(BurningInterface burningState, int track, float duration)
     {
         super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE);
 
+        this.burningState = burningState;
         this.duration = duration;
-        this.noteDuration = noteDuration;
 
-        flames = new LinkedList<Particle>();
+        particles = new LinkedList<Particle>();
     }
 
     /**
@@ -42,14 +41,15 @@ public class Flame extends TrackObject
      */
     public List<Particle> getParticles()
     {
-        return flames;
+        return particles;
     }
 
     @Override
     public void think(float deltaTime)
     {
         timeElapsed += deltaTime;
-        Iterator<Particle> it = flames.iterator();
+
+        Iterator<Particle> it = particles.iterator();
         while (it.hasNext())
         {
             Particle p = it.next();
@@ -60,20 +60,19 @@ public class Flame extends TrackObject
             }
         }
 
-        if (flames.size() < FLAME_PARTICLES && (!extinguish && !extinguishNote))
-        {
-            flames.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
-                    TrackObject.getColorByTrack(track)));
-        }
+        if (extinguish)
+            return;
 
-        if (timeElapsed > noteDuration)
-        {
-            extinguishNote = true;
-        }
         if (timeElapsed > duration)
-        {
             extinguish = true;
-        }
+        else
+            extinguish = !burningState.isBurning();
+
+        if (particles.size() < FLAME_PARTICLES)
+        {
+            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
+                    TrackObject.getColorByTrack(track)));
+        }  
     }
 
     /**
@@ -81,14 +80,6 @@ public class Flame extends TrackObject
      */
     public boolean canExtinguish()
     {
-        return extinguish && flames.isEmpty();
-    }
-
-    /**
-     * @return True if the duration of the fire in the note has ended.
-     */
-    public boolean canExtinguishNote()
-    {
-        return extinguishNote && flames.isEmpty();
+        return extinguish && particles.isEmpty();
     }
 }
