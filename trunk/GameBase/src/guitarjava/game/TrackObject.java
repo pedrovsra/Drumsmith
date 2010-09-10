@@ -11,10 +11,10 @@ public abstract class TrackObject extends GameObject
     public static final int TRACK_SPACEMENT = 70;
     public static final int DEFAULT_OBJECT_SIZE = 60;
     public static final int BURNING_POSITION_Y = 490;
-    private static final double START_X = (Constant.WINDOW_WIDTH - TRACK_SPACEMENT * 6) / 2;
-    public static final double TRACK_DEFAULT_SPEED = .4;
+    private static final float START_X = (Constant.WINDOW_WIDTH - TRACK_SPACEMENT * 6) / 2;
+    public static final float TRACK_DEFAULT_SPEED = .4f;
 
-    private int track;
+    protected int track;
 
     /**
      * @param track The track.
@@ -22,7 +22,7 @@ public abstract class TrackObject extends GameObject
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, double y, double z, double width, double height)
+    public TrackObject(int track, float y, float z, float width, float height)
     {
         this(track, y, z, width, height, getColorByTrack(track));
     }
@@ -33,14 +33,14 @@ public abstract class TrackObject extends GameObject
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, double y, double z, double width, double height, Color color)
+    public TrackObject(int track, float y, float z, float width, float height, Color color)
     {
         super(START_X + TRACK_SPACEMENT * (track + 1), y, z, width, height, color);
 
         this.track = track;
     }
 
-    public abstract void think(double deltaTime);
+    public abstract void think(float deltaTime);
 
     /**
      * @return The track.
@@ -54,20 +54,20 @@ public abstract class TrackObject extends GameObject
      * @param track The track.
      * @return A different color for each track.
      */
-    private static Color getColorByTrack(int track)
+    protected static Color getColorByTrack(int track)
     {
         switch (track)
         {
             case 0:
-                return Color.BLUE;
-            case 1:
                 return Color.GREEN;
-            case 2:
-                return Color.ORANGE;
-            case 3:
+            case 1:
                 return Color.RED;
-            case 4:
+            case 2:
                 return Color.YELLOW;
+            case 3:
+                return Color.BLUE;
+            case 4:
+                return Color.MAGENTA;
             default:
                 return Color.BLACK;
         }

@@ -6,7 +6,7 @@ package guitarjava.game;
  */
 public class NoteExtension extends TrackObject
 {
-    private static final int WIDTH = 20;
+    private static final int WIDTH = 16;
 
     private boolean powning;
     private BurningInterface burningState;
@@ -15,22 +15,22 @@ public class NoteExtension extends TrackObject
      * @param track Track of this object.
      * @param height Height of the extension.
      */
-    public NoteExtension(int track, double height, double noteOriginY, double noteHeight)
+    public NoteExtension(int track, float height, float noteOriginY, float noteHeight)
     {
-        super(track, -(height / 2 + 1.5*noteHeight) + noteOriginY, 0, WIDTH, height);
+        super(track, -(height / 2 + 1.5f*noteHeight) + noteOriginY, 0, WIDTH, height);
 
-        drawData.createAs2DFillRect(WIDTH, (int) height);
+        drawData.createAs2DFilledRect(WIDTH, (int) height);
     }
 
     @Override
-    public void think(double deltaTime)
+    public void think(float deltaTime)
     {
         y += TRACK_DEFAULT_SPEED * deltaTime;
         
         if (powning && y > TrackObject.BURNING_POSITION_Y - height / 2)
         {
             height = Math.max(0, height - TRACK_DEFAULT_SPEED * deltaTime);
-            drawData.createAs2DFillRect(WIDTH, (int) height);
+            drawData.createAs2DFilledRect(WIDTH, (int) height);
 
             y -= TRACK_DEFAULT_SPEED * deltaTime / 2;
 
@@ -48,7 +48,7 @@ public class NoteExtension extends TrackObject
         powning = true;
         this.burningState = burningState;
 
-        drawData.createAs2DFillRect((int) width, (int) height);
+        drawData.createAs2DFilledRect((int) width, (int) height);
     }
 
 }

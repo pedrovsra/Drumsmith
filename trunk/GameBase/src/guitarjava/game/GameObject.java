@@ -10,11 +10,11 @@ import java.awt.Color;
 public abstract class GameObject
 {
     protected DrawData drawData;
-    protected double x;
-    protected double y;
-    protected double z;
-    protected double width;
-    protected double height;
+    protected float x;
+    protected float y;
+    protected float z;
+    protected float width;
+    protected float height;
 
 
     /**
@@ -23,7 +23,7 @@ public abstract class GameObject
      * @param z Position z.
      * @param color Color.
      */
-    public GameObject(double x, double y, double z, double width, double height, Color color)
+    public GameObject(float x, float y, float z, float width, float height, Color color)
     {
         drawData = new DrawData();
         
@@ -42,7 +42,7 @@ public abstract class GameObject
      * Method called to do logic operations.
      * @param deltaTime Delta time.
      */
-    public abstract void think(double deltaTime);
+    public abstract void think(float deltaTime);
 
     public DrawData getDrawData()
     {
@@ -52,7 +52,7 @@ public abstract class GameObject
     /**
      * @return Position x.
      */
-    public double getX()
+    public float getX()
     {
         return x;
     }
@@ -60,17 +60,17 @@ public abstract class GameObject
     /**
      * @return Position y.
      */
-    public double getY()
+    public float getY()
     {
         return y;
     }
 
-    public double getWidth()
+    public float getWidth()
     {
         return width;
     }
 
-    public double getHeight()
+    public float getHeight()
     {
         return height;
     }

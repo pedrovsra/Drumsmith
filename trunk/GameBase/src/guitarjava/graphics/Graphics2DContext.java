@@ -19,9 +19,9 @@ import javax.swing.WindowConstants;
  * @deprecated this class is not implemented anymore, use the 3D context :D
  * @author brunojadami
  */
-public class Graphics2DContext implements GraphicsInterface
+public class Graphics2DContext //implements GraphicsInterface
 {
-    private Graphics dbg; // Double buffering graphics
+    private Graphics dbg; // float buffering graphics
     private List listeners; // Listeners for the graphics update
     private long updateRate; // The update rate;
     private Timer timer; // Timer to update the graphics
@@ -45,19 +45,19 @@ public class Graphics2DContext implements GraphicsInterface
      */
     public void draw(DrawData data)
     {
-        if (data != null && buffer != null)
+        /*if (data != null && buffer != null)
         {
             dbg.setColor(data.color);
             if (data.type == DrawData.DRAW_2D_RECT)
                 dbg.drawRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_2D_FILL_RECT)
+            else if (data.type == DrawData.DRAW_2D_FILLED_RECT)
                 dbg.fillRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height);
             else if (data.type == DrawData.DRAW_NOTE)
                 dbg.fillArc((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
                         (int)data.width, (int)data.height, 0, 360);
-        }
+        }*/
     }
 
     /**
@@ -169,7 +169,7 @@ public class Graphics2DContext implements GraphicsInterface
     /**
      * Do nothing, 2D context dont have a camera.
      */
-    public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz)
+    public void setCamera(float fx, float fy, float fz, float tx, float ty, float tz)
     {
         
     }

@@ -123,7 +123,7 @@ public class Music
      * @return If the time is equal or greater than the current time, the entity
      * of the next node. Null otherwise.
      */
-    public NoteXml getNextNote(double time)
+    public NoteXml getNextNote(float time)
     {
         if (notePointer == notes.size())
             return null;
@@ -208,14 +208,14 @@ public class Music
         {
             Node node = nodes.item(i);
 
-            double time = -1;
-            double duration = -1;
+            float time = -1;
+            float duration = -1;
             int track = -1;
 
             NamedNodeMap attributes = node.getAttributes();
 
-            time = Double.parseDouble(attributes.getNamedItem("time").getNodeValue());
-            duration = Double.parseDouble(attributes.getNamedItem("duration").getNodeValue());
+            time = Float.parseFloat(attributes.getNamedItem("time").getNodeValue());
+            duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
             track = Integer.parseInt(attributes.getNamedItem("track").getNodeValue());
 
             notes.add(new NoteXml(time, duration, track));

@@ -49,10 +49,10 @@ public class TimingContext implements TimingInterface
      * once on update event.
      * @return the delta time in milliseconds
      */
-    public double getDeltaTime()
+    public float getDeltaTime()
     {
         long now = System.nanoTime();
-        double ret = (now - last);
+        float ret = (now - last);
         ret /= 1000000;
         last = now;
         return ret;

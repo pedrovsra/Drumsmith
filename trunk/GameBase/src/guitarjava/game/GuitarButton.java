@@ -26,7 +26,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     }
 
     @Override
-    public void think(double deltaTime)
+    public void think(float deltaTime)
     {
         if (flame != null)
         {
@@ -46,7 +46,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public boolean press(List<Note> notes)
     {
         pressed = true;
-        drawData.createAs2DFillRect((int) width, (int) height);
+        drawData.createAs2DFilledRect((int) width, (int) height);
         
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
@@ -90,9 +90,9 @@ public class GuitarButton extends TrackObject implements BurningInterface
             note.setPowned(this);
 
             // After powning the note, calculates the flame duration and create it.
-            double duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+            float duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
                     * Constant.FRAME_DURATION;
-            double totalDuration = duration + note.getDuration() * 1000;
+            float totalDuration = duration + note.getDuration() * 1000;
 
             flame = new Flame(track, totalDuration, duration);
         }
