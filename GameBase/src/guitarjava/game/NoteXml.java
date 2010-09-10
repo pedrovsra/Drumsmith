@@ -6,6 +6,7 @@ package guitarjava.game;
  */
 public class NoteXml
 {
+
     private float time;
     private float duration;
     private int track;

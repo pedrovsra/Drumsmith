@@ -6,9 +6,9 @@ package guitarjava.game;
  */
 public class Note extends TrackObject
 {
-    public static final int PIXELS_JUMP_PER_FRAME = (int)(TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
-    public static final float ORIGIN_Y = -1200;
 
+    public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
+    public static final float ORIGIN_Y = -1200;
     private float duration;
     private boolean powned;
     private NoteExtension noteExtension;
@@ -25,9 +25,11 @@ public class Note extends TrackObject
         this.duration = duration;
 
         if (duration > 0)
+        {
             noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED,
                     ORIGIN_Y, height);
-        
+        }
+
         drawData.createAs3DHalfSphere(width);
     }
 
@@ -38,7 +40,9 @@ public class Note extends TrackObject
         drawData.setPosition(x, y, z);
 
         if (noteExtension != null)
+        {
             noteExtension.think(deltaTime);
+        }
     }
 
     /**
@@ -72,7 +76,9 @@ public class Note extends TrackObject
     {
         powned = true;
         if (noteExtension != null)
+        {
             noteExtension.setPowned(burningState);
+        }
     }
 
     /**

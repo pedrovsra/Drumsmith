@@ -8,6 +8,7 @@ import java.awt.Color;
  */
 public class DrawData
 {
+
     protected static final int DRAW_2D_RECT = 0;
     protected static final int DRAW_2D_FILLED_RECT = 1;
     protected static final int DRAW_3D_HALF_SPHERE = 2;
@@ -54,7 +55,7 @@ public class DrawData
         this.height = height;
         type = DRAW_2D_FILLED_RECT;
     }
-    
+
     /**
      * Create the Data base as a 3D half sphere.
      * @param radius the radius
@@ -116,6 +117,4 @@ public class DrawData
     {
         return z;
     }
-
-
 }

@@ -15,8 +15,7 @@ products derived from this software without specific prior written permission.
 
 Copyright 2000-2002 George Rhoten and others.
 
-*/
-
+ */
 package com.centralnexus.input;
 
 import java.io.IOException;
@@ -36,9 +35,10 @@ import java.io.IOException;
  * @author George Rhoten
  * @since June 10, 2000
  */
-class ExtendedJoystick extends Joystick {
+class ExtendedJoystick extends Joystick
+{
 
-/* Special internal flags for returning the specific axes
+    /* Special internal flags for returning the specific axes
     public static final int RETURNX     = 0x00000001;
     public static final int RETURNY     = 0x00000002;
     public static final int RETURNZ     = 0x00000004;
@@ -52,10 +52,9 @@ class ExtendedJoystick extends Joystick {
     public static final int RETURNCENTERED  = 0x00000400;
     public static final int USEDEADZONE     = 0x00000800;
     public static final int RETURNALL       = RETURNX | RETURNY | RETURNZ
-                 | RETURNR | RETURNU | RETURNV
-                 | RETURNPOV | RETURNBUTTONS;
-*/
-
+    | RETURNR | RETURNU | RETURNV
+    | RETURNPOV | RETURNBUTTONS;
+     */
     /**
      * Returns true when the joystick is plugged into the computer, false
      * otherwise.
@@ -73,7 +72,8 @@ class ExtendedJoystick extends Joystick {
      * @throws IOException Thrown when the joystick for the id
      *          is not plugged into the computer.
      */
-    ExtendedJoystick(int id) throws IOException {
+    ExtendedJoystick(int id) throws IOException
+    {
         super(id);
     }
 
@@ -81,8 +81,8 @@ class ExtendedJoystick extends Joystick {
      * This polls (updates) the joystick for its values. This must be called
      * after the owner is done with the old values.
      */
-    public void poll() {
+    public void poll()
+    {
         myJoyNotifier.buttonValues = poll(getID(), axisValues);
     }
-
 }

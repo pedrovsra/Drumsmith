@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
  */
 public class GameWindow extends JFrame
 {
+
     /**
      * Constructor. Call showWindow to show it.
      * @param width the window width

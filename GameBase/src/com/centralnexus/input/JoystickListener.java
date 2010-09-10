@@ -15,8 +15,7 @@ products derived from this software without specific prior written permission.
 
 Copyright 2001-2002 George Rhoten and others.
 
-*/
-
+ */
 package com.centralnexus.input;
 
 /**
@@ -32,6 +31,7 @@ package com.centralnexus.input;
  */
 public interface JoystickListener
 {
+
     /**
      * Implement this function to get periodically notified that
      * a joystick changed one of its axis values.

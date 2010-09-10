@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class GuitarButton extends TrackObject implements BurningInterface
 {
-    private int track;
+
     private boolean pressed;
     private Flame flame;
 
@@ -33,7 +33,9 @@ public class GuitarButton extends TrackObject implements BurningInterface
             flame.think(deltaTime);
 
             if (flame.canExtinguish() || (flame.canExtinguishNote() && !pressed))
+            {
                 flame = null;
+            }
         }
     }
 
@@ -47,7 +49,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     {
         pressed = true;
         drawData.createAs2DFilledRect((int) width, (int) height);
-        
+
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
         {
@@ -55,7 +57,9 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
             boolean result = collide(note);
             if (result)
+            {
                 return true;
+            }
         }
 
         return false;

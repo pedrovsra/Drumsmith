@@ -10,13 +10,14 @@ import java.awt.event.WindowEvent;
  */
 public class TimingContext implements TimingInterface
 {
+
     private long last;
+
     /**
      * Constructor.
      */
     public TimingContext()
     {
-
     }
 
     /**
@@ -27,6 +28,7 @@ public class TimingContext implements TimingInterface
         // Adding close listener
         component.addWindowListener(new WindowAdapter()
         {
+
             @Override
             public void windowClosing(WindowEvent e)
             {
@@ -41,7 +43,6 @@ public class TimingContext implements TimingInterface
      */
     public void stop()
     {
-        
     }
 
     /**
@@ -57,5 +58,4 @@ public class TimingContext implements TimingInterface
         last = now;
         return ret;
     }
-
 }

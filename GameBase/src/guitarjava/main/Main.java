@@ -5,17 +5,10 @@ import guitarjava.components.GameWindow;
 import guitarjava.game.Constant;
 import guitarjava.game.GameEngine;
 import guitarjava.game.Music;
-import guitarjava.graphics.DrawData;
-import guitarjava.graphics.Graphics2DContext;
 import guitarjava.graphics.Graphics3DContext;
 import guitarjava.graphics.GraphicsInterface;
-import guitarjava.graphics.GraphicsUpdateListener;
 import guitarjava.input.InputNoRepeatContext;
-import guitarjava.input.InputInterface;
 import guitarjava.timing.TimingContext;
-import guitarjava.timing.TimingInterface;
-import java.awt.Window;
-import java.util.EventObject;
 
 /**
  *

@@ -1,14 +1,12 @@
 package guitarjava.game;
 
 import guitarjava.components.GameWindow;
-import guitarjava.graphics.Graphics2DContext;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
 import guitarjava.input.InputEvent;
 import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
-import java.awt.Window;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
@@ -22,6 +20,7 @@ import javazoom.jl.decoder.JavaLayerException;
  */
 public class GameEngine implements GraphicsUpdateListener, InputListener
 {
+
     private GraphicsInterface graphics;
     private TimingInterface timing;
     private InputInterface input;
@@ -88,7 +87,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      * @param EventObject
      */
     public void graphicsUpdateEvent(EventObject e)
-    {      
+    {
         // Gets the delta time and update the execuiton time.
         float deltaTime = timing.getDeltaTime();
 
@@ -97,11 +96,13 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             executionTime = music.getCurrentPosition();
         }
         else
+        {
             executionTime += deltaTime;
+        }
 
-        float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + 
-                TrackObject.BURNING_POSITION_Y + .25f*TrackObject.DEFAULT_OBJECT_SIZE) /
-                Note.PIXELS_JUMP_PER_FRAME;
+        float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y)
+                + TrackObject.BURNING_POSITION_Y + .25f * TrackObject.DEFAULT_OBJECT_SIZE)
+                / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.
@@ -122,17 +123,23 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             {
                 // The note needs to be removed. Checks if it was missed and removes.
                 if (!note.isPowned())
+                {
                     music.setSilent(true);
+                }
 
                 it.remove();
             }
             else
             {
                 if (!note.isPowned())
+                {
                     graphics.draw(note.getDrawData());
+                }
 
                 if (note.getNoteExtension() != null)
+                {
                     graphics.draw(note.getNoteExtension().getDrawData());
+                }
             }
         }
 
@@ -148,7 +155,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                 Iterator itp = guitarButtons[i].getFlame().getParticles().iterator();
                 while (itp.hasNext())
                 {
-                     graphics.draw(((Particle)itp.next()).getDrawData());
+                    graphics.draw(((Particle) itp.next()).getDrawData());
                 }
             }
         }
@@ -161,21 +168,26 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     public void inputEvent(InputEvent e)
     {
         int track = -1;
-        if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED ||
-                e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED)
+        if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED
+                || e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED)
         {
             switch (e.getKeyCode())
             {
                 case 'A':
-                    track = 0; break;
+                    track = 0;
+                    break;
                 case 'S':
-                    track = 1; break;
+                    track = 1;
+                    break;
                 case 'J':
-                    track = 2; break;
+                    track = 2;
+                    break;
                 case 'K':
-                    track = 3; break;
+                    track = 3;
+                    break;
                 case 'L':
-                    track = 4; break;
+                    track = 4;
+                    break;
                 default:
                     return;
             }
@@ -185,15 +197,20 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             switch (e.getKeyCode())
             {
                 case 6:
-                    track = 0; break;
+                    track = 0;
+                    break;
                 case 4:
-                    track = 1; break;
+                    track = 1;
+                    break;
                 case 5:
-                    track = 2; break;
+                    track = 2;
+                    break;
                 case 7:
-                    track = 3; break;
+                    track = 3;
+                    break;
                 case 2:
-                    track = 4; break;
+                    track = 4;
+                    break;
                 default:
                     return;
             }
@@ -204,10 +221,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED || e.getType() == InputEvent.INPUT_JOYSTICK_PRESSED)
         {
             if (guitarButton.press(getNotesOfTrack(track)))
+            {
                 music.setSilent(false);
+            }
         }
         else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
+        {
             guitarButton.unpress();
+        }
     }
 
     private List<Note> getNotesOfTrack(int track)
@@ -220,7 +241,9 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             Note note = it.next();
 
             if (note.getTrack() == track && !note.isPowned())
+            {
                 trackNotes.add(note);
+            }
         }
 
         return trackNotes;

@@ -11,11 +11,14 @@ import javax.swing.JLabel;
  */
 public class Label extends JLabel
 {
+
     public Label(Font font, String text, int x, int y) throws NullPointerException
     {
         if (font == null)
+        {
             throw new NullPointerException();
-        
+        }
+
         setFont(font);
         setText(text);
         setForeground(Color.white);

@@ -8,6 +8,7 @@ import java.awt.Color;
  */
 public class Particle extends GameObject
 {
+
     protected static final float PARTICLE_WIDTH = 5;
     protected static final float PARTICLE_HEIGHT = 5;
     private static final float Z_DES = 0.005f;
@@ -27,10 +28,10 @@ public class Particle extends GameObject
     @Override
     public void think(float deltaTime)
     {
-        x += vx*deltaTime;
-        y += vy*deltaTime;
-        z += vz*deltaTime;
-        vz -= Z_DES*deltaTime;
+        x += vx * deltaTime;
+        y += vy * deltaTime;
+        z += vz * deltaTime;
+        vz -= Z_DES * deltaTime;
         drawData.setPosition(x, y, z);
     }
 
@@ -41,5 +42,4 @@ public class Particle extends GameObject
     {
         return z <= 0;
     }
-
 }

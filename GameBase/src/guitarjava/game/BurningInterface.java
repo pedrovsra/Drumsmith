@@ -6,6 +6,7 @@ package guitarjava.game;
  */
 public interface BurningInterface
 {
+
     /**
      * @return The state of the object.
      */
