@@ -9,12 +9,15 @@ import javax.swing.JButton;
 
 public class Button extends JButton
 {
+
     private Image image;
 
     public Button(Font font, String title, String actionCommand, Image image, int x, int y) throws NullPointerException
     {
         if (font == null || image == null)
+        {
             throw new NullPointerException();
+        }
 
         setFont(font);
         setText(title);
@@ -37,11 +40,17 @@ public class Button extends JButton
     public void processMouseEvent(MouseEvent e)
     {
         if (e.getID() == MouseEvent.MOUSE_ENTERED)
+        {
             setForeground(Color.red);
+        }
         else if (e.getID() == MouseEvent.MOUSE_EXITED)
+        {
             setForeground(Color.white);
+        }
         else
+        {
             super.processMouseEvent(e);
+        }
     }
 
     @Override

@@ -9,13 +9,13 @@ import java.awt.Color;
  */
 public abstract class GameObject
 {
+
     protected DrawData drawData;
     protected float x;
     protected float y;
     protected float z;
     protected float width;
     protected float height;
-
 
     /**
      * @param x Position x.
@@ -26,7 +26,7 @@ public abstract class GameObject
     public GameObject(float x, float y, float z, float width, float height, Color color)
     {
         drawData = new DrawData();
-        
+
         this.x = x;
         this.y = y;
         this.z = z;

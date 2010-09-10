@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 /**
  * Implements the GraphicsInterface. This is a 2D implementation.
@@ -21,6 +19,7 @@ import javax.swing.WindowConstants;
  */
 public class Graphics2DContext //implements GraphicsInterface
 {
+
     private Graphics dbg; // float buffering graphics
     private List listeners; // Listeners for the graphics update
     private long updateRate; // The update rate;
@@ -47,16 +46,16 @@ public class Graphics2DContext //implements GraphicsInterface
     {
         /*if (data != null && buffer != null)
         {
-            dbg.setColor(data.color);
-            if (data.type == DrawData.DRAW_2D_RECT)
-                dbg.drawRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
-                        (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_2D_FILLED_RECT)
-                dbg.fillRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
-                        (int)data.width, (int)data.height);
-            else if (data.type == DrawData.DRAW_NOTE)
-                dbg.fillArc((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
-                        (int)data.width, (int)data.height, 0, 360);
+        dbg.setColor(data.color);
+        if (data.type == DrawData.DRAW_2D_RECT)
+        dbg.drawRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+        (int)data.width, (int)data.height);
+        else if (data.type == DrawData.DRAW_2D_FILLED_RECT)
+        dbg.fillRect((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+        (int)data.width, (int)data.height);
+        else if (data.type == DrawData.DRAW_NOTE)
+        dbg.fillArc((int)data.x - (int)data.width / 2, (int)data.y - (int)data.height / 2,
+        (int)data.width, (int)data.height, 0, 360);
         }*/
     }
 
@@ -101,6 +100,7 @@ public class Graphics2DContext //implements GraphicsInterface
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
+
             @Override
             public void run()
             {
@@ -111,6 +111,7 @@ public class Graphics2DContext //implements GraphicsInterface
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
         {
+
             @Override
             public void windowClosing(WindowEvent e)
             {
@@ -155,9 +156,11 @@ public class Graphics2DContext //implements GraphicsInterface
                 // Draw buffer on the screen
 
                 if (!buffer.contentsLost())
+                {
                     buffer.show();
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // Buffer not ready
                 buffer = null;
@@ -171,6 +174,5 @@ public class Graphics2DContext //implements GraphicsInterface
      */
     public void setCamera(float fx, float fy, float fz, float tx, float ty, float tz)
     {
-        
     }
 }

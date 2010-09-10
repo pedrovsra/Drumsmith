@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
  */
 public class Music
 {
+
     private String version;
     private String name;
     private String artist;
@@ -126,7 +127,9 @@ public class Music
     public NoteXml getNextNote(float time)
     {
         if (notePointer == notes.size())
+        {
             return null;
+        }
 
         NoteXml noteXml = notes.get(notePointer);
 
@@ -173,28 +176,42 @@ public class Music
     {
         Node rootNode = document.getElementsByTagName("Properties").item(0);
 
-        for (Node node =  rootNode.getFirstChild(); node != null; node = node.getNextSibling())
+        for (Node node = rootNode.getFirstChild(); node != null; node = node.getNextSibling())
         {
             if (node.getNodeName().equals("#text"))
+            {
                 continue;
+            }
 
             if (node.getNodeName().equals("Version"))
+            {
                 version = node.getTextContent();
+            }
             else if (node.getNodeName().equals("Title"))
+            {
                 name = node.getTextContent();
+            }
             else if (node.getNodeName().equals("Artist"))
+            {
                 artist = node.getTextContent();
-            else if(node.getNodeName().equals("Album"))
+            }
+            else if (node.getNodeName().equals("Album"))
+            {
                 album = node.getTextContent();
-            else if(node.getNodeName().equals("Year"))
+            }
+            else if (node.getNodeName().equals("Year"))
+            {
                 year = Integer.parseInt(node.getTextContent());
-            else if(node.getNodeName().equals("Length"))
+            }
+            else if (node.getNodeName().equals("Length"))
+            {
                 length = Integer.parseInt(node.getTextContent());
+            }
 
             node = node.getNextSibling();
         }
     }
-    
+
     /**
      * Read the notes of the xml document.
      * @param document The xml document.

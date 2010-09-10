@@ -1,6 +1,5 @@
 package guitarjava.game;
 
-import guitarjava.graphics.DrawData;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,10 +11,10 @@ import java.util.List;
  */
 public class Flame extends TrackObject
 {
+
     private static final int DEFAULT_WIDTH = 30;
     private static final int DEFAULT_HEIGHT = 30;
     private static final int FLAME_PARTICLES = 30;
-
     private float duration;
     private float noteDuration;
     private float timeElapsed;
@@ -45,7 +44,7 @@ public class Flame extends TrackObject
     {
         return flames;
     }
-    
+
     @Override
     public void think(float deltaTime)
     {
@@ -56,17 +55,25 @@ public class Flame extends TrackObject
             Particle p = it.next();
             p.think(deltaTime);
             if (p.isDead())
+            {
                 it.remove();
+            }
         }
 
         if (flames.size() < FLAME_PARTICLES && (!extinguish && !extinguishNote))
+        {
             flames.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
                     TrackObject.getColorByTrack(track)));
+        }
 
         if (timeElapsed > noteDuration)
+        {
             extinguishNote = true;
+        }
         if (timeElapsed > duration)
+        {
             extinguish = true;
+        }
     }
 
     /**

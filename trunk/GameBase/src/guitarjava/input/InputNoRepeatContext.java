@@ -183,7 +183,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
             }
             jkeys[x] = v;
         }
-        
+
     }
 
     /**

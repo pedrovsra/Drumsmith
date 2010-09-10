@@ -6,6 +6,7 @@ package guitarjava.input;
  */
 public interface InputListener
 {
+
     /**
      * The method to handle the event.
      * @param e the event object

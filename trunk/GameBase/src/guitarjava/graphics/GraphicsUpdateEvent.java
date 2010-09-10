@@ -8,6 +8,7 @@ import java.util.EventObject;
  */
 public class GraphicsUpdateEvent extends EventObject
 {
+
     /**
      * Constructor.
      */

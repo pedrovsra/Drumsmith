@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
  */
 public class Library
 {
+
     private Map<String, BufferedImage> pictures;
     private Map<String, BufferedImage> things;
     private Font defaultFont;
@@ -50,8 +51,10 @@ public class Library
             image = ImageIO.read(new File(name + ".png"));
 
             if (image == null)
+            {
                 throw new Exception("Could not load the image: '" + name + "'.");
-            
+            }
+
             images.put(name, image);
         }
 
