@@ -28,7 +28,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     private Music music;
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
-    private double executionTime;
+    private float executionTime;
     private GameWindow window;
 
     /**
@@ -70,6 +70,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         graphics.setCamera(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2,
                 Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_HEIGHT / 2, 0);
 
+        graphics.setLightPos(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2);
+
         input.addInputEventListener(this);
         graphics.addGraphicsUpdateEventListener(this);
 
@@ -88,7 +90,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     public void graphicsUpdateEvent(EventObject e)
     {      
         // Gets the delta time and update the execuiton time.
-        double deltaTime = timing.getDeltaTime();
+        float deltaTime = timing.getDeltaTime();
 
         if (executionTime == 0)
         {
@@ -97,8 +99,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         else
             executionTime += deltaTime;
 
-        double time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + 
-                TrackObject.BURNING_POSITION_Y + .25*TrackObject.DEFAULT_OBJECT_SIZE) /
+        float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y) + 
+                TrackObject.BURNING_POSITION_Y + .25f*TrackObject.DEFAULT_OBJECT_SIZE) /
                 Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
@@ -142,7 +144,13 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             graphics.draw(guitarButtons[i].getDrawData());
 
             if (guitarButtons[i].getFlame() != null)
-                graphics.draw(guitarButtons[i].getFlame().getDrawData());
+            {
+                Iterator itp = guitarButtons[i].getFlame().getParticles().iterator();
+                while (itp.hasNext())
+                {
+                     graphics.draw(((Particle)itp.next()).getDrawData());
+                }
+            }
         }
     }
 

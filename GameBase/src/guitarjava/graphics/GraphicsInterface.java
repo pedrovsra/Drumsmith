@@ -26,13 +26,15 @@ public interface GraphicsInterface
      * @param ty looking at y pos
      * @param tz looking at z pos
      */
-    public void setCamera(double fx, double fy, double fz, double tx, double ty, double tz);
+    public void setCamera(float fx, float fy, float fz, float tx, float ty, float tz);
+    /**
+     * Setting light position. It will shine to the origin.
+     */
+    public void setLightPos(float x, float y, float z);
     /**
      * Draws an object to the context.
      * @param data the object drawing data
      */
-
-
     public void draw(DrawData data);
     /**
      * Adds a GraphicsUpdate event listener.

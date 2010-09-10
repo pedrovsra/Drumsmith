@@ -9,16 +9,15 @@ import java.awt.Color;
 public class DrawData
 {
     protected static final int DRAW_2D_RECT = 0;
-    protected static final int DRAW_2D_FILL_RECT = 1;
-    protected static final int DRAW_NOTE = 2;
-
-    // Variables, protected to give a faster access to Graphics package
-    protected double x;
-    protected double y;
-    protected double z;
-    protected double width;
-    protected double height;
-    protected double depth;
+    protected static final int DRAW_2D_FILLED_RECT = 1;
+    protected static final int DRAW_3D_HALF_SPHERE = 2;
+    protected static final int DRAW_3D_SPHERE = 3;
+    private float x;
+    private float y;
+    private float z;
+    protected float width;
+    protected float height;
+    protected float depth;
     protected int type;
     protected Color color;
 
@@ -36,7 +35,7 @@ public class DrawData
      * @param height the box height
      * @param depth the box depth
      */
-    public void createAs2DRect(double width, double height)
+    public void createAs2DRect(float width, float height)
     {
         this.width = width;
         this.height = height;
@@ -49,22 +48,31 @@ public class DrawData
      * @param height the box height
      * @param depth the box depth
      */
-    public void createAs2DFillRect(double width, double height)
+    public void createAs2DFilledRect(float width, float height)
     {
         this.width = width;
         this.height = height;
-        type = DRAW_2D_FILL_RECT;
+        type = DRAW_2D_FILLED_RECT;
     }
     
     /**
-     * Create the Data base as a note.
-     * @param width the box width
-     * @param height the box height
+     * Create the Data base as a 3D half sphere.
+     * @param radius the radius
      */
-    public void createAsNote(double radius)
+    public void createAs3DHalfSphere(float radius)
     {
         this.width = radius;
-        type = DRAW_NOTE;
+        type = DRAW_3D_HALF_SPHERE;
+    }
+
+    /**
+     * Create the Data base as a 3D sphere.
+     * @param radius the radius
+     */
+    public void createAs3DSphere(float radius)
+    {
+        this.width = radius;
+        type = DRAW_3D_SPHERE;
     }
 
     /**
@@ -78,11 +86,35 @@ public class DrawData
     /**
      * Set the position.
      */
-    public void setPosition(double x, double y, double z)
+    public void setPosition(float x, float y, float z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    /**
+     * @return the x
+     */
+    public float getX()
+    {
+        return x;
+    }
+
+    /**
+     * @return the y
+     */
+    public float getY()
+    {
+        return y;
+    }
+
+    /**
+     * @return the z
+     */
+    public float getZ()
+    {
+        return z;
     }
 
 

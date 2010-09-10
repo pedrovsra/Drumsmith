@@ -7,9 +7,9 @@ package guitarjava.game;
 public class Note extends TrackObject
 {
     public static final int PIXELS_JUMP_PER_FRAME = (int)(TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
-    public static final double ORIGIN_Y = -1200;
+    public static final float ORIGIN_Y = -1200;
 
-    private double duration;
+    private float duration;
     private boolean powned;
     private NoteExtension noteExtension;
 
@@ -17,7 +17,7 @@ public class Note extends TrackObject
      * @param track The track of the note.
      * @param duration The duration.
      */
-    public Note(int track, double duration)
+    public Note(int track, float duration)
     {
         super(track, -DEFAULT_OBJECT_SIZE + ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
                 DEFAULT_OBJECT_SIZE);
@@ -28,11 +28,11 @@ public class Note extends TrackObject
             noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED,
                     ORIGIN_Y, height);
         
-        drawData.createAsNote((int) width);
+        drawData.createAs3DHalfSphere(width);
     }
 
     @Override
-    public void think(double deltaTime)
+    public void think(float deltaTime)
     {
         y += TRACK_DEFAULT_SPEED * deltaTime;
         drawData.setPosition(x, y, z);
@@ -60,7 +60,7 @@ public class Note extends TrackObject
     /**
      * @return The duration.
      */
-    public double getDuration()
+    public float getDuration()
     {
         return duration;
     }

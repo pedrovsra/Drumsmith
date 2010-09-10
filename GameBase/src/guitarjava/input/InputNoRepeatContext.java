@@ -20,7 +20,7 @@ import java.util.List;
 public class InputNoRepeatContext implements InputInterface, KeyListener, JoystickListener, Runnable
 {
 
-    private static final int POLL_TIME = 50; // Poll time
+    private static final int POLL_TIME = 20; // Poll time
     private static final int MAX_KEYS = 256;
     private static final int MAX_JKEYS = 32;
     private List listeners; // Listeners for the input event
