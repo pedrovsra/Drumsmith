@@ -20,7 +20,7 @@ public class Note extends TrackObject
     public Note(int track, float duration)
     {
         super(track, -DEFAULT_OBJECT_SIZE + ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
-                DEFAULT_OBJECT_SIZE);
+                DEFAULT_OBJECT_SIZE, Constant.CACHEID_NOTE);
 
         this.duration = duration;
 
@@ -30,7 +30,7 @@ public class Note extends TrackObject
                     ORIGIN_Y, height);
         }
 
-        drawData.createAs3DHalfSphere(width);
+        drawData.createAs3DClippedSphere(width, width / 3);
     }
 
     @Override

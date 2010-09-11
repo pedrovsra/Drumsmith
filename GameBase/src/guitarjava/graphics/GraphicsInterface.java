@@ -1,6 +1,7 @@
 package guitarjava.graphics;
 
 import java.awt.Window;
+import java.util.List;
 
 /**
  * The Graphics context interface.

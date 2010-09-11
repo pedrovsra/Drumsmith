@@ -69,7 +69,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         graphics.setCamera(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2,
                 Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_HEIGHT / 2, 0);
 
-        graphics.setLightPos(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2);
+        graphics.setLightPos(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
 
         input.addInputEventListener(this);
         graphics.addGraphicsUpdateEventListener(this);

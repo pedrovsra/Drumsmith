@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Lucas
+ * @author lucasjadami
  */
 public class Label extends JLabel
 {

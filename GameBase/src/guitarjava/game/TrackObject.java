@@ -22,9 +22,9 @@ public abstract class TrackObject extends GameObject
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, float y, float z, float width, float height)
+    public TrackObject(int track, float y, float z, float width, float height, int cacheId)
     {
-        this(track, y, z, width, height, getColorByTrack(track));
+        this(track, y, z, width, height, getColorByTrack(track), cacheId);
     }
 
     /**
@@ -33,9 +33,9 @@ public abstract class TrackObject extends GameObject
      * @param y Position y.
      * @param z Position z.
      */
-    public TrackObject(int track, float y, float z, float width, float height, Color color)
+    public TrackObject(int track, float y, float z, float width, float height, Color color, int cacheId)
     {
-        super(START_X + TRACK_SPACEMENT * (track + 1), y, z, width, height, color);
+        super(START_X + TRACK_SPACEMENT * (track + 1), y, z, width, height, color, cacheId);
 
         this.track = track;
     }

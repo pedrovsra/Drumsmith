@@ -112,6 +112,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
     {
     }
 
+    static private long time = 0;
     /**
      * A key was pressed, from the KeyListener implementation.
      * @param e the KeyEvent
@@ -204,10 +205,12 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
             }
             catch (IOException ex)
             {
+                System.out.println("No joystick plugged in...");
                 joystick = null;
             }
             catch (Throwable ex)
             {
+                System.out.println("Could not create joystick instance! Probably its a lib error.");
                 joystick = null;
             }
         }

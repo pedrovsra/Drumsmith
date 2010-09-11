@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author Lucas
+ * @author lucasjadami
  */
 public class Library
 {
@@ -48,7 +48,7 @@ public class Library
 
         if (image == null)
         {
-            image = ImageIO.read(new File(name + ".png"));
+            image = ImageIO.read(new File(name));
 
             if (image == null)
             {

@@ -11,11 +11,12 @@ public class DrawData
 
     protected static final int DRAW_2D_RECT = 0;
     protected static final int DRAW_2D_FILLED_RECT = 1;
-    protected static final int DRAW_3D_HALF_SPHERE = 2;
+    protected static final int DRAW_3D_CLIPPED_SPHERE = 2;
     protected static final int DRAW_3D_SPHERE = 3;
     private float x;
     private float y;
     private float z;
+    protected int cacheId;
     protected float width;
     protected float height;
     protected float depth;
@@ -23,11 +24,14 @@ public class DrawData
     protected Color color;
 
     /**
-     * Constructor.
+     * Constructor. Use the id to cache this data, or make it -1 to disable
+     * the cache. It will cache if the Graphics context supports caching.
+     * @param cacheId the id of the data
      */
-    public DrawData()
+    public DrawData(int cacheId)
     {
         color = Color.WHITE;
+        this.cacheId = cacheId;
     }
 
     /**
@@ -57,13 +61,15 @@ public class DrawData
     }
 
     /**
-     * Create the Data base as a 3D half sphere.
+     * Create the Data base as a 3D clipped sphere.
      * @param radius the radius
+     * @param clipZ the z coordinate to clip
      */
-    public void createAs3DHalfSphere(float radius)
+    public void createAs3DClippedSphere(float radius, float clipZ)
     {
         this.width = radius;
-        type = DRAW_3D_HALF_SPHERE;
+        this.height = clipZ;
+        type = DRAW_3D_CLIPPED_SPHERE;
     }
 
     /**
