@@ -1,6 +1,7 @@
 package guitarjava.game;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
 {
 
     private boolean pressed;
-    private Flame flame;
+    private List<Flame> flames;
 
     /**
      * @param track Track where it is located.
@@ -22,20 +23,22 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
         this.track = track;
 
+        flames = new LinkedList<Flame>();
+
         drawData.createAs2DRect((int) width, (int) height);
     }
 
     @Override
     public void think(float deltaTime)
     {
-        if (flame != null)
+        Iterator<Flame> it = flames.iterator();
+        while (it.hasNext())
         {
+            Flame flame = it.next();
             flame.think(deltaTime);
 
             if (flame.canExtinguish())
-            {
-                flame = null;
-            }
+                it.remove();
         }
     }
 
@@ -68,9 +71,9 @@ public class GuitarButton extends TrackObject implements BurningInterface
     /**
      * @return The flame.
      */
-    public Flame getFlame()
+    public List<Flame> getFlames()
     {
-        return flame;
+        return flames;
     }
 
     /**
@@ -98,7 +101,8 @@ public class GuitarButton extends TrackObject implements BurningInterface
                     * Constant.FRAME_DURATION;
             float totalDuration = duration + note.getDuration() * 1000;
 
-            flame = new Flame(this, track, totalDuration);
+            Flame flame = new Flame(this, track, totalDuration);
+            flames.add(flame);
         }
 
         return note.isPowned();

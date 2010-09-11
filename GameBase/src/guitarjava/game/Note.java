@@ -26,7 +26,8 @@ public class Note extends TrackObject
 
         if (duration > 0)
         {
-            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED,
+            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED -
+                    DEFAULT_OBJECT_SIZE,
                     ORIGIN_Y, height);
         }
 

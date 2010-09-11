@@ -150,12 +150,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
             graphics.draw(guitarButtons[i].getDrawData());
 
-            if (guitarButtons[i].getFlame() != null)
+            Iterator<Flame> itF = guitarButtons[i].getFlames().iterator();
+            while (itF.hasNext())
             {
-                Iterator itp = guitarButtons[i].getFlame().getParticles().iterator();
-                while (itp.hasNext())
+                Flame flame = itF.next();
+
+                Iterator itP = flame.getParticles().iterator();
+                while (itP.hasNext())
                 {
-                    graphics.draw(((Particle) itp.next()).getDrawData());
+                    graphics.draw(((Particle) itP.next()).getDrawData());
                 }
             }
         }
