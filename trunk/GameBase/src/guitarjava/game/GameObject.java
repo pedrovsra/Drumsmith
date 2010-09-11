@@ -23,9 +23,9 @@ public abstract class GameObject
      * @param z Position z.
      * @param color Color.
      */
-    public GameObject(float x, float y, float z, float width, float height, Color color)
+    public GameObject(float x, float y, float z, float width, float height, Color color, int cacheId)
     {
-        drawData = new DrawData();
+        drawData = new DrawData(cacheId);
 
         this.x = x;
         this.y = y;

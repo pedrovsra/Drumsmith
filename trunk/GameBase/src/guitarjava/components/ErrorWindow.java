@@ -1,11 +1,18 @@
 package guitarjava.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URI;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -83,10 +90,11 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         });
         try
         {
-            background = new Picture(library.getPicture("ErrorBackground"), 0, 0);
-            okButton = new Button(library.getDefaultFont(), "REPORT!", "REPORT_PRESSED", library.getPicture("ReportButton"), 0, 0);
+            background = new Picture(library.getPicture("error/ErrorBackground.jpg"), 0, 0);
+            okButton = new Button(library.getDefaultFont(), "REPORT!", "REPORT_PRESSED", 
+                    library.getPicture("error/ReportButton.png"), 0, 0);
             setSize(background.getWidth(), background.getHeight() + 30);
-            intro = new Picture(library.getPicture("TopMessage"), 0, 0);
+            intro = new Picture(library.getPicture("error/TopMessage.png"), 0, 0);
             intro.setLocation((background.getWidth() - intro.getWidth()) / 2, 10);
             okButton.addActionListener(this);
             add(intro);
@@ -100,6 +108,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         {
             // Images not found
             setSize(300, 65);
+            setLayout(null);
             Label label = new Label(library.getDefaultFont(), "Could not load ErrorWindow images!", 20, 10);
             label.setForeground(Color.red);
             add(label);
@@ -121,17 +130,17 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         {
             message += "\n\t" + stackTrace[x].toString();
         }
-        final JTextArea txt = new JTextArea();
+        JTextArea txt = new JTextArea();
         txt.setEditable(false);
         txt.setText(message);
         txt.setFont(library.getDefaultFont());
         txt.setForeground(Color.red);
-        scrollPane = new JScrollPane(txt, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane = new JScrollPane(txt, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
         add(scrollPane);
-        txt.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.3f));
-        txt.setOpaque(true);
-        scrollPane.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.3f));
+        txt.setBackground(new Color(1, 1, 1, 0));
+        scrollPane.setBackground(new Color(1, 1, 1, 0.5f));
     }
 
     /**
@@ -176,8 +185,21 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         }
     }
 
+    /**
+     * Exception happened.
+     */
     public void uncaughtException(Thread t, Throwable e)
     {
         showWindow(e);
+    }
+
+    /**
+     * Repainting the background.
+     */
+    @Override
+    public void repaint(int x, int y, int width, int height)
+    {
+        System.out.println("YO");
+        //super.update(g);
     }
 }

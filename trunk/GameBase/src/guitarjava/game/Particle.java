@@ -16,12 +16,12 @@ public class Particle extends GameObject
     private float vy;
     private float vz;
 
-    public Particle(float x, float y, float z, float maxVel, Color color)
+    public Particle(float x, float y, float z, float maxVel, Color color, int cacheId)
     {
-        super(x, y, z, PARTICLE_WIDTH, PARTICLE_HEIGHT, color);
+        super(x, y, z, PARTICLE_WIDTH, PARTICLE_HEIGHT, color, cacheId);
         vx = (float) (Math.random() * maxVel) - maxVel / 2;
         vy = (float) (Math.random() * maxVel) - maxVel / 2;
-        vz = (float) (Math.random() * maxVel) * 2;
+        vz = (float) (Math.random() * maxVel) + maxVel / 2;
         drawData.createAs3DSphere(width);
     }
 

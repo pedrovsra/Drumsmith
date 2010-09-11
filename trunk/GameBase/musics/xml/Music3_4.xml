@@ -6,8 +6,15 @@
         <Artist>Black Sabbath</Artist>
         <Album>Vazio</Album>
         <Year>0</Year>
+        <BeatsPerSecond>16.0</BeatsPerSecond>
         <BeatOffset>0.0</BeatOffset>
+        <HammerOnTime>0.25</HammerOnTime>
+        <PullOffTime>0.25</PullOffTime>
+        <Difficulty>EXPERT</Difficulty>
+        <AllowableErrorTime>0.25</AllowableErrorTime>
         <Length>245</Length>
+        <MusicFileName></MusicFileName>
+        <MusicDirectoryHint>C:\</MusicDirectoryHint>
     </Properties>
 
     <Data>
@@ -20,61 +27,61 @@
         <Note time="27.773077" duration="0.665385" track="0" special="0" />
         <Note time="27.773077" duration="0.665385" track="2" special="0" />
         <Note time="28.661539" duration="0.553846" track="1" special="0" />
-        <Note time="28.661539" duration="0.553846" track="2" special="0" />
+        <Note time="28.661539" duration="0.553846" track="3" special="0" />
         <Note time="29.551924" duration="0.0" track="1" special="0" />
-        <Note time="29.551924" duration="0.0" track="2" special="0" />
-        <Note time="29.996155" duration="0.0" track="3" special="0" />
-        <Note time="29.996155" duration="0.0" track="1" special="0" />
-        <Note time="30.440384" duration="0.665385" track="3" special="0" />
-        <Note time="30.440384" duration="0.665385" track="1" special="0" />
-        <Note time="31.328846" duration="0.0" track="3" special="0" />
-        <Note time="31.544231" duration="0.0" track="2" special="0" />
-        <Note time="31.757692" duration="0.0" track="3" special="0" />
-        <Note time="31.973078" duration="0.0" track="2" special="0" />
-        <Note time="32.188461" duration="0.0" track="3" special="0" />
+        <Note time="29.551924" duration="0.0" track="3" special="0" />
+        <Note time="29.996155" duration="0.0" track="2" special="0" />
+        <Note time="29.996155" duration="0.0" track="4" special="0" />
+        <Note time="30.440384" duration="0.665385" track="2" special="0" />
+        <Note time="30.440384" duration="0.665385" track="4" special="0" />
+        <Note time="31.328846" duration="0.0" track="4" special="0" />
+        <Note time="31.544231" duration="0.0" track="3" special="0" />
+        <Note time="31.757692" duration="0.0" track="4" special="0" />
+        <Note time="31.973078" duration="0.0" track="3" special="0" />
+        <Note time="32.188461" duration="0.0" track="4" special="0" />
         <Note time="32.619232" duration="0.0" track="1" special="1" />
-        <Note time="32.619232" duration="0.0" track="2" special="1" />
+        <Note time="32.619232" duration="0.0" track="3" special="1" />
         <Note time="33.048077" duration="0.0" track="1" special="1" />
-        <Note time="33.048077" duration="0.0" track="2" special="1" />
-        <Note time="33.478848" duration="0.0" track="3" special="1" />
-        <Note time="33.478848" duration="0.0" track="1" special="1" />
-        <Note time="33.909615" duration="0.0" track="3" special="1" />
-        <Note time="33.909615" duration="0.0" track="1" special="1" />
+        <Note time="33.048077" duration="0.0" track="3" special="1" />
+        <Note time="33.478848" duration="0.0" track="2" special="1" />
+        <Note time="33.478848" duration="0.0" track="4" special="1" />
+        <Note time="33.909615" duration="0.0" track="2" special="1" />
+        <Note time="33.909615" duration="0.0" track="4" special="1" />
         <Note time="34.769230" duration="0.644231" track="0" special="0" />
         <Note time="34.769230" duration="0.644231" track="2" special="0" />
         <Note time="35.628845" duration="0.536538" track="1" special="0" />
-        <Note time="35.628845" duration="0.536538" track="2" special="0" />
+        <Note time="35.628845" duration="0.536538" track="3" special="0" />
         <Note time="36.490383" duration="0.0" track="1" special="0" />
-        <Note time="36.490383" duration="0.0" track="2" special="0" />
-        <Note time="36.919231" duration="0.0" track="3" special="0" />
-        <Note time="36.919231" duration="0.0" track="1" special="0" />
-        <Note time="37.349998" duration="0.644231" track="3" special="0" />
-        <Note time="37.349998" duration="0.644231" track="1" special="0" />
-        <Note time="38.209614" duration="0.0" track="3" special="0" />
-        <Note time="38.409615" duration="0.0" track="2" special="0" />
-        <Note time="38.609615" duration="0.0" track="3" special="0" />
-        <Note time="38.809616" duration="0.0" track="2" special="0" />
-        <Note time="39.009617" duration="0.0" track="3" special="0" />
+        <Note time="36.490383" duration="0.0" track="3" special="0" />
+        <Note time="36.919231" duration="0.0" track="2" special="0" />
+        <Note time="36.919231" duration="0.0" track="4" special="0" />
+        <Note time="37.349998" duration="0.644231" track="2" special="0" />
+        <Note time="37.349998" duration="0.644231" track="4" special="0" />
+        <Note time="38.209614" duration="0.0" track="4" special="0" />
+        <Note time="38.409615" duration="0.0" track="3" special="0" />
+        <Note time="38.609615" duration="0.0" track="4" special="0" />
+        <Note time="38.809616" duration="0.0" track="3" special="0" />
+        <Note time="39.009617" duration="0.0" track="4" special="0" />
         <Note time="39.409615" duration="0.0" track="1" special="0" />
-        <Note time="39.409615" duration="0.0" track="2" special="0" />
+        <Note time="39.409615" duration="0.0" track="3" special="0" />
         <Note time="39.809616" duration="0.0" track="1" special="0" />
-        <Note time="39.809616" duration="0.0" track="2" special="0" />
-        <Note time="40.209614" duration="0.0" track="3" special="0" />
-        <Note time="40.209614" duration="0.0" track="1" special="0" />
-        <Note time="40.609615" duration="0.0" track="3" special="0" />
-        <Note time="40.609615" duration="0.0" track="1" special="0" />
+        <Note time="39.809616" duration="0.0" track="3" special="0" />
+        <Note time="40.209614" duration="0.0" track="2" special="0" />
+        <Note time="40.209614" duration="0.0" track="4" special="0" />
+        <Note time="40.609615" duration="0.0" track="2" special="0" />
+        <Note time="40.609615" duration="0.0" track="4" special="0" />
         <Note time="41.009617" duration="0.0" track="3" special="0" />
         <Note time="41.409615" duration="0.834615" track="0" special="0" />
         <Note time="42.246155" duration="0.730769" track="1" special="0" />
         <Note time="43.082691" duration="0.0" track="1" special="0" />
         <Note time="43.500000" duration="0.0" track="2" special="0" />
         <Note time="43.919231" duration="0.626923" track="2" special="0" />
-        <Note time="44.755768" duration="0.0" track="3" special="0" />
-        <Note time="44.955769" duration="0.0" track="2" special="0" />
-        <Note time="45.155769" duration="0.0" track="3" special="0" />
-        <Note time="45.355770" duration="0.0" track="2" special="0" />
-        <Note time="45.555771" duration="0.0" track="3" special="0" />
-        <Note time="45.755768" duration="0.0" track="2" special="0" />
+        <Note time="44.755768" duration="0.0" track="4" special="0" />
+        <Note time="44.955769" duration="0.0" track="3" special="0" />
+        <Note time="45.155769" duration="0.0" track="4" special="0" />
+        <Note time="45.355770" duration="0.0" track="3" special="0" />
+        <Note time="45.555771" duration="0.0" track="4" special="0" />
+        <Note time="45.755768" duration="0.0" track="3" special="0" />
         <Note time="45.955769" duration="0.0" track="1" special="0" />
         <Note time="46.355770" duration="0.0" track="1" special="0" />
         <Note time="46.755768" duration="0.0" track="2" special="0" />
@@ -85,12 +92,12 @@
         <Note time="49.555771" duration="0.0" track="1" special="0" />
         <Note time="49.955769" duration="0.0" track="2" special="0" />
         <Note time="50.355770" duration="0.600000" track="2" special="0" />
-        <Note time="51.155769" duration="0.0" track="3" special="0" />
-        <Note time="51.355770" duration="0.0" track="2" special="0" />
-        <Note time="51.555771" duration="0.0" track="3" special="0" />
-        <Note time="51.755768" duration="0.0" track="2" special="0" />
-        <Note time="51.955769" duration="0.0" track="3" special="0" />
-        <Note time="52.155769" duration="0.0" track="2" special="0" />
+        <Note time="51.155769" duration="0.0" track="4" special="0" />
+        <Note time="51.355770" duration="0.0" track="3" special="0" />
+        <Note time="51.555771" duration="0.0" track="4" special="0" />
+        <Note time="51.755768" duration="0.0" track="3" special="0" />
+        <Note time="51.955769" duration="0.0" track="4" special="0" />
+        <Note time="52.155769" duration="0.0" track="3" special="0" />
         <Note time="52.355770" duration="0.0" track="1" special="0" />
         <Note time="52.755768" duration="0.0" track="1" special="0" />
         <Note time="53.155769" duration="0.0" track="2" special="0" />
@@ -98,37 +105,37 @@
         <Note time="54.355770" duration="0.617308" track="0" special="1" />
         <Note time="54.355770" duration="0.617308" track="2" special="1" />
         <Note time="55.180771" duration="0.515385" track="1" special="1" />
-        <Note time="55.180771" duration="0.515385" track="2" special="1" />
+        <Note time="55.180771" duration="0.515385" track="3" special="1" />
         <Note time="56.003845" duration="0.0" track="1" special="1" />
-        <Note time="56.003845" duration="0.0" track="2" special="1" />
-        <Note time="56.417309" duration="0.0" track="3" special="1" />
-        <Note time="56.417309" duration="0.0" track="1" special="1" />
-        <Note time="56.828846" duration="0.617308" track="3" special="1" />
-        <Note time="56.828846" duration="0.617308" track="1" special="1" />
-        <Note time="57.653847" duration="0.0" track="3" special="0" />
-        <Note time="57.853848" duration="0.0" track="2" special="0" />
-        <Note time="58.051922" duration="0.0" track="3" special="0" />
-        <Note time="58.251923" duration="0.0" track="2" special="0" />
-        <Note time="58.451923" duration="0.0" track="3" special="0" />
+        <Note time="56.003845" duration="0.0" track="3" special="1" />
+        <Note time="56.417309" duration="0.0" track="2" special="1" />
+        <Note time="56.417309" duration="0.0" track="4" special="1" />
+        <Note time="56.828846" duration="0.617308" track="2" special="1" />
+        <Note time="56.828846" duration="0.617308" track="4" special="1" />
+        <Note time="57.653847" duration="0.0" track="4" special="0" />
+        <Note time="57.853848" duration="0.0" track="3" special="0" />
+        <Note time="58.051922" duration="0.0" track="4" special="0" />
+        <Note time="58.251923" duration="0.0" track="3" special="0" />
+        <Note time="58.451923" duration="0.0" track="4" special="0" />
         <Note time="58.849998" duration="0.0" track="1" special="0" />
-        <Note time="58.849998" duration="0.0" track="2" special="0" />
+        <Note time="58.849998" duration="0.0" track="3" special="0" />
         <Note time="59.248077" duration="0.0" track="1" special="0" />
-        <Note time="59.248077" duration="0.0" track="2" special="0" />
-        <Note time="59.648075" duration="0.0" track="3" special="0" />
-        <Note time="59.648075" duration="0.0" track="1" special="0" />
-        <Note time="60.046154" duration="0.0" track="3" special="0" />
-        <Note time="60.046154" duration="0.0" track="1" special="0" />
+        <Note time="59.248077" duration="0.0" track="3" special="0" />
+        <Note time="59.648075" duration="0.0" track="2" special="0" />
+        <Note time="59.648075" duration="0.0" track="4" special="0" />
+        <Note time="60.046154" duration="0.0" track="2" special="0" />
+        <Note time="60.046154" duration="0.0" track="4" special="0" />
         <Note time="60.844231" duration="0.821154" track="0" special="0" />
         <Note time="61.665386" duration="0.717308" track="1" special="0" />
         <Note time="62.486538" duration="0.0" track="1" special="0" />
         <Note time="62.898075" duration="0.0" track="2" special="0" />
         <Note time="63.309616" duration="0.615385" track="2" special="0" />
-        <Note time="64.130768" duration="0.0" track="3" special="0" />
-        <Note time="64.330772" duration="0.0" track="2" special="0" />
-        <Note time="64.528847" duration="0.0" track="3" special="0" />
-        <Note time="64.726921" duration="0.0" track="2" special="0" />
-        <Note time="64.925003" duration="0.0" track="3" special="0" />
-        <Note time="65.125000" duration="0.0" track="2" special="0" />
+        <Note time="64.130768" duration="0.0" track="4" special="0" />
+        <Note time="64.330772" duration="0.0" track="3" special="0" />
+        <Note time="64.528847" duration="0.0" track="4" special="0" />
+        <Note time="64.726921" duration="0.0" track="3" special="0" />
+        <Note time="64.925003" duration="0.0" track="4" special="0" />
+        <Note time="65.125000" duration="0.0" track="3" special="0" />
         <Note time="65.323074" duration="0.0" track="1" special="0" />
         <Note time="65.721153" duration="0.0" track="1" special="0" />
         <Note time="66.117310" duration="0.0" track="2" special="0" />
@@ -139,12 +146,12 @@
         <Note time="68.965385" duration="0.0" track="1" special="0" />
         <Note time="69.378845" duration="0.0" track="2" special="0" />
         <Note time="69.792305" duration="0.619231" track="2" special="0" />
-        <Note time="70.621155" duration="0.0" track="3" special="0" />
-        <Note time="70.819229" duration="0.0" track="2" special="0" />
-        <Note time="71.017311" duration="0.0" track="3" special="0" />
-        <Note time="71.217308" duration="0.0" track="2" special="0" />
-        <Note time="71.415382" duration="0.0" track="3" special="0" />
-        <Note time="71.613464" duration="0.0" track="2" special="0" />
+        <Note time="70.621155" duration="0.0" track="4" special="0" />
+        <Note time="70.819229" duration="0.0" track="3" special="0" />
+        <Note time="71.017311" duration="0.0" track="4" special="0" />
+        <Note time="71.217308" duration="0.0" track="3" special="0" />
+        <Note time="71.415382" duration="0.0" track="4" special="0" />
+        <Note time="71.613464" duration="0.0" track="3" special="0" />
         <Note time="71.811539" duration="0.0" track="1" special="0" />
         <Note time="72.209618" duration="0.0" track="1" special="0" />
         <Note time="72.607689" duration="0.0" track="2" special="0" />
@@ -186,60 +193,60 @@
         <Note time="92.446152" duration="0.600000" track="0" special="1" />
         <Note time="92.446152" duration="0.600000" track="2" special="1" />
         <Note time="93.246155" duration="0.500000" track="1" special="1" />
-        <Note time="93.246155" duration="0.500000" track="2" special="1" />
+        <Note time="93.246155" duration="0.500000" track="3" special="1" />
         <Note time="94.046150" duration="0.0" track="1" special="1" />
-        <Note time="94.046150" duration="0.0" track="2" special="1" />
-        <Note time="94.446152" duration="0.0" track="3" special="1" />
-        <Note time="94.446152" duration="0.0" track="1" special="1" />
-        <Note time="94.846153" duration="0.600000" track="3" special="1" />
-        <Note time="94.846153" duration="0.600000" track="1" special="1" />
-        <Note time="95.646156" duration="0.0" track="3" special="0" />
-        <Note time="95.838463" duration="0.0" track="2" special="0" />
-        <Note time="96.028847" duration="0.0" track="3" special="0" />
-        <Note time="96.219231" duration="0.0" track="2" special="0" />
-        <Note time="96.411537" duration="0.0" track="3" special="0" />
+        <Note time="94.046150" duration="0.0" track="3" special="1" />
+        <Note time="94.446152" duration="0.0" track="2" special="1" />
+        <Note time="94.446152" duration="0.0" track="4" special="1" />
+        <Note time="94.846153" duration="0.600000" track="2" special="1" />
+        <Note time="94.846153" duration="0.600000" track="4" special="1" />
+        <Note time="95.646156" duration="0.0" track="4" special="0" />
+        <Note time="95.838463" duration="0.0" track="3" special="0" />
+        <Note time="96.028847" duration="0.0" track="4" special="0" />
+        <Note time="96.219231" duration="0.0" track="3" special="0" />
+        <Note time="96.411537" duration="0.0" track="4" special="0" />
         <Note time="96.792305" duration="0.0" track="1" special="0" />
-        <Note time="96.792305" duration="0.0" track="2" special="0" />
+        <Note time="96.792305" duration="0.0" track="3" special="0" />
         <Note time="97.175003" duration="0.0" track="1" special="0" />
-        <Note time="97.175003" duration="0.0" track="2" special="0" />
-        <Note time="97.557693" duration="0.0" track="3" special="0" />
-        <Note time="97.557693" duration="0.0" track="1" special="0" />
-        <Note time="97.940384" duration="0.0" track="3" special="0" />
-        <Note time="97.940384" duration="0.0" track="1" special="0" />
+        <Note time="97.175003" duration="0.0" track="3" special="0" />
+        <Note time="97.557693" duration="0.0" track="2" special="0" />
+        <Note time="97.557693" duration="0.0" track="4" special="0" />
+        <Note time="97.940384" duration="0.0" track="2" special="0" />
+        <Note time="97.940384" duration="0.0" track="4" special="0" />
         <Note time="98.703850" duration="0.590385" track="0" special="0" />
         <Note time="98.703850" duration="0.590385" track="2" special="0" />
         <Note time="99.492310" duration="0.492308" track="1" special="0" />
-        <Note time="99.492310" duration="0.492308" track="2" special="0" />
+        <Note time="99.492310" duration="0.492308" track="3" special="0" />
         <Note time="100.282692" duration="0.0" track="1" special="0" />
-        <Note time="100.282692" duration="0.0" track="2" special="0" />
-        <Note time="100.676926" duration="0.0" track="3" special="0" />
-        <Note time="100.676926" duration="0.0" track="1" special="0" />
-        <Note time="101.073074" duration="0.590385" track="3" special="0" />
-        <Note time="101.073074" duration="0.590385" track="1" special="0" />
-        <Note time="101.861542" duration="0.0" track="3" special="1" />
-        <Note time="102.055771" duration="0.0" track="2" special="1" />
-        <Note time="102.248077" duration="0.0" track="3" special="1" />
-        <Note time="102.442307" duration="0.0" track="2" special="1" />
-        <Note time="102.636536" duration="0.0" track="3" special="1" />
+        <Note time="100.282692" duration="0.0" track="3" special="0" />
+        <Note time="100.676926" duration="0.0" track="2" special="0" />
+        <Note time="100.676926" duration="0.0" track="4" special="0" />
+        <Note time="101.073074" duration="0.590385" track="2" special="0" />
+        <Note time="101.073074" duration="0.590385" track="4" special="0" />
+        <Note time="101.861542" duration="0.0" track="4" special="1" />
+        <Note time="102.055771" duration="0.0" track="3" special="1" />
+        <Note time="102.248077" duration="0.0" track="4" special="1" />
+        <Note time="102.442307" duration="0.0" track="3" special="1" />
+        <Note time="102.636536" duration="0.0" track="4" special="1" />
         <Note time="103.023079" duration="0.0" track="1" special="0" />
-        <Note time="103.023079" duration="0.0" track="2" special="0" />
+        <Note time="103.023079" duration="0.0" track="3" special="0" />
         <Note time="103.409615" duration="0.0" track="1" special="0" />
-        <Note time="103.409615" duration="0.0" track="2" special="0" />
-        <Note time="103.798080" duration="0.0" track="3" special="0" />
-        <Note time="103.798080" duration="0.0" track="1" special="0" />
-        <Note time="104.184616" duration="0.0" track="3" special="0" />
-        <Note time="104.184616" duration="0.0" track="1" special="0" />
+        <Note time="103.409615" duration="0.0" track="3" special="0" />
+        <Note time="103.798080" duration="0.0" track="2" special="0" />
+        <Note time="103.798080" duration="0.0" track="4" special="0" />
+        <Note time="104.184616" duration="0.0" track="2" special="0" />
+        <Note time="104.184616" duration="0.0" track="4" special="0" />
         <Note time="104.957695" duration="0.773077" track="0" special="0" />
         <Note time="105.732689" duration="0.676923" track="1" special="0" />
         <Note time="106.507690" duration="0.0" track="1" special="0" />
         <Note time="106.894234" duration="0.0" track="2" special="0" />
         <Note time="107.280769" duration="0.578846" track="2" special="0" />
-        <Note time="108.055771" duration="0.0" track="3" special="0" />
-        <Note time="108.251923" duration="0.0" track="2" special="0" />
-        <Note time="108.448074" duration="0.0" track="3" special="0" />
-        <Note time="108.644234" duration="0.0" track="2" special="0" />
-        <Note time="108.840385" duration="0.0" track="3" special="0" />
-        <Note time="109.036537" duration="0.0" track="2" special="0" />
+        <Note time="108.055771" duration="0.0" track="4" special="0" />
+        <Note time="108.251923" duration="0.0" track="3" special="0" />
+        <Note time="108.448074" duration="0.0" track="4" special="0" />
+        <Note time="108.644234" duration="0.0" track="3" special="0" />
+        <Note time="108.840385" duration="0.0" track="4" special="0" />
+        <Note time="109.036537" duration="0.0" track="3" special="0" />
         <Note time="109.230766" duration="0.0" track="1" special="0" />
         <Note time="109.623077" duration="0.0" track="1" special="0" />
         <Note time="110.015381" duration="0.0" track="2" special="0" />
@@ -250,20 +257,20 @@
         <Note time="112.761536" duration="0.0" track="1" special="0" />
         <Note time="113.153847" duration="0.0" track="2" special="0" />
         <Note time="113.546150" duration="0.586538" track="2" special="0" />
-        <Note time="114.328850" duration="0.0" track="3" special="0" />
-        <Note time="114.525002" duration="0.0" track="2" special="0" />
-        <Note time="114.721153" duration="0.0" track="3" special="0" />
-        <Note time="114.917305" duration="0.0" track="2" special="0" />
-        <Note time="115.113464" duration="0.0" track="3" special="0" />
-        <Note time="115.309616" duration="0.0" track="2" special="0" />
+        <Note time="114.328850" duration="0.0" track="4" special="0" />
+        <Note time="114.525002" duration="0.0" track="3" special="0" />
+        <Note time="114.721153" duration="0.0" track="4" special="0" />
+        <Note time="114.917305" duration="0.0" track="3" special="0" />
+        <Note time="115.113464" duration="0.0" track="4" special="0" />
+        <Note time="115.309616" duration="0.0" track="3" special="0" />
         <Note time="115.505768" duration="0.0" track="1" special="0" />
         <Note time="115.898079" duration="0.0" track="1" special="0" />
         <Note time="116.290382" duration="0.0" track="2" special="0" />
         <Note time="116.682693" duration="0.0" track="2" special="0" />
-        <Note time="117.467308" duration="2.838462" track="3" special="0" />
-        <Note time="117.467308" duration="2.838462" track="1" special="0" />
+        <Note time="117.467308" duration="2.838462" track="2" special="0" />
+        <Note time="117.467308" duration="2.838462" track="4" special="0" />
+        <Note time="120.496155" duration="2.838462" track="3" special="1" />
         <Note time="120.496155" duration="2.838462" track="1" special="1" />
-        <Note time="120.496155" duration="2.838462" track="2" special="1" />
         <Note time="123.523079" duration="0.0" track="0" special="0" />
         <Note time="123.523079" duration="0.0" track="2" special="0" />
         <Note time="123.898079" duration="0.0" track="0" special="0" />
@@ -290,10 +297,10 @@
         <Note time="128.801926" duration="0.0" track="2" special="0" />
         <Note time="128.992310" duration="0.0" track="3" special="0" />
         <Note time="129.182693" duration="0.0" track="4" special="0" />
-        <Note time="129.561539" duration="2.884615" track="3" special="1" />
-        <Note time="129.561539" duration="2.884615" track="1" special="1" />
+        <Note time="129.561539" duration="2.884615" track="2" special="1" />
+        <Note time="129.561539" duration="2.884615" track="4" special="1" />
+        <Note time="132.638458" duration="2.811538" track="3" special="1" />
         <Note time="132.638458" duration="2.811538" track="1" special="1" />
-        <Note time="132.638458" duration="2.811538" track="2" special="1" />
         <Note time="135.638458" duration="0.0" track="0" special="0" />
         <Note time="135.638458" duration="0.0" track="2" special="0" />
         <Note time="136.015381" duration="0.0" track="0" special="0" />
@@ -341,61 +348,80 @@
         <Note time="146.890381" duration="0.0" track="1" special="0" />
         <Note time="147.067307" duration="0.0" track="1" special="0" />
         <Note time="147.419235" duration="0.0" track="0" special="0" />
+        <Note time="147.590378" duration="0.0" track="1" special="0" />
         <Note time="147.761536" duration="0.0" track="2" special="0" />
+        <Note time="147.934616" duration="0.0" track="3" special="0" />
         <Note time="148.105774" duration="0.0" track="3" special="0" />
         <Note time="148.190384" duration="0.0" track="2" special="0" />
         <Note time="148.276917" duration="0.0" track="1" special="0" />
         <Note time="148.448074" duration="0.0" track="2" special="0" />
-        <Note time="148.790390" duration="0.0" track="1" special="0" />
+        <Note time="148.619232" duration="0.0" track="3" special="0" />
+        <Note time="148.790390" duration="0.0" track="0" special="0" />
+        <Note time="148.969238" duration="0.0" track="1" special="0" />
         <Note time="149.146149" duration="0.0" track="2" special="0" />
         <Note time="149.323074" duration="0.0" track="2" special="0" />
         <Note time="149.500000" duration="0.0" track="2" special="0" />
-        <Note time="149.855774" duration="0.0" track="3" special="0" />
+        <Note time="149.678848" duration="0.0" track="3" special="0" />
+        <Note time="149.855774" duration="0.0" track="4" special="0" />
+        <Note time="150.032700" duration="0.0" track="3" special="0" />
         <Note time="150.211533" duration="0.0" track="3" special="0" />
         <Note time="150.301926" duration="0.0" track="2" special="0" />
         <Note time="150.394226" duration="0.0" track="1" special="0" />
-        <Note time="150.576920" duration="0.0" track="3" special="0" />
+        <Note time="150.576920" duration="0.0" track="4" special="0" />
+        <Note time="150.759613" duration="0.0" track="4" special="0" />
         <Note time="150.942307" duration="0.0" track="3" special="0" />
         <Note time="151.034622" duration="0.0" track="2" special="0" />
         <Note time="151.125000" duration="0.0" track="1" special="0" />
         <Note time="151.307693" duration="0.0" track="2" special="0" />
+        <Note time="151.492310" duration="0.0" track="3" special="0" />
         <Note time="151.675003" duration="0.348077" track="3" special="0" />
         <Note time="152.198074" duration="0.0" track="2" special="0" />
-        <Note time="152.546158" duration="0.0" track="3" special="0" />
-        <Note time="152.721161" duration="0.0" track="3" special="0" />
-        <Note time="152.807693" duration="0.0" track="2" special="0" />
-        <Note time="152.896149" duration="0.0" track="1" special="0" />
+        <Note time="152.371155" duration="0.0" track="3" special="0" />
+        <Note time="152.546158" duration="0.0" track="4" special="0" />
+        <Note time="152.721161" duration="0.0" track="4" special="0" />
+        <Note time="152.807693" duration="0.0" track="3" special="0" />
+        <Note time="152.896149" duration="0.0" track="2" special="0" />
         <Note time="153.069229" duration="0.0" track="2" special="1" />
+        <Note time="153.248077" duration="0.0" track="2" special="1" />
         <Note time="153.426926" duration="0.0" track="2" special="1" />
         <Note time="153.784622" duration="0.0" track="2" special="0" />
-        <Note time="153.963455" duration="0.0" track="1" special="0" />
-        <Note time="154.319229" duration="0.0" track="2" special="0" />
+        <Note time="153.963455" duration="0.0" track="0" special="0" />
+        <Note time="154.140381" duration="0.0" track="0" special="0" />
+        <Note time="154.319229" duration="0.0" track="1" special="0" />
         <Note time="154.498077" duration="0.0" track="2" special="0" />
         <Note time="154.680771" duration="0.0" track="3" special="0" />
         <Note time="155.044235" duration="0.0" track="4" special="0" />
         <Note time="155.225006" duration="0.0" track="4" special="0" />
         <Note time="155.317307" duration="0.0" track="3" special="0" />
         <Note time="155.407700" duration="0.0" track="2" special="0" />
+        <Note time="155.588455" duration="0.0" track="3" special="0" />
         <Note time="155.771149" duration="0.0" track="4" special="0" />
         <Note time="155.861542" duration="0.0" track="3" special="0" />
         <Note time="155.951920" duration="0.0" track="2" special="0" />
+        <Note time="156.128845" duration="0.0" track="3" special="0" />
         <Note time="156.305771" duration="0.0" track="4" special="0" />
         <Note time="156.394226" duration="0.0" track="3" special="0" />
         <Note time="156.482697" duration="0.0" track="2" special="0" />
-        <Note time="156.659622" duration="0.0" track="3" special="0" />
+        <Note time="156.571152" duration="0.0" track="1" special="0" />
+        <Note time="156.659622" duration="0.0" track="2" special="0" />
+        <Note time="156.834610" duration="0.0" track="4" special="0" />
         <Note time="157.011536" duration="0.0" track="3" special="0" />
-        <Note time="157.365387" duration="0.0" track="3" special="0" />
-        <Note time="157.542313" duration="0.0" track="2" special="0" />
-        <Note time="157.721161" duration="0.0" track="1" special="0" />
+        <Note time="157.365387" duration="0.0" track="4" special="0" />
+        <Note time="157.542313" duration="0.0" track="3" special="0" />
+        <Note time="157.721161" duration="0.0" track="2" special="0" />
+        <Note time="157.899994" duration="0.0" track="2" special="0" />
         <Note time="158.078842" duration="0.0" track="4" special="1" />
         <Note time="158.436539" duration="0.0" track="4" special="1" />
         <Note time="158.792313" duration="0.0" track="4" special="0" />
-        <Note time="159.151917" duration="0.0" track="4" special="0" />
-        <Note time="159.242310" duration="0.0" track="3" special="0" />
+        <Note time="159.151917" duration="0.0" track="3" special="0" />
+        <Note time="159.211533" duration="0.0" track="4" special="0" />
+        <Note time="159.273071" duration="0.0" track="3" special="0" />
         <Note time="159.332687" duration="0.0" track="2" special="0" />
         <Note time="159.511536" duration="0.0" track="3" special="0" />
+        <Note time="159.692307" duration="0.0" track="2" special="0" />
         <Note time="159.871155" duration="0.0" track="3" special="0" />
         <Note time="160.230774" duration="0.0" track="3" special="0" />
+        <Note time="160.411545" duration="0.0" track="3" special="0" />
         <Note time="160.594238" duration="0.0" track="3" special="0" />
         <Note time="160.684616" duration="0.0" track="2" special="0" />
         <Note time="160.774994" duration="0.0" track="1" special="0" />
@@ -403,21 +429,25 @@
         <Note time="161.321152" duration="0.0" track="3" special="0" />
         <Note time="161.411545" duration="0.0" track="2" special="0" />
         <Note time="161.503845" duration="0.0" track="1" special="0" />
-        <Note time="161.684616" duration="0.0" track="3" special="0" />
-        <Note time="161.774994" duration="0.0" track="2" special="0" />
-        <Note time="161.865387" duration="0.0" track="1" special="0" />
+        <Note time="161.684616" duration="0.0" track="2" special="0" />
+        <Note time="161.774994" duration="0.0" track="1" special="0" />
+        <Note time="161.865387" duration="0.0" track="0" special="0" />
         <Note time="162.044235" duration="0.0" track="2" special="0" />
-        <Note time="162.403839" duration="0.0" track="3" special="0" />
-        <Note time="162.492310" duration="0.0" track="2" special="0" />
-        <Note time="162.582687" duration="0.0" track="1" special="0" />
+        <Note time="162.223083" duration="0.0" track="2" special="0" />
+        <Note time="162.403839" duration="0.0" track="2" special="0" />
+        <Note time="162.492310" duration="0.0" track="1" special="0" />
+        <Note time="162.582687" duration="0.0" track="0" special="0" />
         <Note time="162.763458" duration="0.0" track="1" special="0" />
         <Note time="162.942307" duration="0.0" track="2" special="0" />
         <Note time="163.121155" duration="0.0" track="3" special="0" />
+        <Note time="163.298080" duration="0.0" track="3" special="0" />
         <Note time="163.475006" duration="0.0" track="3" special="0" />
         <Note time="163.563461" duration="0.0" track="2" special="0" />
         <Note time="163.651917" duration="0.0" track="1" special="0" />
         <Note time="163.826920" duration="0.0" track="2" special="0" />
-        <Note time="164.180771" duration="0.0" track="3" special="0" />
+        <Note time="164.003845" duration="0.0" track="3" special="0" />
+        <Note time="164.180771" duration="0.0" track="4" special="0" />
+        <Note time="164.357697" duration="0.0" track="2" special="0" />
         <Note time="164.534622" duration="0.0" track="2" special="0" />
         <Note time="164.623077" duration="0.355769" track="3" special="0" />
         <Note time="165.067307" duration="0.0" track="2" special="0" />
@@ -517,73 +547,73 @@
         <Note time="187.692307" duration="0.603846" track="0" special="0" />
         <Note time="187.692307" duration="0.603846" track="2" special="0" />
         <Note time="188.498077" duration="0.501923" track="1" special="0" />
-        <Note time="188.498077" duration="0.501923" track="2" special="0" />
+        <Note time="188.498077" duration="0.501923" track="3" special="0" />
         <Note time="189.301926" duration="0.0" track="1" special="0" />
-        <Note time="189.301926" duration="0.0" track="2" special="0" />
-        <Note time="189.705765" duration="0.0" track="3" special="0" />
-        <Note time="189.705765" duration="0.0" track="1" special="0" />
-        <Note time="190.107697" duration="0.603846" track="3" special="0" />
-        <Note time="190.107697" duration="0.603846" track="1" special="0" />
-        <Note time="190.913467" duration="0.0" track="3" special="0" />
-        <Note time="191.101929" duration="0.0" track="2" special="0" />
-        <Note time="191.288467" duration="0.0" track="3" special="0" />
-        <Note time="191.476929" duration="0.0" track="2" special="0" />
-        <Note time="191.663467" duration="0.0" track="3" special="0" />
+        <Note time="189.301926" duration="0.0" track="3" special="0" />
+        <Note time="189.705765" duration="0.0" track="2" special="0" />
+        <Note time="189.705765" duration="0.0" track="4" special="0" />
+        <Note time="190.107697" duration="0.603846" track="2" special="0" />
+        <Note time="190.107697" duration="0.603846" track="4" special="0" />
+        <Note time="190.913467" duration="0.0" track="4" special="0" />
+        <Note time="191.101929" duration="0.0" track="3" special="0" />
+        <Note time="191.288467" duration="0.0" track="4" special="0" />
+        <Note time="191.476929" duration="0.0" track="3" special="0" />
+        <Note time="191.663467" duration="0.0" track="4" special="0" />
         <Note time="192.038467" duration="0.0" track="1" special="1" />
-        <Note time="192.038467" duration="0.0" track="2" special="1" />
+        <Note time="192.038467" duration="0.0" track="3" special="1" />
         <Note time="192.413467" duration="0.0" track="1" special="1" />
-        <Note time="192.413467" duration="0.0" track="2" special="1" />
-        <Note time="192.788467" duration="0.0" track="3" special="1" />
-        <Note time="192.788467" duration="0.0" track="1" special="1" />
-        <Note time="193.163467" duration="0.0" track="3" special="1" />
-        <Note time="193.163467" duration="0.0" track="1" special="1" />
+        <Note time="192.413467" duration="0.0" track="3" special="1" />
+        <Note time="192.788467" duration="0.0" track="2" special="1" />
+        <Note time="192.788467" duration="0.0" track="4" special="1" />
+        <Note time="193.163467" duration="0.0" track="2" special="1" />
+        <Note time="193.163467" duration="0.0" track="4" special="1" />
         <Note time="193.538467" duration="0.0" track="3" special="1" />
         <Note time="193.913467" duration="0.582692" track="0" special="0" />
         <Note time="193.913467" duration="0.582692" track="2" special="0" />
         <Note time="194.692307" duration="0.486538" track="1" special="0" />
-        <Note time="194.692307" duration="0.486538" track="2" special="0" />
+        <Note time="194.692307" duration="0.486538" track="3" special="0" />
         <Note time="195.471161" duration="0.0" track="1" special="0" />
-        <Note time="195.471161" duration="0.0" track="2" special="0" />
-        <Note time="195.861542" duration="0.0" track="3" special="0" />
-        <Note time="195.861542" duration="0.0" track="1" special="0" />
-        <Note time="196.251923" duration="0.582692" track="3" special="0" />
-        <Note time="196.251923" duration="0.582692" track="1" special="0" />
-        <Note time="197.030762" duration="0.0" track="3" special="0" />
-        <Note time="197.223083" duration="0.0" track="2" special="0" />
-        <Note time="197.415390" duration="0.0" track="3" special="0" />
-        <Note time="197.607697" duration="0.0" track="2" special="0" />
-        <Note time="197.800003" duration="0.0" track="3" special="0" />
+        <Note time="195.471161" duration="0.0" track="3" special="0" />
+        <Note time="195.861542" duration="0.0" track="2" special="0" />
+        <Note time="195.861542" duration="0.0" track="4" special="0" />
+        <Note time="196.251923" duration="0.582692" track="2" special="0" />
+        <Note time="196.251923" duration="0.582692" track="4" special="0" />
+        <Note time="197.030762" duration="0.0" track="4" special="0" />
+        <Note time="197.223083" duration="0.0" track="3" special="0" />
+        <Note time="197.415390" duration="0.0" track="4" special="0" />
+        <Note time="197.607697" duration="0.0" track="3" special="0" />
+        <Note time="197.800003" duration="0.0" track="4" special="0" />
         <Note time="198.184616" duration="0.0" track="1" special="0" />
-        <Note time="198.184616" duration="0.0" track="2" special="0" />
+        <Note time="198.184616" duration="0.0" track="3" special="0" />
         <Note time="198.569229" duration="0.0" track="1" special="0" />
-        <Note time="198.569229" duration="0.0" track="2" special="0" />
-        <Note time="198.953842" duration="0.0" track="3" special="0" />
-        <Note time="198.953842" duration="0.0" track="1" special="0" />
-        <Note time="199.338455" duration="0.0" track="3" special="0" />
-        <Note time="199.338455" duration="0.0" track="1" special="0" />
+        <Note time="198.569229" duration="0.0" track="3" special="0" />
+        <Note time="198.953842" duration="0.0" track="2" special="0" />
+        <Note time="198.953842" duration="0.0" track="4" special="0" />
+        <Note time="199.338455" duration="0.0" track="2" special="0" />
+        <Note time="199.338455" duration="0.0" track="4" special="0" />
         <Note time="200.107697" duration="0.576923" track="0" special="0" />
         <Note time="200.107697" duration="0.576923" track="2" special="0" />
         <Note time="200.876923" duration="0.480769" track="1" special="0" />
-        <Note time="200.876923" duration="0.480769" track="2" special="0" />
+        <Note time="200.876923" duration="0.480769" track="3" special="0" />
         <Note time="201.646149" duration="0.0" track="1" special="0" />
-        <Note time="201.646149" duration="0.0" track="2" special="0" />
-        <Note time="202.030762" duration="0.0" track="3" special="0" />
-        <Note time="202.030762" duration="0.0" track="1" special="0" />
-        <Note time="202.415390" duration="0.576923" track="3" special="0" />
-        <Note time="202.415390" duration="0.576923" track="1" special="0" />
-        <Note time="203.184616" duration="0.0" track="3" special="0" />
-        <Note time="203.376923" duration="0.0" track="2" special="0" />
-        <Note time="203.569229" duration="0.0" track="3" special="0" />
-        <Note time="203.761536" duration="0.0" track="2" special="0" />
-        <Note time="203.953842" duration="0.0" track="3" special="0" />
+        <Note time="201.646149" duration="0.0" track="3" special="0" />
+        <Note time="202.030762" duration="0.0" track="2" special="0" />
+        <Note time="202.030762" duration="0.0" track="4" special="0" />
+        <Note time="202.415390" duration="0.576923" track="2" special="0" />
+        <Note time="202.415390" duration="0.576923" track="4" special="0" />
+        <Note time="203.184616" duration="0.0" track="4" special="0" />
+        <Note time="203.376923" duration="0.0" track="3" special="0" />
+        <Note time="203.569229" duration="0.0" track="4" special="0" />
+        <Note time="203.761536" duration="0.0" track="3" special="0" />
+        <Note time="203.953842" duration="0.0" track="4" special="0" />
         <Note time="204.338455" duration="0.0" track="1" special="0" />
-        <Note time="204.338455" duration="0.0" track="2" special="0" />
+        <Note time="204.338455" duration="0.0" track="3" special="0" />
         <Note time="204.723083" duration="0.0" track="1" special="0" />
-        <Note time="204.723083" duration="0.0" track="2" special="0" />
-        <Note time="205.107697" duration="0.0" track="3" special="0" />
-        <Note time="205.107697" duration="0.0" track="1" special="0" />
-        <Note time="205.492310" duration="0.0" track="3" special="0" />
-        <Note time="205.492310" duration="0.0" track="1" special="0" />
+        <Note time="204.723083" duration="0.0" track="3" special="0" />
+        <Note time="205.107697" duration="0.0" track="2" special="0" />
+        <Note time="205.107697" duration="0.0" track="4" special="0" />
+        <Note time="205.492310" duration="0.0" track="2" special="0" />
+        <Note time="205.492310" duration="0.0" track="4" special="0" />
         <Note time="206.261536" duration="0.0" track="3" special="0" />
         <Note time="206.646149" duration="0.769231" track="3" special="0" />
         <Note time="207.415390" duration="0.769231" track="4" special="0" />
@@ -634,6 +664,8 @@
         <Note time="237.015381" duration="0.0" track="3" special="0" />
         <Note time="237.282700" duration="0.0" track="4" special="0" />
         <Note time="237.548080" duration="0.0" track="3" special="0" />
+        <Note time="237.615387" duration="0.0" track="4" special="0" />
+        <Note time="237.682693" duration="0.0" track="3" special="0" />
         <Note time="237.815384" duration="0.0" track="1" special="0" />
         <Note time="238.082687" duration="0.0" track="2" special="0" />
         <Note time="238.276917" duration="0.0" track="1" special="0" />
@@ -649,6 +681,8 @@
         <Note time="243.303848" duration="0.0" track="3" special="0" />
         <Note time="243.573074" duration="0.0" track="4" special="0" />
         <Note time="243.842300" duration="0.0" track="3" special="0" />
+        <Note time="243.909622" duration="0.0" track="4" special="0" />
+        <Note time="243.975006" duration="0.0" track="3" special="0" />
         <Note time="244.109619" duration="0.0" track="1" special="0" />
         <Note time="244.378845" duration="0.0" track="2" special="0" />
         <Note time="244.580765" duration="0.0" track="1" special="0" />

@@ -18,7 +18,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     public GuitarButton(int track)
     {
-        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE, DEFAULT_OBJECT_SIZE);
+        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE, DEFAULT_OBJECT_SIZE, -1);
 
         this.track = track;
 

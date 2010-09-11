@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.media.opengl.GL;
@@ -31,6 +32,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     private int mulY = -1; // To invert y axis
     private int zFar = 2000; // zFar
     private GLCapabilities caps; // GL capabilities
+    private HashMap<Integer, Integer> cachedDatas;
     // Camera variables
     private float cameraEyeX = 0;
     private float cameraEyeY = 0;
@@ -49,6 +51,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     public Graphics3DContext()
     {
         listeners = new ArrayList();
+        cachedDatas = new HashMap<Integer, Integer>();
     }
 
     /**
@@ -59,10 +62,27 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     {
         if (data != null)
         {
+            int list = 0;
+            // Color and translation
             gl.glLoadIdentity();
             gl.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
                     / 256f, data.color.getBlue() / 256f);
             gl.glTranslated(data.getX(), mulY * data.getY(), data.getZ());
+            // Check cache and generate
+            if (data.cacheId != -1)
+            {
+                if (cachedDatas.containsKey(data.cacheId))
+                {
+                    gl.glCallList(cachedDatas.get(data.cacheId));
+                    return;
+                }
+                else
+                {
+                    list = gl.glGenLists(1);
+                    gl.glNewList(list, GL.GL_COMPILE_AND_EXECUTE);
+                }
+            }
+            // Draw operations
             if (data.type == DrawData.DRAW_2D_RECT)
             {
                 draw2DRect(data);
@@ -75,9 +95,15 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             {
                 draw3DSphere(data);
             }
-            else if (data.type == DrawData.DRAW_3D_HALF_SPHERE)
+            else if (data.type == DrawData.DRAW_3D_CLIPPED_SPHERE)
             {
-                draw3DHalfSphere(data);
+                draw3DClippedSphere(data);
+            }
+            // End cache and save
+            if (list != 0)
+            {
+                gl.glEndList();
+                cachedDatas.put(data.cacheId, list);
             }
         }
     }
@@ -305,13 +331,13 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * Drawing a half sphere.
      */
-    private void draw3DHalfSphere(DrawData data)
+    private void draw3DClippedSphere(DrawData data)
     {
         GLU glu = new GLU();
         gl.glTranslated(0, 0, -data.width / 3);
         double[] planeEq =
         {
-            0, 0, 1, -data.width / 3
+            0, 0, 1, -data.height
         };
         gl.glClipPlane(GL.GL_CLIP_PLANE0, planeEq, 0);
         gl.glEnable(GL.GL_CLIP_PLANE0);

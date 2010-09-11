@@ -7,6 +7,10 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
+/**
+ *
+ * @author lucasjadami
+ */
 public class Button extends JButton
 {
 

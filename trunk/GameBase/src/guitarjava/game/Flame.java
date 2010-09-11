@@ -14,7 +14,7 @@ public class Flame extends TrackObject
 
     private static final int DEFAULT_WIDTH = 30;
     private static final int DEFAULT_HEIGHT = 30;
-    private static final int FLAME_PARTICLES = 30;
+    private static final int FLAME_PARTICLES = 20;
     private float duration;
     private float noteDuration;
     private float timeElapsed;
@@ -28,12 +28,16 @@ public class Flame extends TrackObject
      */
     public Flame(BurningInterface burningState, int track, float duration)
     {
-        super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE);
+        super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE, -1);
 
         this.burningState = burningState;
         this.duration = duration;
 
         particles = new LinkedList<Particle>();
+
+        for (int x = 0; x < FLAME_PARTICLES / 5; ++x)
+            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
+                    TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
     }
 
     /**
@@ -71,7 +75,7 @@ public class Flame extends TrackObject
         if (particles.size() < FLAME_PARTICLES)
         {
             particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
-                    TrackObject.getColorByTrack(track)));
+                    TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
         }  
     }
 

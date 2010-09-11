@@ -4,10 +4,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JPanel;
 
+/**
+ *
+ * @author lucasjadami
+ */
 public class Picture extends JPanel
 {
 
-    private Image image;
+    protected Image image;
 
     public Picture(Image image, int x, int y) throws NullPointerException
     {
