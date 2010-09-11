@@ -31,7 +31,7 @@ public class Main
         InputNoRepeatContext inputContext = new InputNoRepeatContext();
 
         GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, inputContext,
-                gameWindow, new Music("musics/xml/Music3_4.xml", "musics/mp3/Music3.mp3"));
+                gameWindow, new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3"));
 
         gameEngine.start();
     }
