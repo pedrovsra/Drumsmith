@@ -9,6 +9,7 @@ public class Note extends TrackObject
 
     public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
     public static final float ORIGIN_Y = -1200;
+    private static final int Z_SURFACE_FACTOR = 3;
     private float duration;
     private boolean powned;
     private NoteExtension noteExtension;
@@ -27,11 +28,14 @@ public class Note extends TrackObject
         if (duration > 0)
         {
             noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED -
-                    DEFAULT_OBJECT_SIZE,
-                    ORIGIN_Y, height);
+                    DEFAULT_OBJECT_SIZE, ORIGIN_Y, height);
         }
 
-        drawData.createAs3DClippedSphere(width, width / 3);
+        double realRadiusSquared = width * width * Z_SURFACE_FACTOR * Z_SURFACE_FACTOR /
+                (2 * Z_SURFACE_FACTOR - 1) / 4;
+
+        drawData.createAs3DClippedSphere((float) (Math.pow(realRadiusSquared, .5) * 2),
+                (float) (Math.pow(realRadiusSquared, .5) * 2 / Z_SURFACE_FACTOR));
     }
 
     @Override
