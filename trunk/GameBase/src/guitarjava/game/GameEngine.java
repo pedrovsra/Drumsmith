@@ -101,7 +101,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         }
 
         float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y)
-                + TrackObject.BURNING_POSITION_Y)
+                + TrackObject.BURNING_POSITION_Y + TrackObject.DEFAULT_OBJECT_SIZE / 2)
                 / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
