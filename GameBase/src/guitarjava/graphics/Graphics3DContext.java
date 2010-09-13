@@ -1,6 +1,7 @@
 package guitarjava.graphics;
 
 import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.FPSAnimator;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,7 +25,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
 
     private static final int MAX_CACHE = 1024; // Max cache DrawDatas
     private List listeners; // Listeners for the graphics update
-    private Animator animator; // Animator for OpenGL canvas
+    private FPSAnimator animator; // Animator for OpenGL canvas
     private GL gl; // To use on draw operations
     private GLCanvas canvas; // OpenGL Canvas
     private int mulY = -1; // To invert y axis
@@ -161,7 +162,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
         component.add(canvas);
-        animator = new Animator(canvas);
+        animator = new FPSAnimator(canvas, 60);
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
         {
@@ -256,12 +257,9 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * OpenGL display method.
      */
-    static private long time = 0;
     @Override
     public void display(GLAutoDrawable drawable)
     {
-        System.out.println(System.currentTimeMillis() - time);
-        time = System.currentTimeMillis();
         gl = drawable.getGL();
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
