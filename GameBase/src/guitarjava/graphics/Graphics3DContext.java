@@ -2,12 +2,9 @@ package guitarjava.graphics;
 
 import com.sun.opengl.util.Animator;
 import java.awt.Window;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.media.opengl.GL;
@@ -25,6 +22,7 @@ import javax.media.opengl.glu.GLUquadric;
 public class Graphics3DContext implements GraphicsInterface, GLEventListener
 {
 
+    private static final int MAX_CACHE = 1024; // Max cache DrawDatas
     private List listeners; // Listeners for the graphics update
     private Animator animator; // Animator for OpenGL canvas
     private GL gl; // To use on draw operations
@@ -32,7 +30,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     private int mulY = -1; // To invert y axis
     private int zFar = 2000; // zFar
     private GLCapabilities caps; // GL capabilities
-    private HashMap<Integer, Integer> cachedDatas;
+    private int cachedDatas[]; // Cache for DrawDatas, display lists id
     // Camera variables
     private float cameraEyeX = 0;
     private float cameraEyeY = 0;
@@ -51,13 +49,14 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     public Graphics3DContext()
     {
         listeners = new ArrayList();
-        cachedDatas = new HashMap<Integer, Integer>();
+        cachedDatas = new int[MAX_CACHE];
     }
 
     /**
      * Draws the DrawData onto the screen.
      * @param data the data to be draw
      */
+    @Override
     public void draw(DrawData data)
     {
         if (data != null)
@@ -67,13 +66,13 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             gl.glLoadIdentity();
             gl.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
                     / 256f, data.color.getBlue() / 256f);
-            gl.glTranslated(data.getX(), mulY * data.getY(), data.getZ());
+            gl.glTranslatef(data.getX(), mulY * data.getY(), data.getZ());
             // Check cache and generate
-            if (data.cacheId != -1)
+            if (data.cacheId > 0 && data.cacheId < MAX_CACHE)
             {
-                if (cachedDatas.containsKey(data.cacheId))
+                if (cachedDatas[data.cacheId] != 0)
                 {
-                    gl.glCallList(cachedDatas.get(data.cacheId));
+                    gl.glCallList(cachedDatas[data.cacheId]);
                     return;
                 }
                 else
@@ -103,7 +102,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             if (list != 0)
             {
                 gl.glEndList();
-                cachedDatas.put(data.cacheId, list);
+                cachedDatas[data.cacheId] = list;
             }
         }
     }
@@ -120,6 +119,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      * Adds an event lister to the GraphicsUpdate event.
      * @param listener the listener
      */
+    @Override
     public void addGraphicsUpdateEventListener(GraphicsUpdateListener listener)
     {
         listeners.add(listener);
@@ -129,6 +129,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      * Removes an event lister from the GraphicsUpdate event.
      * @param listener the listener
      */
+    @Override
     public void removeGraphicsUpdateEventListener(GraphicsUpdateListener listener)
     {
         listeners.remove(listener);
@@ -150,12 +151,13 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * Initializing the context.
      */
+    @Override
     public void init(final Window component)
     {
         // Setting up opengl
         caps = new GLCapabilities();
         caps.setSampleBuffers(true); // Enable multisampling
-        caps.setNumSamples(4);
+        caps.setNumSamples(2);
         canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
         component.add(canvas);
@@ -173,42 +175,12 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         // Others
         animator.start();
         canvas.setFocusable(false);
-        // Test
-        component.addKeyListener(new KeyAdapter()
-        {
-
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if (e.getKeyCode() == KeyEvent.VK_UP)
-                {
-                    cameraEyeY += 5;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-                {
-                    cameraEyeY -= 5;
-                }
-                else if (e.getKeyCode() == 'N')
-                {
-                    cameraEyeZ += 5;
-                }
-                else if (e.getKeyCode() == 'M')
-                {
-                    cameraEyeZ -= 5;
-                }
-                else
-                {
-                    return;
-                }
-                canvas.reshape(0, 0, component.getWidth(), component.getHeight());
-                System.out.println(cameraEyeY + " " + cameraEyeZ);
-            }
-        });
     }
 
     /**
      * OpenGL init method.
      */
+    @Override
     public void init(GLAutoDrawable drawable)
     {
         gl = drawable.getGL();
@@ -234,6 +206,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * Setting light position. It will shine to the origin.
      */
+    @Override
     public void setLightPos(float x, float y, float z)
     {
         this.lightX = x;
@@ -244,6 +217,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * OpenGL reshape method.
      */
+    @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
     {
         gl = drawable.getGL();
@@ -282,6 +256,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * OpenGL display method.
      */
+    @Override
     public void display(GLAutoDrawable drawable)
     {
         gl = drawable.getGL();
@@ -296,6 +271,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * OpenGL display changed method.
      */
+    @Override
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged)
     {
     }
@@ -303,6 +279,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * Stops the context.
      */
+    @Override
     public void stop()
     {
         animator.stop();
@@ -317,6 +294,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      * @param ty looking at y pos
      * @param tz looking at z pos
      */
+    @Override
     public void setCamera(float ex, float ey, float ez, float tx, float ty, float tz)
     {
         cameraToX = tx; // Center
@@ -367,10 +345,10 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     {
         gl.glBegin(GL.GL_QUADS);
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
-        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
-        gl.glVertex3d(data.width / 2, data.height / 2, 0);
-        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, data.height / 2, 0);
         gl.glEnd();
     }
 
@@ -381,17 +359,17 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     {
         gl.glBegin(GL.GL_LINES);
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
-        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, -data.height / 2, 0);
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glVertex3d(data.width / 2, -data.height / 2, 0);
-        gl.glVertex3d(data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, data.height / 2, 0);
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glVertex3d(data.width / 2, data.height / 2, 0);
-        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, data.height / 2, 0);
         gl.glNormal3f(0.0f, 0.0f, 1.0f);
-        gl.glVertex3d(-data.width / 2, data.height / 2, 0);
-        gl.glVertex3d(-data.width / 2, -data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, data.height / 2, 0);
+        gl.glVertex3f(-data.width / 2, -data.height / 2, 0);
         gl.glEnd();
     }
 }

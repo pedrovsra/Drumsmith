@@ -7,6 +7,8 @@ import guitarjava.input.InputEvent;
 import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
@@ -62,6 +64,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     public void start() throws JavaLayerException
     {
+        window.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                stop();
+            }
+        });
+
         input.init(window);
         graphics.init(window);
         timing.init(window);
@@ -83,9 +94,18 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     }
 
     /**
+     * Stops everything.
+     */
+    public void stop()
+    {
+        
+    }
+
+    /**
      * Update method. Main loop of the game. All magic is done here
      * @param EventObject
      */
+    @Override
     public void graphicsUpdateEvent(EventObject e)
     {
         // Gets the delta time and update the execuiton time.
@@ -168,6 +188,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      *
      * @param e
      */
+    @Override
     public void inputEvent(InputEvent e)
     {
         int track = -1;

@@ -1,5 +1,11 @@
 package guitarjava.components;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Window;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -22,6 +28,7 @@ public class GameWindow extends JFrame
         setIgnoreRepaint(true);
         setSize(width, height);
         setLocationRelativeTo(null);
+        setUndecorated(true);
     }
 
     /**
@@ -29,7 +36,22 @@ public class GameWindow extends JFrame
      */
     public void showWindow()
     {
-        setVisible(true);
         requestFocus();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	//gd.setFullScreenWindow(this);
+        final Window window = this;
+        addKeyListener(new KeyAdapter()
+        {
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                {
+                    dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+                    dispose();
+                }
+            }
+        });
+        setVisible(true);
     }
 }
