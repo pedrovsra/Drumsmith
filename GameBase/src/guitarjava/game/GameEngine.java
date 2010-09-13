@@ -106,7 +106,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      * @param EventObject
      */
     @Override
-    public void graphicsUpdateEvent(EventObject e)
+    public synchronized void graphicsUpdateEvent(EventObject e)
     {
         // Gets the delta time and update the execuiton time.
         float deltaTime = timing.getDeltaTime();
@@ -189,7 +189,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      * @param e
      */
     @Override
-    public void inputEvent(InputEvent e)
+    public synchronized void inputEvent(InputEvent e)
     {
         int track = -1;
         if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED

@@ -256,9 +256,12 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     /**
      * OpenGL display method.
      */
+    static private long time = 0;
     @Override
     public void display(GLAutoDrawable drawable)
     {
+        System.out.println(System.currentTimeMillis() - time);
+        time = System.currentTimeMillis();
         gl = drawable.getGL();
         // Clear the drawing area
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
