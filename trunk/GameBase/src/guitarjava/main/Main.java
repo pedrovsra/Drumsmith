@@ -23,9 +23,8 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(null));
-
         GameWindow gameWindow = new GameWindow(Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
+        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(gameWindow, null));
         GraphicsInterface graphicsContext = new Graphics3DContext();
         TimingContext timingContext = new TimingContext();
         InputNoRepeatContext inputContext = new InputNoRepeatContext();

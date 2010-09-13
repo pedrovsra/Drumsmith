@@ -24,8 +24,8 @@ public class DrawData
     protected Color color;
 
     /**
-     * Constructor. Use the id to cache this data, or make it -1 to disable
-     * the cache. It will cache if the Graphics context supports caching.
+     * Constructor. Use the id to cache this data, or make it less than 1
+     * to disable the cache. It will cache if the Graphics context supports caching.
      * @param cacheId the id of the data
      */
     public DrawData(int cacheId)

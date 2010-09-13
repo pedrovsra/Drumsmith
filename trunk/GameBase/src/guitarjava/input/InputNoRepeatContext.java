@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An Input context. It ignores key repeats.
@@ -28,6 +30,8 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
     private Thread thread; // Thread to pool input
     private int keys[]; // Keyboard keys
     private int jkeys[]; // Joystick keys
+    PollRunner pollRunner = null; // Poll runner
+    private Window mainWindow; // Main Window
 
     /**
      * Constructor.
@@ -47,13 +51,16 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
         {
             jkeys[x] = 0;
         }
+        pollRunner = new PollRunner();
     }
 
     /**
      * Initializing the context.
      */
+    @Override
     public void init(Window component)
     {
+        this.mainWindow = component;
         // Starting
         if (component != null)
         {
@@ -61,7 +68,8 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
         }
         else
         {
-            ErrorWindow error = new ErrorWindow(new RuntimeException("Could not find any Graphic context to add Input listeners."), null);
+            ErrorWindow error = new ErrorWindow(new RuntimeException("Could not find any Graphic context to add Input listeners."),
+                    component, null);
             error.showWindow();
         }
         // Adding close listener
@@ -81,15 +89,18 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
     /**
      * Stops the context.
      */
+    @Override
     public void stop()
     {
         thread.interrupt();
+        pollRunner.stop();
     }
 
     /**
      * Adds an Input event listener.
      * @param listener the listener
      */
+    @Override
     public void addInputEventListener(InputListener listener)
     {
         listeners.add(listener);
@@ -99,6 +110,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      * Removes an Input event listener.
      * @param listener the listener
      */
+    @Override
     public void removeInputEventListener(InputListener listener)
     {
         listeners.remove(listener);
@@ -108,15 +120,16 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      * A key was typed, from the KeyListener implementation.
      * @param e the KeyEvent
      */
+    @Override
     public void keyTyped(KeyEvent e)
     {
     }
 
-    static private long time = 0;
     /**
      * A key was pressed, from the KeyListener implementation.
      * @param e the KeyEvent
      */
+    @Override
     public void keyPressed(KeyEvent e)
     {
         if (e.getKeyCode() >= 0 && e.getKeyCode() < MAX_KEYS)
@@ -134,6 +147,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      * A key was released, from the KeyListener implementation.
      * @param e the KeyEvent
      */
+    @Override
     public void keyReleased(KeyEvent e)
     {
         if (e.getKeyCode() >= 0 && e.getKeyCode() < MAX_KEYS)
@@ -158,6 +172,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      * Axis changed event.
      * @param j the event object
      */
+    @Override
     public void joystickAxisChanged(Joystick j)
     {
     }
@@ -166,6 +181,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
      * Button changed event.
      * @param j the event object
      */
+    @Override
     public void joystickButtonChanged(Joystick j)
     {
         int b = j.getButtons();
@@ -219,11 +235,10 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
     /**
      * Run method for pooling and finding a joystick.
      */
+    @Override
     public void run()
     {
         boolean quit = false; // Quit flag
-        Thread pollThread = null; // Thread to poll
-        PollRunner pollRunner = null; // Poll runner
         prepareJoystick();
         while (!quit)
         {
@@ -232,18 +247,22 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
                 // Joystick poll
                 if (joystick != null)
                 {
-                    if (pollThread == null || pollRunner.done)
+                    if (pollRunner.joystick == null)
                     {
-                        pollRunner = new PollRunner(joystick);
-                        pollThread = new Thread(pollRunner);
-                        pollThread.start();
+                        pollRunner.joystick = joystick;
+                        pollRunner.start();
+                    }
+                    else if (pollRunner.getDoRun() == false)
+                    {
+                        pollRunner.setDoRun(true);
                     }
                     else
                     {
-                        pollThread.interrupt();
+                        //pollRunner.stop();
                         quit = true;
                         ErrorWindow error = new ErrorWindow(
-                                new RuntimeException("Joystick removed, it may cause library leakages, please restart the app."), null);
+                                new RuntimeException("Joystick removed, it may cause library leakages, please restart the app."),
+                                mainWindow, null);
                         error.showWindow();
                     }
                 }
@@ -277,22 +296,76 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
  */
 class PollRunner implements Runnable
 {
+    private boolean doRun = false;
+    protected Joystick joystick; // Joystick object
+    private Thread thread; // The thread
 
-    private Joystick joystick; // Joystick object
-    protected boolean done; // Done polling
-
-    public PollRunner(Joystick joystick)
+    public PollRunner()
     {
-        this.joystick = joystick;
-        done = false;
+        
+    }
+
+    /**
+     * Starts polling.
+     */
+    public void start()
+    {
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    /**
+     * Stops polling.
+     */
+    public void stop()
+    {
+        if (thread != null)
+            thread.interrupt();
+    }
+
+    /**
+     * Gets if needs to run.
+     */
+    public synchronized boolean getDoRun()
+    {
+        return doRun;
+    }
+
+    /**
+     * Sets if needs to run.
+     */
+    public synchronized void setDoRun(boolean val)
+    {
+        doRun = val;
+        if (doRun)
+        {
+            synchronized(thread)
+            {
+                    thread.notify();
+            }
+        }
     }
 
     /**
      * Run method.
      */
+    @Override
     public void run()
     {
-        joystick.poll();
-        done = true;
+        while (true)
+        {
+            joystick.poll();
+            setDoRun(false);
+            try
+            {
+                synchronized(thread)
+                {
+                    thread.wait();
+                }
+            }
+            catch (InterruptedException ex)
+            {
+            }
+        }
     }
 }

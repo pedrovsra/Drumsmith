@@ -167,6 +167,7 @@ class JoystickNotifier implements Runnable
         return interval;
     }
 
+    @Override
     public void run()
     {
         while (joyListeners.length > 0)

@@ -1,23 +1,19 @@
 package guitarjava.components;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Graphics;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URI;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 /**
  * Class to show a fatal error and finalize application. 
@@ -36,13 +32,14 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     private String url; // Url to go when button pressed
     private Throwable ex; // Exception
     private JScrollPane scrollPane; // Scroll pane of text area
+    private Window mainWindow; // The Main Window
 
     /**
      * Default constructor.
      */
-    public ErrorWindow(String url)
+    public ErrorWindow(Window mainWindow, String url)
     {
-        this.url = url;
+        this(null, mainWindow, url);
     }
 
     /**
@@ -50,11 +47,17 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      * @param ex the error
      * @param url the url report to send the user
      */
-    public ErrorWindow(Throwable ex, String url)
+    public ErrorWindow(Throwable ex, Window mainWindow, String url)
     {
         // Initializing
+        this.mainWindow = mainWindow;
         this.url = url;
         this.ex = ex;
+        setTitle("Ops! An Error has occured!");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setResizable(false);
+        library = new Library();
+        setModal(true);
     }
 
     /**
@@ -74,10 +77,10 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      */
     public void showWindow()
     {
-        setTitle("Ops! An Error has occured!");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setResizable(false);
-        library = new Library();
+        // Fires close window to Main Window
+        if (mainWindow instanceof JFrame)
+            ((JFrame) mainWindow).setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        mainWindow.dispatchEvent(new WindowEvent(mainWindow, WindowEvent.WINDOW_CLOSING));
         // Adding other events and stuff
         addWindowListener(new WindowAdapter()
         {
@@ -113,7 +116,6 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
             label.setForeground(Color.red);
             add(label);
         }
-        setModal(true);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -177,6 +179,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      * Event happened.
      * @param e the event
      */
+    @Override
     public void actionPerformed(ActionEvent e)
     {
         if (e.getActionCommand().equals("REPORT_PRESSED"))
@@ -188,18 +191,9 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     /**
      * Exception happened.
      */
+    @Override
     public void uncaughtException(Thread t, Throwable e)
     {
         showWindow(e);
-    }
-
-    /**
-     * Repainting the background.
-     */
-    @Override
-    public void repaint(int x, int y, int width, int height)
-    {
-        System.out.println("YO");
-        //super.update(g);
     }
 }

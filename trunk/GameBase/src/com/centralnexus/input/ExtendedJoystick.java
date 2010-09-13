@@ -81,6 +81,7 @@ class ExtendedJoystick extends Joystick
      * This polls (updates) the joystick for its values. This must be called
      * after the owner is done with the old values.
      */
+    @Override
     public void poll()
     {
         myJoyNotifier.buttonValues = poll(getID(), axisValues);
