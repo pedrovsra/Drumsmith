@@ -113,47 +113,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     }
 
     /**
-     * Setting mulY, to invert y axis.
-     */
-    public void setMulY(int mulY)
-    {
-        this.mulY = mulY;
-    }
-
-    /**
-     * Adds an event lister to the GraphicsUpdate event.
-     * @param listener the listener
-     */
-    @Override
-    public void addGraphicsUpdateEventListener(GraphicsUpdateListener listener)
-    {
-        listeners.add(listener);
-    }
-
-    /**
-     * Removes an event lister from the GraphicsUpdate event.
-     * @param listener the listener
-     */
-    @Override
-    public void removeGraphicsUpdateEventListener(GraphicsUpdateListener listener)
-    {
-        listeners.remove(listener);
-    }
-
-    /**
-     * Fires the GraphicsUpdate event, calling all the listeners.
-     */
-    private void fireGraphicsUpdateEvent()
-    {
-        GraphicsUpdateEvent event = new GraphicsUpdateEvent(this);
-        Iterator i = listeners.iterator();
-        while (i.hasNext())
-        {
-            ((GraphicsUpdateListener) i.next()).graphicsUpdateEvent(event);
-        }
-    }
-
-    /**
      * Initializing the context.
      */
     @Override
@@ -213,16 +172,57 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
                 {
                     try
                     {
-                        Thread.sleep(1); // Dont let it fry the CPU if vsync is not enabled
+                        Thread.yield(); // Dont let it fry the CPU if vsync is not enabled
                         canvas.display();
                     }
-                    catch (InterruptedException ex)
+                    catch (Exception ex)
                     {
                     }
                 }
             }
         });
         animator.start();
+    }
+
+    /**
+     * Setting mulY, to invert y axis.
+     */
+    public void setMulY(int mulY)
+    {
+        this.mulY = mulY;
+    }
+
+    /**
+     * Adds an event lister to the GraphicsUpdate event.
+     * @param listener the listener
+     */
+    @Override
+    public void addGraphicsUpdateEventListener(GraphicsUpdateListener listener)
+    {
+        listeners.add(listener);
+    }
+
+    /**
+     * Removes an event lister from the GraphicsUpdate event.
+     * @param listener the listener
+     */
+    @Override
+    public void removeGraphicsUpdateEventListener(GraphicsUpdateListener listener)
+    {
+        listeners.remove(listener);
+    }
+
+    /**
+     * Fires the GraphicsUpdate event, calling all the listeners.
+     */
+    private void fireGraphicsUpdateEvent()
+    {
+        GraphicsUpdateEvent event = new GraphicsUpdateEvent(this);
+        Iterator i = listeners.iterator();
+        while (i.hasNext())
+        {
+            ((GraphicsUpdateListener) i.next()).graphicsUpdateEvent(event);
+        }
     }
 
     /**
