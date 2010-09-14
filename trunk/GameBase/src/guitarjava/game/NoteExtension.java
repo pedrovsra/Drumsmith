@@ -17,7 +17,7 @@ public class NoteExtension extends TrackObject
      */
     public NoteExtension(int track, float height, float noteOriginY, float noteHeight)
     {
-        super(track, -(height / 2 + 1.5f*noteHeight) + noteOriginY, 0, WIDTH, height, -1);
+        super(track, -(height / 2 + .5f*noteHeight) + noteOriginY, 0, WIDTH, height, -1);
 
         drawData.createAs2DFilledRect(WIDTH, (int) height);
     }

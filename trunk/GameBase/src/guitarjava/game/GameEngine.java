@@ -59,7 +59,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     }
 
     /**
-     * Start the music.
+     * Start.
      * @throws JavaLayerException
      */
     public void start() throws JavaLayerException
@@ -120,15 +120,18 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             executionTime += deltaTime;
         }
 
+        if (executionTime == 0)
+            return;
+        
         float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y)
-                + TrackObject.BURNING_POSITION_Y + TrackObject.DEFAULT_OBJECT_SIZE / 2)
-                / Note.PIXELS_JUMP_PER_FRAME;
+                + TrackObject.BURNING_POSITION_Y) / Note.PIXELS_JUMP_PER_FRAME;
         time /= 1000;
 
         // Creates new notes that need to appear on the track.
         for (NoteXml noteXml = music.getNextNote(time); noteXml != null; noteXml = music.getNextNote(time))
         {
             Note note = new Note(noteXml.getTrack(), noteXml.getDuration());
+
             notes.add(note);
         }
 

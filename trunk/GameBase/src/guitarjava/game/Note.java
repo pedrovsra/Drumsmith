@@ -8,7 +8,7 @@ public class Note extends TrackObject
 {
 
     public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
-    public static final float ORIGIN_Y = -1200;
+    public static final float ORIGIN_Y = -1260;
     private static final int Z_SURFACE_FACTOR = 3;
     private float duration;
     private boolean powned;
@@ -20,15 +20,14 @@ public class Note extends TrackObject
      */
     public Note(int track, float duration)
     {
-        super(track, -DEFAULT_OBJECT_SIZE + ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
+        super(track, ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
                 DEFAULT_OBJECT_SIZE, Constant.CACHEID_NOTE);
 
         this.duration = duration;
 
         if (duration > 0)
         {
-            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED -
-                    DEFAULT_OBJECT_SIZE, ORIGIN_Y, height);
+            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED, ORIGIN_Y, height);
         }
 
         double realRadiusSquared = width * width * Z_SURFACE_FACTOR * Z_SURFACE_FACTOR /
@@ -85,7 +84,7 @@ public class Note extends TrackObject
             noteExtension.setPowned(burningState);
         }
     }
-
+    
     /**
      * @return The note extension.
      */
