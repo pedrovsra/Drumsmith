@@ -39,7 +39,6 @@ public class GameWindow extends JFrame
         requestFocus();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	//gd.setFullScreenWindow(this);
-        final Window window = this;
         addKeyListener(new KeyAdapter()
         {
             @Override
@@ -47,7 +46,7 @@ public class GameWindow extends JFrame
             {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
                 {
-                    dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+                    dispatchEvent(new WindowEvent(GameWindow.this, WindowEvent.WINDOW_CLOSING));
                     dispose();
                 }
             }

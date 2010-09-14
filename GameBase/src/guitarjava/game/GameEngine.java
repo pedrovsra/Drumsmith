@@ -203,13 +203,13 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                 case 'S':
                     track = 1;
                     break;
-                case 'J':
+                case 'H':
                     track = 2;
                     break;
-                case 'K':
+                case 'J':
                     track = 3;
                     break;
-                case 'L':
+                case 'K':
                     track = 4;
                     break;
                 default:

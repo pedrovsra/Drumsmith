@@ -8,6 +8,10 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -25,7 +29,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
 
     private static final int MAX_CACHE = 1024; // Max cache DrawDatas
     private List listeners; // Listeners for the graphics update
-    private FPSAnimator animator; // Animator for OpenGL canvas
+    private Thread animator; // Animator for OpenGL canvas
     private GL gl; // To use on draw operations
     private GLCanvas canvas; // OpenGL Canvas
     private int mulY = -1; // To invert y axis
@@ -162,7 +166,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
         component.add(canvas);
-        animator = new FPSAnimator(canvas, 60);
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
         {
@@ -173,8 +176,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
                 stop();
             }
         });
-        // Others
-        animator.start();
         canvas.setFocusable(false);
     }
 
@@ -202,6 +203,26 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glEnable(GL.GL_LIGHTING);
         // Enable multisampling (anti-aliasing)
         gl.glEnable(GL.GL_MULTISAMPLE);
+        // Others
+        animator = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (true)
+                {
+                    try
+                    {
+                        Thread.sleep(1); // Dont let it fry the CPU if vsync is not enabled
+                        canvas.display();
+                    }
+                    catch (InterruptedException ex)
+                    {
+                    }
+                }
+            }
+        });
+        animator.start();
     }
 
     /**
@@ -283,7 +304,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     @Override
     public void stop()
     {
-        animator.stop();
+        animator.interrupt();
     }
 
     /**
