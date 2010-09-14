@@ -79,7 +79,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     {
         // Fires close window to Main Window
         if (mainWindow instanceof JFrame)
-            ((JFrame) mainWindow).setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            ((JFrame) mainWindow).setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         mainWindow.dispatchEvent(new WindowEvent(mainWindow, WindowEvent.WINDOW_CLOSING));
         // Adding other events and stuff
         addWindowListener(new WindowAdapter()
@@ -141,8 +141,10 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
         add(scrollPane);
-        txt.setBackground(new Color(1, 1, 1, 0));
-        scrollPane.setBackground(new Color(1, 1, 1, 0.5f));
+        //txt.setBackground(new Color(1, 1, 1, 0));
+        //scrollPane.setBackground(new Color(1, 1, 1, 0.5f));
+        txt.setOpaque(false);
+        scrollPane.setOpaque(false);
     }
 
     /**
