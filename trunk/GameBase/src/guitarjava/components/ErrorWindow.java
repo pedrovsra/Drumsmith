@@ -141,10 +141,9 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
         add(scrollPane);
-        //txt.setBackground(new Color(1, 1, 1, 0));
-        //scrollPane.setBackground(new Color(1, 1, 1, 0.5f));
         txt.setOpaque(false);
         scrollPane.setOpaque(false);
+        //scrollPane.getViewport().setOpaque(false);
     }
 
     /**

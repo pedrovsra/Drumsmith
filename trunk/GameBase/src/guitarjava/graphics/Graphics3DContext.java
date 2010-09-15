@@ -29,7 +29,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
 
     private static final int MAX_CACHE = 1024; // Max cache DrawDatas
     private List listeners; // Listeners for the graphics update
-    private Thread animator; // Animator for OpenGL canvas
+    private Animator animator; // Animator for OpenGL canvas
     private GL gl; // To use on draw operations
     private GLCanvas canvas; // OpenGL Canvas
     private int mulY = -1; // To invert y axis
@@ -122,8 +122,10 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         caps = new GLCapabilities();
         caps.setSampleBuffers(true); // Enable multisampling
         caps.setNumSamples(2);
+        caps.setDoubleBuffered(true);
         canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
+        canvas.setAutoSwapBufferMode(false);
         component.add(canvas);
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
@@ -136,6 +138,9 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             }
         });
         canvas.setFocusable(false);
+        // Others
+        animator = new Animator(canvas);
+        animator.start();
     }
 
     /**
@@ -162,26 +167,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glEnable(GL.GL_LIGHTING);
         // Enable multisampling (anti-aliasing)
         gl.glEnable(GL.GL_MULTISAMPLE);
-        // Others
-        animator = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (true)
-                {
-                    try
-                    {
-                        Thread.sleep(1); // Dont let it fry the CPU if vsync is not enabled
-                        canvas.display();
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
-            }
-        });
-        animator.start();
     }
 
     /**
@@ -286,8 +271,10 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         // Fire draw events
         fireGraphicsUpdateEvent();
-        // Flush all drawing operations to the graphics card
-        gl.glFlush();
+        // Swap buffers
+        long time = System.currentTimeMillis();
+        canvas.swapBuffers();
+        System.out.println(System.currentTimeMillis() - time);
     }
 
     /**
@@ -304,7 +291,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     @Override
     public void stop()
     {
-        animator.interrupt();
+        animator.stop();
     }
 
     /**
