@@ -172,7 +172,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
                 {
                     try
                     {
-                        Thread.yield(); // Dont let it fry the CPU if vsync is not enabled
+                        Thread.sleep(1); // Dont let it fry the CPU if vsync is not enabled
                         canvas.display();
                     }
                     catch (Exception ex)

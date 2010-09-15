@@ -65,6 +65,11 @@ public abstract class GameObject
         return y;
     }
 
+    public void setY(float y)
+    {
+        this.y = y;
+    }
+
     public float getWidth()
     {
         return width;
