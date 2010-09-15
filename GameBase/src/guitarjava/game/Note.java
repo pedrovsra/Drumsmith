@@ -12,6 +12,7 @@ public class Note extends TrackObject
     private static final int Z_SURFACE_FACTOR = 3;
     private float duration;
     private boolean powned;
+    private boolean readMiss;
     private NoteExtension noteExtension;
 
     /**
@@ -65,12 +66,27 @@ public class Note extends TrackObject
         return (y < Constant.WINDOW_HEIGHT + duration * 1000 * TRACK_DEFAULT_SPEED + height / 2);
     }
 
+    public boolean isMissed()
+    {
+        boolean missed = !isPowned() && y > BURNING_POSITION_Y + height && !readMiss;
+
+        if (missed)
+            readMiss = true;
+
+        return missed;
+    }
+
     /**
      * @return True if the note is powned.
      */
     public boolean isPowned()
     {
-        return y > BURNING_POSITION_Y && powned;
+        return powned;
+    }
+
+    public boolean canDraw()
+    {
+        return y < BURNING_POSITION_Y || !powned;
     }
 
     /**

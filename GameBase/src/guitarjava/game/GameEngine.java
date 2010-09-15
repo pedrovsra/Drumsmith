@@ -146,19 +146,16 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             Note note = it.next();
             note.think(deltaTime);
 
+            if (note.isMissed())
+                music.setSilent(true);
+            
             if (!note.isVisible())
             {
-                // The note needs to be removed. Checks if it was missed and removes.
-                if (!note.isPowned())
-                {
-                    music.setSilent(true);
-                }
-
                 it.remove();
             }
             else
             {    
-                if (!note.isPowned())
+                if (note.canDraw())
                 {
                     graphics.draw(note.getDrawData());
                 }
@@ -255,6 +252,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
             {
                 music.setSilent(false);
             }
+            else
+                music.setSilent(true);
         }
         else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
         {

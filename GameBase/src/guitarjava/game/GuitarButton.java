@@ -103,8 +103,10 @@ public class GuitarButton extends TrackObject implements BurningInterface
 
             Flame flame = new Flame(this, track, totalDuration);
             flames.add(flame);
+
+            return true;
         }
 
-        return note.isPowned();
+        return false;
     }
 }

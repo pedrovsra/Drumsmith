@@ -12,15 +12,13 @@ import static org.junit.Assert.*;
  */
 public class MusicTest
 {
-    private static String MUSIC_NAME_XML = "TestMusic.xml";
-    private static String MUSIC_NAME_MP3 = "TestMusic.mp3";
     private static String VERSION = "0.1";
-    private static String NAME = "Can't Stop";
-    private static String ARTIST = "Red Hot Chili Peppers";
+    private static String NAME = "I Love Rock and Roll";
+    private static String ARTIST = "Joan Jett and the Blackhearts";
     private static String ALBUM = "Vazio";
-    private static int YEAR = 1;
-    private static int LENGTH = 267;
-    private static int NUMBER_OF_NOTES = 1505;
+    private static int YEAR = 0;
+    private static int LENGTH = 177;
+    private static int NUMBER_OF_NOTES = 475;
 
     private Music music;
 
@@ -37,10 +35,16 @@ public class MusicTest
     @Test
     public void testLoadMusic() throws Exception
     {
-        music = new Music("TestMusic.xml", "TestMusic.mp3");
+        music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
+  
         music.play();
 
-        Thread.sleep(5000);
+        int i = 0;
+        while (!music.setSilent(true))
+        {
+            System.out.println(i++);
+        }
+        assertTrue(music.setSilent(true));
 
         assertTrue(music.getVersion().equals(VERSION));
         assertTrue(music.getName().equals(NAME));
@@ -49,5 +53,7 @@ public class MusicTest
         assertTrue(music.getYear() == YEAR);
         assertTrue(music.getLength() == LENGTH);
         assertTrue(music.getNumberOfNotes() == NUMBER_OF_NOTES);
+
+        Thread.sleep(12000);
     }
 }
