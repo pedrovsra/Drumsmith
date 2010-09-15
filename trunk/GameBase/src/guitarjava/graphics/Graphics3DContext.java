@@ -274,7 +274,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         // Swap buffers
         long time = System.currentTimeMillis();
         canvas.swapBuffers();
-        System.out.println(System.currentTimeMillis() - time);
+        //System.out.println(System.currentTimeMillis() - time);
     }
 
     /**

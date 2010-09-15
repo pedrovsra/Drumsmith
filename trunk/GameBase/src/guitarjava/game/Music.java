@@ -31,6 +31,7 @@ public class Music
     private int year;
     private int length;
     private int notePointer;
+    private boolean silent;
     private List<NoteXml> notes;
     private AdvancedPlayer player;
 
@@ -154,9 +155,18 @@ public class Music
     /**
      * @param silent True to mute the music, false to unmute.
      */
-    public void setSilent(boolean silent)
+    public boolean setSilent(boolean silent)
     {
-        // TODO.
+        // Checks if the music needs to be toggled, so it won't force silent every time.
+        if (this.silent == silent)
+            return true;
+
+        this.silent = silent;
+
+        if (silent)
+            return player.setGain(-15);
+        else
+            return player.setGain(0);
     }
 
     public int getCurrentPosition()
