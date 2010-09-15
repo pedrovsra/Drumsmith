@@ -123,15 +123,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         if (executionTime == 0)
             return;
         
-        float time = executionTime + Constant.FRAME_DURATION * (Math.abs(Note.ORIGIN_Y)
-                + TrackObject.BURNING_POSITION_Y) / Note.PIXELS_JUMP_PER_FRAME;
-        time /= 1000;
+        float timeTroughTrack = (Math.abs(Note.ORIGIN_Y)
+                + TrackObject.BURNING_POSITION_Y) / TrackObject.TRACK_DEFAULT_SPEED;
+
+        float time = (timeTroughTrack + executionTime) / 1000;
 
         // Creates new notes that need to appear on the track.
         for (NoteXml noteXml = music.getNextNote(time); noteXml != null; noteXml = music.getNextNote(time))
         {
             Note note = new Note(noteXml.getTrack(), noteXml.getDuration());
-
             notes.add(note);
         }
 
