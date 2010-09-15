@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class GuitarButton extends TrackObject implements BurningInterface
 {
-
     private boolean pressed;
     private List<Flame> flames;
 
@@ -79,6 +78,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     /**
      * @return True if it is pressed.
      */
+    @Override
     public boolean isBurning()
     {
         return pressed;
@@ -97,9 +97,9 @@ public class GuitarButton extends TrackObject implements BurningInterface
             note.setPowned(this);
 
             // After powning the note, calculates the flame duration and create it.
-            float duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
+            double duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
                     * Constant.FRAME_DURATION;
-            float totalDuration = duration + note.getDuration() * 1000;
+            double totalDuration = duration + note.getDuration() * 1000;
 
             Flame flame = new Flame(this, track, totalDuration);
             flames.add(flame);

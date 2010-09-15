@@ -8,7 +8,7 @@ public class Note extends TrackObject
 {
 
     public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
-    public static final float ORIGIN_Y = -1260;
+    public static final double ORIGIN_Y = -1260;
     private static final int Z_SURFACE_FACTOR = 3;
     private float duration;
     private boolean powned;
@@ -27,7 +27,8 @@ public class Note extends TrackObject
 
         if (duration > 0)
         {
-            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED, ORIGIN_Y, height);
+            noteExtension = new NoteExtension(track, duration * 1000 * TRACK_DEFAULT_SPEED -
+                    height, ORIGIN_Y, height);
         }
 
         double realRadiusSquared = width * width * Z_SURFACE_FACTOR * Z_SURFACE_FACTOR /
@@ -41,12 +42,19 @@ public class Note extends TrackObject
     public void think(float deltaTime)
     {
         y += TRACK_DEFAULT_SPEED * deltaTime;
-        drawData.setPosition(x, y, z);
+        updateDrawDataPosition();
 
         if (noteExtension != null)
         {
             noteExtension.think(deltaTime);
         }
+    }
+
+    public void forward(double y)
+    {
+        setY(this.y + y);
+        if (noteExtension != null)
+            noteExtension.setY(noteExtension.getY() + y);
     }
 
     /**

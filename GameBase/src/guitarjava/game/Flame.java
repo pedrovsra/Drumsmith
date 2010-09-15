@@ -15,9 +15,9 @@ public class Flame extends TrackObject
     private static final int DEFAULT_WIDTH = 30;
     private static final int DEFAULT_HEIGHT = 30;
     private static final int FLAME_PARTICLES = 20;
-    private float duration;
-    private float noteDuration;
-    private float timeElapsed;
+    private double duration;
+    private double noteDuration;
+    private double timeElapsed;
     private boolean extinguish;
     private List<Particle> particles;
     private BurningInterface burningState;
@@ -26,7 +26,7 @@ public class Flame extends TrackObject
      * @param track Which track the it is in.
      * @param duration The total duration of the flame.
      */
-    public Flame(BurningInterface burningState, int track, float duration)
+    public Flame(BurningInterface burningState, int track, double duration)
     {
         super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE, -1);
 
@@ -36,7 +36,7 @@ public class Flame extends TrackObject
         particles = new LinkedList<Particle>();
 
         for (int x = 0; x < FLAME_PARTICLES / 5; ++x)
-            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
+            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5,
                     TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
     }
 

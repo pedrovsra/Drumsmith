@@ -22,6 +22,8 @@ import javazoom.jl.decoder.JavaLayerException;
  */
 public class GameEngine implements GraphicsUpdateListener, InputListener
 {
+    private final double TIME_TROUGH_TRACK = (Math.abs(Note.ORIGIN_Y)
+                + TrackObject.BURNING_POSITION_Y) / TrackObject.TRACK_DEFAULT_SPEED;
 
     private GraphicsInterface graphics;
     private TimingInterface timing;
@@ -107,13 +109,13 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
      */
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
-    {
+    {   
         // Gets the delta time and update the execuiton time.
         float deltaTime = timing.getDeltaTime();
-
         if (executionTime == 0)
         {
             executionTime = music.getCurrentPosition();
+            deltaTime = 0;
         }
         else
         {
@@ -122,16 +124,18 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
         if (executionTime == 0)
             return;
-        
-        float timeTroughTrack = (Math.abs(Note.ORIGIN_Y)
-                + TrackObject.BURNING_POSITION_Y) / TrackObject.TRACK_DEFAULT_SPEED;
 
-        float time = (timeTroughTrack + executionTime) / 1000;
+        double time = (TIME_TROUGH_TRACK + executionTime) / 1000;
 
         // Creates new notes that need to appear on the track.
-        for (NoteXml noteXml = music.getNextNote(time); noteXml != null; noteXml = music.getNextNote(time))
+        for (NoteXml noteXml = music.getNextNote((float) time); noteXml != null; noteXml = music.getNextNote((float) time))
         {
             Note note = new Note(noteXml.getTrack(), noteXml.getDuration());
+
+            double deltaY = (time - noteXml.getTime()) * 1000 * Note.TRACK_DEFAULT_SPEED;
+
+            note.forward(deltaY);
+
             notes.add(note);
         }
 
@@ -153,7 +157,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
                 it.remove();
             }
             else
-            {
+            {    
                 if (!note.isPowned())
                 {
                     graphics.draw(note.getDrawData());

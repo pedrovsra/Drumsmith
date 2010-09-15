@@ -11,11 +11,11 @@ public abstract class GameObject
 {
 
     protected DrawData drawData;
-    protected float x;
-    protected float y;
-    protected float z;
-    protected float width;
-    protected float height;
+    protected double x;
+    protected double y;
+    protected double z;
+    protected double width;
+    protected double height;
 
     /**
      * @param x Position x.
@@ -23,7 +23,7 @@ public abstract class GameObject
      * @param z Position z.
      * @param color Color.
      */
-    public GameObject(float x, float y, float z, float width, float height, Color color, int cacheId)
+    public GameObject(double x, double y, double z, double width, double height, Color color, int cacheId)
     {
         drawData = new DrawData(cacheId);
 
@@ -33,9 +33,14 @@ public abstract class GameObject
         this.width = width;
         this.height = height;
 
-        drawData.setPosition(x, y, z);
+        updateDrawDataPosition();
 
         drawData.setColor(color);
+    }
+
+    public final void updateDrawDataPosition()
+    {
+        drawData.setPosition((float) x, (float) y, (float) z);
     }
 
     /**
@@ -52,7 +57,7 @@ public abstract class GameObject
     /**
      * @return Position x.
      */
-    public float getX()
+    public double getX()
     {
         return x;
     }
@@ -60,22 +65,22 @@ public abstract class GameObject
     /**
      * @return Position y.
      */
-    public float getY()
+    public double getY()
     {
         return y;
     }
 
-    public void setY(float y)
+    public void setY(double y)
     {
         this.y = y;
     }
 
-    public float getWidth()
+    public double getWidth()
     {
         return width;
     }
 
-    public float getHeight()
+    public double getHeight()
     {
         return height;
     }
