@@ -15,7 +15,7 @@ public class NoteExtension extends TrackObject
      * @param track Track of this object.
      * @param height Height of the extension.
      */
-    public NoteExtension(int track, float height, float noteOriginY, float noteHeight)
+    public NoteExtension(int track, double height, double noteOriginY, double noteHeight)
     {
         super(track, -(height / 2 + .5f*noteHeight) + noteOriginY, 0, WIDTH, height, -1);
 
@@ -37,7 +37,7 @@ public class NoteExtension extends TrackObject
             powning = burningState.isBurning();
         }
 
-        drawData.setPosition(x, y, z);
+        updateDrawDataPosition();
     }
 
     /**
