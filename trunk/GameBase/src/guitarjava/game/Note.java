@@ -10,20 +10,24 @@ public class Note extends TrackObject
     public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
     public static final double ORIGIN_Y = -1260;
     private static final int Z_SURFACE_FACTOR = 3;
+    private int number;
     private float duration;
     private boolean powned;
     private boolean readMiss;
     private NoteExtension noteExtension;
+    private NoteListener listener;
 
     /**
      * @param track The track of the note.
      * @param duration The duration.
      */
-    public Note(int track, float duration)
+    public Note(NoteListener listener, int number, int track, float duration)
     {
         super(track, ORIGIN_Y, 1, DEFAULT_OBJECT_SIZE,
                 DEFAULT_OBJECT_SIZE, Constant.CACHEID_NOTE);
 
+        this.listener = listener;
+        this.number = number;
         this.duration = duration;
 
         if (duration > 0)
@@ -49,6 +53,12 @@ public class Note extends TrackObject
         {
             noteExtension.think(deltaTime);
         }
+
+        if (!readMiss && y > BURNING_POSITION_Y + height && !isPowned())
+        {
+            readMiss = true;
+            listener.proccessMissEvent(number);
+        }
     }
 
     public void forward(double y)
@@ -66,16 +76,6 @@ public class Note extends TrackObject
         return (y < Constant.WINDOW_HEIGHT + duration * 1000 * TRACK_DEFAULT_SPEED + height / 2);
     }
 
-    public boolean isMissed()
-    {
-        boolean missed = !isPowned() && y > BURNING_POSITION_Y + height && !readMiss;
-
-        if (missed)
-            readMiss = true;
-
-        return missed;
-    }
-
     /**
      * @return True if the note is powned.
      */
@@ -89,6 +89,11 @@ public class Note extends TrackObject
         return y < BURNING_POSITION_Y || !powned;
     }
 
+    public int getNumber()
+    {
+        return number;
+    }
+    
     /**
      * @return The duration.
      */

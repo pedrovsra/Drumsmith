@@ -47,7 +47,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
         drawData.createAs2DRect((int) width, (int) height);
     }
 
-    public boolean press(List<Note> notes)
+    public int press(List<Note> notes)
     {
         pressed = true;
         drawData.createAs2DFilledRect((int) width, (int) height);
@@ -60,11 +60,11 @@ public class GuitarButton extends TrackObject implements BurningInterface
             boolean result = collide(note);
             if (result)
             {
-                return true;
+                return note.getNumber();
             }
         }
 
-        return false;
+        return -1;
     }
 
     /**
