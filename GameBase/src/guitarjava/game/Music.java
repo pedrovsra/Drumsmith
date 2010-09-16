@@ -245,7 +245,7 @@ public class Music
             duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
             track = Integer.parseInt(attributes.getNamedItem("track").getNodeValue());
 
-            notes.add(new NoteXml(time, duration, track));
+            notes.add(new NoteXml(time, duration, track, i));
         }
     }
 }

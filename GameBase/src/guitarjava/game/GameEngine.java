@@ -14,16 +14,18 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * It is the game engine.
  * @author lucasjadami
  */
-public class GameEngine implements GraphicsUpdateListener, InputListener
+public class GameEngine implements GraphicsUpdateListener, InputListener, NoteListener
 {
-    private final double TIME_TROUGH_TRACK = (Math.abs(Note.ORIGIN_Y)
-                + TrackObject.BURNING_POSITION_Y) / TrackObject.TRACK_DEFAULT_SPEED;
+    private final double TIME_TROUGH_TRACK = (Math.abs(Note.ORIGIN_Y) + TrackObject.BURNING_POSITION_Y -
+            TrackObject.DEFAULT_OBJECT_SIZE) / TrackObject.TRACK_DEFAULT_SPEED;
 
     private GraphicsInterface graphics;
     private TimingInterface timing;
@@ -32,6 +34,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
     private float executionTime;
+    private int lastNotePowned;
     private GameWindow window;
 
     /**
@@ -58,6 +61,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         {
             guitarButtons[i] = new GuitarButton(i);
         }
+
+        lastNotePowned = -1;
     }
 
     /**
@@ -130,7 +135,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         // Creates new notes that need to appear on the track.
         for (NoteXml noteXml = music.getNextNote((float) time); noteXml != null; noteXml = music.getNextNote((float) time))
         {
-            Note note = new Note(noteXml.getTrack(), noteXml.getDuration());
+            Note note = new Note(this, noteXml.getNumber(), noteXml.getTrack(), noteXml.getDuration());
 
             double deltaY = (time - noteXml.getTime()) * 1000 * Note.TRACK_DEFAULT_SPEED;
 
@@ -145,9 +150,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
         {
             Note note = it.next();
             note.think(deltaTime);
-
-            if (note.isMissed())
-                music.setSilent(true);
             
             if (!note.isVisible())
             {
@@ -248,17 +250,28 @@ public class GameEngine implements GraphicsUpdateListener, InputListener
 
         if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED || e.getType() == InputEvent.INPUT_JOYSTICK_PRESSED)
         {
-            if (guitarButton.press(getNotesOfTrack(track)))
+            int noteNumber = guitarButton.press(getNotesOfTrack(track));
+            if (noteNumber == -1)
             {
-                music.setSilent(false);
+                music.setSilent(true);
             }
             else
-                music.setSilent(true);
+            {
+                music.setSilent(false);
+                lastNotePowned = noteNumber;
+            }
         }
         else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
         {
             guitarButton.unpress();
         }
+    }
+
+    @Override
+    public void proccessMissEvent(int noteNumber)
+    {
+        if (noteNumber > lastNotePowned)
+            music.setSilent(true);
     }
 
     private List<Note> getNotesOfTrack(int track)
