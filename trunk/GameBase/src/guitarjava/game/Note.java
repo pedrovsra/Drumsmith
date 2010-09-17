@@ -110,7 +110,8 @@ public class Note extends TrackObject
         powned = true;
         if (noteExtension != null)
         {
-            noteExtension.setPowned(burningState);
+            noteExtension = new BurningNoteExtension(noteExtension.getTrack(), noteExtension.getY(),
+                    noteExtension.getHeight(), burningState);
         }
     }
     
