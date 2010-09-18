@@ -11,7 +11,6 @@ import java.net.URI;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
@@ -24,14 +23,14 @@ import javax.swing.WindowConstants;
  */
 public class ErrorWindow extends JDialog implements ActionListener, Thread.UncaughtExceptionHandler
 {
-
     private Picture background; // Background image
     private Picture intro; // The top message
     private Library library; // Lib to load things
+    private Button viewErrorButton; // Button to see the exception
     private Button okButton; // Button to report
     private String url; // Url to go when button pressed
     private Throwable ex; // Exception
-    private JScrollPane scrollPane; // Scroll pane of text area
+    private ScrollPane scrollPane; // Scroll pane of text area
     private Window mainWindow; // The Main Window
 
     /**
@@ -94,17 +93,29 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         try
         {
             background = new Picture(library.getPicture("error/ErrorBackground.jpg"), 0, 0);
-            okButton = new Button(library.getDefaultFont(), "REPORT!", "REPORT_PRESSED", 
-                    library.getPicture("error/ReportButton.png"), 0, 0);
             setSize(background.getWidth(), background.getHeight() + 30);
+            
             intro = new Picture(library.getPicture("error/TopMessage.png"), 0, 0);
-            intro.setLocation((background.getWidth() - intro.getWidth()) / 2, 10);
+            intro.setLocation((background.getWidth() - intro.getWidth()) / 2, 10);  
+
+            viewErrorButton = new Button(library.getDefaultFont(), "VIEW ERROR", "VIEW_PRESSED",
+                    library.getPicture("error/ReportButton.png"), 0, 0);
+            viewErrorButton.addActionListener(this);
+            viewErrorButton.setLocation((background.getWidth() - viewErrorButton.getWidth()) / 2,
+                    intro.getY() + intro.getHeight() + 4);
+            
+            okButton = new Button(library.getDefaultFont(), "REPORT!", "REPORT_PRESSED",
+                    library.getPicture("error/ReportButton.png"), 0, 0);
             okButton.addActionListener(this);
-            add(intro);
-            add(okButton);
-            prepareTrace(ex);
             okButton.setLocation((background.getWidth() - okButton.getWidth()) / 2,
-                    scrollPane.getY() + scrollPane.getHeight());
+                    viewErrorButton.getY() + viewErrorButton.getHeight() + 4);
+
+            prepareTrace(ex);          
+
+            add(intro);
+            add(viewErrorButton);
+            add(okButton);
+            add(scrollPane);
             add(background);
         }
         catch (Exception e)
@@ -116,6 +127,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
             label.setForeground(Color.red);
             add(label);
         }
+        
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -124,25 +136,27 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      * Preparing error image and message.
      * @param ex the error
      */
-    private void prepareTrace(Throwable ex)
+    private void prepareTrace(Throwable ex) throws Exception
     {
         String message = ex.toString();
         StackTraceElement[] stackTrace = ex.getStackTrace();
+
         for (int x = 0; x < stackTrace.length; ++x)
         {
             message += "\n\t" + stackTrace[x].toString();
         }
-        JTextArea txt = new JTextArea();
-        txt.setEditable(false);
-        txt.setText(message);
-        txt.setFont(library.getDefaultFont());
-        txt.setForeground(Color.red);
-        scrollPane = new JScrollPane(txt, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(20, intro.getY() + intro.getHeight(), getWidth() - 40, 215);
-        add(scrollPane);
-        txt.setOpaque(false);
-        scrollPane.setOpaque(false);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setText(message);
+        textArea.setFont(library.getDefaultFont());
+        textArea.setForeground(Color.BLACK);
+        textArea.setOpaque(false);
+        
+        scrollPane = new ScrollPane(library.getPicture("error/ErrorPanelBackground.png"), textArea, 20,
+                intro.getY() + intro.getHeight() + 4, getWidth() - 40, 215);
+        scrollPane.setVisible(false);
         //scrollPane.getViewport().setOpaque(false);
     }
 
@@ -158,7 +172,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
             {
                 Desktop.getDesktop().browse(new URI(url));
             }
-            catch (Exception exc)
+            catch (Exception e)
             {
                 // Not possible to report
                 JOptionPane.showMessageDialog(this, "Could not report! Please do it manually by acessing: " + url,
@@ -176,6 +190,25 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         System.exit(1);
     }
 
+    private void changeTraceView()
+    {
+        int viewErrorButtonY = 0;
+
+        if (!scrollPane.isVisible())
+        {
+            scrollPane.setVisible(true);
+            viewErrorButtonY = scrollPane.getY() + scrollPane.getHeight() + 4;
+        }
+        else
+        {
+            scrollPane.setVisible(false);
+            viewErrorButtonY = intro.getY() + intro.getHeight() + 4;
+        }
+
+        viewErrorButton.setLocation(viewErrorButton.getX(), viewErrorButtonY);
+        okButton.setLocation(okButton.getX(), viewErrorButtonY + viewErrorButton.getHeight() + 4);
+    }
+
     /**
      * Event happened.
      * @param e the event
@@ -186,6 +219,10 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         if (e.getActionCommand().equals("REPORT_PRESSED"))
         {
             trueClose();
+        }
+        else if (e.getActionCommand().equals("VIEW_PRESSED"))
+        {
+            changeTraceView();
         }
     }
 

@@ -20,8 +20,6 @@ public class Picture extends JPanel
             throw new NullPointerException();
         }
 
-        setLayout(null);
-
         this.image = image;
         setSize(image.getWidth(null), image.getHeight(null));
 
