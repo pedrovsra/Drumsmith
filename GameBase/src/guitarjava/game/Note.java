@@ -6,10 +6,9 @@ package guitarjava.game;
  */
 public class Note extends TrackObject
 {
-
-    public static final int PIXELS_JUMP_PER_FRAME = (int) (TrackObject.TRACK_DEFAULT_SPEED * Constant.FRAME_DURATION);
     public static final double ORIGIN_Y = -1260;
     private static final int Z_SURFACE_FACTOR = 3;
+
     private int number;
     private float duration;
     private boolean powned;
@@ -18,6 +17,8 @@ public class Note extends TrackObject
     private NoteListener listener;
 
     /**
+     * @param listener Listener of the miss event.
+     * @param number Position on the notes list.
      * @param track The track of the note.
      * @param duration The duration.
      */
@@ -61,6 +62,10 @@ public class Note extends TrackObject
         }
     }
 
+    /**
+     * Moves the note forward from its y position.
+     * @param y The space to be forwarded.
+     */
     public void forward(double y)
     {
         setY(this.y + y);
@@ -84,11 +89,17 @@ public class Note extends TrackObject
         return powned;
     }
 
+    /**
+     * @return True if the note can be drawn.
+     */
     public boolean canDraw()
     {
         return y < BURNING_POSITION_Y || !powned;
     }
 
+    /**
+     * @return The number of the note on the notes list.
+     */
     public int getNumber()
     {
         return number;

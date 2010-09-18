@@ -14,8 +14,6 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -34,15 +32,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private List<Note> notes;
     private GuitarButton[] guitarButtons;
     private float executionTime;
-    private int lastNotePowned;
+    private int lastPownedNoteNumber;
     private GameWindow window;
 
     /**
-     * Constructor of the engine.
      * @param graphics
      * @param timing
      * @param input
-     * @param music Music played in the game.
+     * @param music Music played.
      */
     public GameEngine(GraphicsInterface graphics, TimingInterface timing,
             InputInterface input, GameWindow window, Music music)
@@ -62,11 +59,11 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             guitarButtons[i] = new GuitarButton(i);
         }
 
-        lastNotePowned = -1;
+        lastPownedNoteNumber = -1;
     }
 
     /**
-     * Start.
+     * Start method.
      * @throws JavaLayerException
      */
     public void start() throws JavaLayerException
@@ -94,9 +91,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
 
         window.showWindow();
 
-        // Reset the deltaTime.
-        timing.getDeltaTime();
-
         music.play();
     }
 
@@ -109,17 +103,19 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     }
 
     /**
-     * Update method. Main loop of the game. All magic is done here
+     * Update method. Main loop of the game. All magic is done here.
      * @param EventObject
      */
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
     {   
-        // Gets the delta time and update the execuiton time.
+        // Gets the delta time and update the execution time.
         float deltaTime = timing.getDeltaTime();
+
         if (executionTime == 0)
         {
             executionTime = music.getCurrentPosition();
+            // Set the deltaTime to zero to don't do wrong calculations.
             deltaTime = 0;
         }
         else
@@ -127,6 +123,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             executionTime += deltaTime;
         }
 
+        // Checks if the music hasn't started yet.
         if (executionTime == 0)
             return;
 
@@ -137,7 +134,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         {
             Note note = new Note(this, noteXml.getNumber(), noteXml.getTrack(), noteXml.getDuration());
 
-            double deltaY = (time - noteXml.getTime()) * 1000 * Note.TRACK_DEFAULT_SPEED;
+            double deltaY = (time - noteXml.getTime()) * 1000 * TrackObject.TRACK_DEFAULT_SPEED;
 
             note.forward(deltaY);
 
@@ -191,8 +188,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     }
 
     /**
-     *
-     * @param e
+     * Input event method.
+     * @param e Event object.
      */
     @Override
     public synchronized void inputEvent(InputEvent e)
@@ -258,7 +255,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             else
             {
                 music.setSilent(false);
-                lastNotePowned = noteNumber;
+                lastPownedNoteNumber = noteNumber;
             }
         }
         else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
@@ -270,10 +267,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     @Override
     public void proccessMissEvent(int noteNumber)
     {
-        if (noteNumber > lastNotePowned)
+        if (noteNumber > lastPownedNoteNumber)
             music.setSilent(true);
     }
 
+    /**
+     *
+     * @param track The track.
+     * @return The notes that are not powned of the track.
+     */
     private List<Note> getNotesOfTrack(int track)
     {
         List<Note> trackNotes = new ArrayList<Note>();

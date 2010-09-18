@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represents the button where when the notes are passing trough, you should press the button.
+ * Represents the button where when the notes are passing trough, you should press the key.
  * @author lucasjadami
  */
 public class GuitarButton extends TrackObject implements BurningInterface
@@ -41,12 +41,19 @@ public class GuitarButton extends TrackObject implements BurningInterface
         }
     }
 
+    /**
+     * Set the button unpressed.
+     */
     public void unpress()
     {
         pressed = false;
         drawData.createAs2DRect((int) width, (int) height);
     }
 
+    /**
+     * @param notes Notes of the button track.
+     * @return The number of the note that was powned. If no note was powned, returns -1.
+     */
     public int press(List<Note> notes)
     {
         pressed = true;
@@ -85,6 +92,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     }
 
     /**
+     * Test the collision. If it happens, creates a flame.
      * @param note The note to test the collision.
      * @return True if the collision happened.
      */
@@ -97,8 +105,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
             note.setPowned(this);
 
             // After powning the note, calculates the flame duration and create it.
-            double duration = DEFAULT_OBJECT_SIZE / Note.PIXELS_JUMP_PER_FRAME
-                    * Constant.FRAME_DURATION;
+            double duration = DEFAULT_OBJECT_SIZE / TRACK_DEFAULT_SPEED;
             double totalDuration = duration + note.getDuration() * 1000;
 
             Flame flame = new Flame(this, track, totalDuration);

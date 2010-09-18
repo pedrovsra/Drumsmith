@@ -1,12 +1,11 @@
 package guitarjava.game;
 
 /**
- * Interface that represents the state of a object (pressed / not pressed).
+ * Interface that represents the state of an object (pressed / not pressed).
  * @author lucasjadami
  */
 public interface BurningInterface
 {
-
     /**
      * @return The state of the object.
      */

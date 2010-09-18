@@ -6,25 +6,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A flam is an object shown when the player hits a note correctly.
+ * A flame is an object shown when the player hits a note correctly.
  * @author lucasjadami
  */
 public class Flame extends TrackObject
 {
-
     private static final int DEFAULT_WIDTH = 30;
     private static final int DEFAULT_HEIGHT = 30;
     private static final int FLAME_PARTICLES = 20;
     private double duration;
-    private double noteDuration;
     private double timeElapsed;
     private boolean extinguish;
     private List<Particle> particles;
     private BurningInterface burningState;
 
     /**
+     * @param BruningInterface An interface to indicate if it needs to keep burning.
      * @param track Which track the it is in.
-     * @param duration The total duration of the flame.
+     * @param duration The total duration.
      */
     public Flame(BurningInterface burningState, int track, double duration)
     {
@@ -41,7 +40,7 @@ public class Flame extends TrackObject
     }
 
     /**
-     * Gets the particles list.
+     * @return The particles of the flame.
      */
     public List<Particle> getParticles()
     {
@@ -59,11 +58,10 @@ public class Flame extends TrackObject
             Particle p = it.next();
             p.think(deltaTime);
             if (p.isDead())
-            {
                 it.remove();
-            }
         }
 
+        // Checks if it is needed to keep adding particles.
         if (extinguish)
             return;
 
@@ -80,7 +78,7 @@ public class Flame extends TrackObject
     }
 
     /**
-     * @return True if the total duration has already ended.
+     * @return True if the total duration has already ended and there are no particles to be drawn.
      */
     public boolean canExtinguish()
     {

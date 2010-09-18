@@ -6,7 +6,6 @@ package guitarjava.game;
  */
 public class NoteXml
 {
-
     private float time;
     private float duration;
     private int track;
@@ -49,6 +48,9 @@ public class NoteXml
         return track;
     }
 
+    /**
+     * @return The number of the note on the notes list.
+     */
     public int getNumber()
     {
         return number;
