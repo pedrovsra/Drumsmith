@@ -8,19 +8,21 @@ import java.awt.Color;
  */
 public abstract class TrackObject extends GameObject
 {
-
     public static final int TRACK_SPACEMENT = 70;
     public static final int DEFAULT_OBJECT_SIZE = 60;
     public static final int BURNING_POSITION_Y = 490;
     private static final double START_X = (Constant.WINDOW_WIDTH - TRACK_SPACEMENT * 6) / 2;
     public static final double TRACK_DEFAULT_SPEED = .4;
+
     protected int track;
 
     /**
      * @param track The track.
-     * @param horizontalSize Adjustable spacement for objects with width smaller than the track object size.
      * @param y Position y.
      * @param z Position z.
+     * @param width Width.
+     * @param height Height.
+     * @param cacheId Cache ID.
      */
     public TrackObject(int track, double y, double z, double width, double height, int cacheId)
     {
@@ -29,9 +31,12 @@ public abstract class TrackObject extends GameObject
 
     /**
      * @param track The track.
-     * @param horizontalSize Adjustable spacement for objects with width smaller than the track object size.
      * @param y Position y.
      * @param z Position z.
+     * @param width Width.
+     * @param height Height.
+     * @para color Color.
+     * @param cacheId Cache ID.
      */
     public TrackObject(int track, double y, double z, double width, double height, Color color, int cacheId)
     {

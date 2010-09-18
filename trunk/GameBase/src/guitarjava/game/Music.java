@@ -23,7 +23,8 @@ import org.xml.sax.SAXException;
  */
 public class Music
 {
-
+    private static final int MUSIC_GAIN = 8;
+    
     private String version;
     private String name;
     private String artist;
@@ -164,11 +165,14 @@ public class Music
         this.silent = silent;
 
         if (silent)
-            return player.setGain(-15);
+            return player.setGain(-MUSIC_GAIN);
         else
             return player.setGain(0);
     }
 
+    /**
+     * @return The current position of the music.
+     */
     public int getCurrentPosition()
     {
         return player.getCurrentPosition();
@@ -231,6 +235,9 @@ public class Music
     private void readNotes(Document document) throws NullPointerException, NumberFormatException
     {
         NodeList nodes = document.getElementsByTagName("Note");
+        int number = 0;
+        float lastTime = -1;
+
         for (int i = 0; i < nodes.getLength(); ++i)
         {
             Node node = nodes.item(i);
@@ -245,7 +252,12 @@ public class Music
             duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
             track = Integer.parseInt(attributes.getNamedItem("track").getNodeValue());
 
-            notes.add(new NoteXml(time, duration, track, i));
+            if (time != lastTime)
+                number++;
+
+            lastTime = time;
+            
+            notes.add(new NoteXml(time, duration, track, number));
         }
     }
 }

@@ -8,14 +8,22 @@ import java.awt.Color;
  */
 public class Particle extends GameObject
 {
-
     protected static final double PARTICLE_WIDTH = 5;
     protected static final double PARTICLE_HEIGHT = 5;
     private static final double Z_DES = 0.005;
+
     private double vx;
     private double vy;
     private double vz;
 
+    /**
+     * @param x The x position.
+     * @param y The y position.
+     * @param z The z position.
+     * @param maxVel The maximum speed of it.
+     * @param color Color.
+     * @param cacheId Cache ID.
+     */
     public Particle(double x, double y, double z, double maxVel, Color color, int cacheId)
     {
         super(x, y, z, PARTICLE_WIDTH, PARTICLE_HEIGHT, color, cacheId);

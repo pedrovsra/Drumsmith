@@ -9,7 +9,6 @@ import java.awt.Color;
  */
 public abstract class GameObject
 {
-
     protected DrawData drawData;
     protected double x;
     protected double y;
@@ -21,7 +20,10 @@ public abstract class GameObject
      * @param x Position x.
      * @param y Position y.
      * @param z Position z.
+     * @param width Width.
+     * @param height Height.
      * @param color Color.
+     * @param cacheId Cache of the object image.
      */
     public GameObject(double x, double y, double z, double width, double height, Color color, int cacheId)
     {
@@ -38,6 +40,9 @@ public abstract class GameObject
         drawData.setColor(color);
     }
 
+    /**
+     * Updates the draw data position with the current object position.
+     */
     public final void updateDrawDataPosition()
     {
         drawData.setPosition((float) x, (float) y, (float) z);
@@ -70,16 +75,25 @@ public abstract class GameObject
         return y;
     }
 
+    /**
+     * @param y The new value of y.
+     */
     public void setY(double y)
     {
         this.y = y;
     }
 
+    /**
+     * @return The width.
+     */
     public double getWidth()
     {
         return width;
     }
 
+    /**
+     * @return The height.
+     */
     public double getHeight()
     {
         return height;
