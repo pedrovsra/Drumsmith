@@ -1,11 +1,13 @@
 package guitarjava.components;
 
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
+import java.awt.image.ImageObserver;
+import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -13,26 +15,26 @@ import javax.imageio.ImageIO;
  */
 public class Library
 {
+    public enum Package
+    {
+        ERROR
+    }
 
-    private Map<String, BufferedImage> pictures;
-    private Map<String, BufferedImage> things;
+    private Map<String, Image> pictures;
     private Font defaultFont;
 
     public Library()
     {
-        pictures = new TreeMap<String, BufferedImage>();
-        things = new TreeMap<String, BufferedImage>();
+        pictures = new TreeMap<String, Image>();
         defaultFont = new Font("arial black", Font.BOLD, 12);
     }
 
-    public BufferedImage getPicture(String name) throws Exception
+    public Image getPicture(String name, Package p) throws Exception
     {
-        return getImage(name, pictures);
-    }
+        if (p == Package.ERROR)
+            return getImage(name, Library.class.getResource("/guitarjava/source/error/" + name), pictures);
 
-    public BufferedImage getThing(String name) throws Exception
-    {
-        return getImage(name, things);
+        return null;
     }
 
     public Font getDefaultFont()
@@ -40,21 +42,22 @@ public class Library
         return defaultFont;
     }
 
-    private BufferedImage getImage(String name, Map<String, BufferedImage> images) throws Exception
+    private Image getImage(String name, URL url, Map<String, Image> images)
+            throws Exception
     {
-        BufferedImage image = null;
+        Image image = null;
 
         image = images.get(name);
 
         if (image == null)
         {
-            image = ImageIO.read(new File(name));
+            image = Toolkit.getDefaultToolkit().getImage(url);
 
             if (image == null)
             {
                 throw new Exception("Could not load the image: '" + name + "'.");
             }
-
+            
             images.put(name, image);
         }
 

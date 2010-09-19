@@ -5,14 +5,11 @@
 
 package guitarjava.components;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicBorders.ButtonBorder;
 
 /**
  *
@@ -22,7 +19,7 @@ public class ScrollPane extends JScrollPane
 {
     private Image background;
 
-    public ScrollPane(BufferedImage background, JTextArea textArea, int x, int y, int width, int height)
+    public ScrollPane(Image background, JTextArea textArea, int x, int y, int width, int height)
     {
         super(textArea, VERTICAL_SCROLLBAR_ALWAYS,
                 HORIZONTAL_SCROLLBAR_NEVER);
