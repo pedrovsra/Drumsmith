@@ -2,6 +2,7 @@ package guitarjava.components;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.ImageObserver;
 import javax.swing.JPanel;
 
 /**
@@ -10,18 +11,20 @@ import javax.swing.JPanel;
  */
 public class Picture extends JPanel
 {
+    private Image image;
+    private ImageObserver observer;
 
-    protected Image image;
-
-    public Picture(Image image, int x, int y) throws NullPointerException
+    public Picture(Image image, ImageObserver observer, int x, int y) throws NullPointerException
     {
-        if (image == null)
+        if (image == null || observer == null)
         {
             throw new NullPointerException();
         }
 
         this.image = image;
-        setSize(image.getWidth(null), image.getHeight(null));
+        setSize(image.getWidth(observer), image.getHeight(observer));
+
+        this.observer = observer;
 
         setLocation(x, y);
     }
@@ -29,6 +32,6 @@ public class Picture extends JPanel
     @Override
     public void paintComponent(Graphics g)
     {
-        g.drawImage(image, 0, 0, image.getWidth(this), image.getHeight(this), this);
+        g.drawImage(image, 0, 0, image.getWidth(observer), image.getHeight(observer), observer);
     }
 }

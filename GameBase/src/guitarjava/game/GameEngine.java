@@ -108,7 +108,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
      */
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
-    {   
+    {       
         // Gets the delta time and update the execution time.
         float deltaTime = timing.getDeltaTime();
 
@@ -267,7 +267,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     @Override
     public void proccessMissEvent(int noteNumber)
     {
-        if (noteNumber > lastPownedNoteNumber)
+        if (noteNumber >= lastPownedNoteNumber)
             music.setSilent(true);
     }
 

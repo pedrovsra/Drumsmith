@@ -2,6 +2,8 @@ package guitarjava.components;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,25 +94,52 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         });
         try
         {
-            background = new Picture(library.getPicture("error/ErrorBackground.jpg"), 0, 0);
+            Image backgroundImage = library.getPicture("ErrorBackground.jpg", Library.Package.ERROR);
+            Image introImage = library.getPicture("TopMessage.png", Library.Package.ERROR);
+            Image buttonImage = library.getPicture("ReportButton.png", Library.Package.ERROR);
+            Image scrollPanelImage = library.getPicture("ErrorPanelBackground.png", Library.Package.ERROR);
+
+            MediaTracker tracker = new MediaTracker(this);
+            tracker.addImage(backgroundImage, 0);
+            tracker.addImage(introImage, 1);
+            tracker.addImage(buttonImage, 2);
+            tracker.addImage(scrollPanelImage, 3);
+
+            tracker.waitForAll();
+
+            background = new Picture(backgroundImage, this, 0, 0);
+
             setSize(background.getWidth(), background.getHeight() + 30);
             
-            intro = new Picture(library.getPicture("error/TopMessage.png"), 0, 0);
+            intro = new Picture(introImage, this, 0, 0);
             intro.setLocation((background.getWidth() - intro.getWidth()) / 2, 10);  
 
-            viewErrorButton = new Button(library.getDefaultFont(), "VIEW ERROR", "VIEW_PRESSED",
-                    library.getPicture("error/ReportButton.png"), 0, 0);
+            viewErrorButton = new Button(library.getDefaultFont(), "SHOW", 
+                    "VIEW_PRESSED", buttonImage, 0, 0);
             viewErrorButton.addActionListener(this);
-            viewErrorButton.setLocation((background.getWidth() - viewErrorButton.getWidth()) / 2,
+            viewErrorButton.setLocation((intro.getX() + intro.getWidth() -
+                    viewErrorButton.getWidth()),
                     intro.getY() + intro.getHeight() + 4);
             
-            okButton = new Button(library.getDefaultFont(), "REPORT!", "REPORT_PRESSED",
-                    library.getPicture("error/ReportButton.png"), 0, 0);
+            okButton = new Button(library.getDefaultFont(), "REPORT!", 
+                    "REPORT_PRESSED", buttonImage, 0, 0);
             okButton.addActionListener(this);
-            okButton.setLocation((background.getWidth() - okButton.getWidth()) / 2,
-                    viewErrorButton.getY() + viewErrorButton.getHeight() + 4);
+            okButton.setLocation(intro.getX(),
+                    intro.getY() + intro.getHeight() + 4);
 
-            prepareTrace(ex);          
+            JTextArea textArea = new JTextArea();
+            textArea.setEditable(false);
+            textArea.setLineWrap(true);
+            textArea.setFont(library.getDefaultFont());
+            textArea.setForeground(Color.WHITE);
+            textArea.setOpaque(false);
+
+            scrollPane = new ScrollPane(scrollPanelImage, textArea, 20, intro.getY() + intro.getHeight() + 4,
+                getWidth() - 40, 215);
+
+            textArea.setText(prepareTrace(ex));
+
+            scrollPane.setVisible(false);
 
             add(intro);
             add(viewErrorButton);
@@ -136,7 +165,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      * Preparing error image and message.
      * @param ex the error
      */
-    private void prepareTrace(Throwable ex) throws Exception
+    private String prepareTrace(Throwable ex) throws Exception
     {
         String message = ex.toString();
         StackTraceElement[] stackTrace = ex.getStackTrace();
@@ -146,18 +175,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
             message += "\n\t" + stackTrace[x].toString();
         }
 
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setText(message);
-        textArea.setFont(library.getDefaultFont());
-        textArea.setForeground(Color.BLACK);
-        textArea.setOpaque(false);
-        
-        scrollPane = new ScrollPane(library.getPicture("error/ErrorPanelBackground.png"), textArea, 20,
-                intro.getY() + intro.getHeight() + 4, getWidth() - 40, 215);
-        scrollPane.setVisible(false);
-        //scrollPane.getViewport().setOpaque(false);
+        return message;
     }
 
     /**
@@ -206,7 +224,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
         }
 
         viewErrorButton.setLocation(viewErrorButton.getX(), viewErrorButtonY);
-        okButton.setLocation(okButton.getX(), viewErrorButtonY + viewErrorButton.getHeight() + 4);
+        okButton.setLocation(okButton.getX(), viewErrorButtonY);
     }
 
     /**
