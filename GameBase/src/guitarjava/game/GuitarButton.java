@@ -18,13 +18,13 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     public GuitarButton(int track)
     {
-        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE, DEFAULT_OBJECT_SIZE, -1);
+        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE / 2, DEFAULT_OBJECT_SIZE / 2, -1);
 
         this.track = track;
 
         flames = new LinkedList<Flame>();
 
-        drawData.createAs2DRect((int) width, (int) height);
+        drawData.createAs2DCircle((float) width);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public void unpress()
     {
         pressed = false;
-        drawData.createAs2DRect((int) width, (int) height);
+        drawData.createAs2DCircle((float) width);
     }
 
     /**
@@ -57,7 +57,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public int press(List<Note> notes)
     {
         pressed = true;
-        drawData.createAs2DFilledRect((int) width, (int) height);
+        drawData.createAs2DFilledCircle((float) width);
 
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())

@@ -11,8 +11,10 @@ public class DrawData
 
     protected static final int DRAW_2D_RECT = 0;
     protected static final int DRAW_2D_FILLED_RECT = 1;
-    protected static final int DRAW_3D_CLIPPED_SPHERE = 2;
-    protected static final int DRAW_3D_SPHERE = 3;
+    protected static final int DRAW_2D_CIRCLE = 2;
+    protected static final int DRAW_2D_FILLED_CIRCLE = 3;
+    protected static final int DRAW_3D_CLIPPED_SPHERE = 4;
+    protected static final int DRAW_3D_SPHERE = 5;
     private float x;
     private float y;
     private float z;
@@ -35,10 +37,29 @@ public class DrawData
     }
 
     /**
+     * Create the Data as a 2D circle.
+     * @param radius the circle radius
+     */
+    public void createAs2DCircle(float radius)
+    {
+        this.width = radius;
+        type = DRAW_2D_CIRCLE;
+    }
+
+    /**
+     * Create the Data as a 2D filled circle.
+     * @param radius the circle radius
+     */
+    public void createAs2DFilledCircle(float radius)
+    {
+        this.width = radius;
+        type = DRAW_2D_FILLED_CIRCLE;
+    }
+
+    /**
      * Create the Data base as a 2D rect.
      * @param width the box width
      * @param height the box height
-     * @param depth the box depth
      */
     public void createAs2DRect(float width, float height)
     {
