@@ -110,7 +110,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     public synchronized void graphicsUpdateEvent(EventObject e)
     {       
         // Gets the delta time and update the execution time.
-        float deltaTime = timing.getDeltaTime();
+        double deltaTime = timing.getDeltaTime();
 
         if (executionTime == 0)
         {
@@ -146,7 +146,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         while (it.hasNext())
         {
             Note note = it.next();
-            note.think(deltaTime);
+            note.think((float) deltaTime);
             
             if (!note.isVisible())
             {
@@ -169,7 +169,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         // Do the guitar buttons logic/draw operations.
         for (int i = 0; i < 5; ++i)
         {
-            guitarButtons[i].think(deltaTime);
+            guitarButtons[i].think((float) deltaTime);
 
             graphics.draw(guitarButtons[i].getDrawData());
 

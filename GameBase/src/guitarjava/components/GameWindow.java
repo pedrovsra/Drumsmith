@@ -28,7 +28,7 @@ public class GameWindow extends JFrame
         setIgnoreRepaint(true);
         setSize(width, height);
         setLocationRelativeTo(null);
-        setUndecorated(true);
+        //setUndecorated(true);
     }
 
     /**
