@@ -1,17 +1,12 @@
 package guitarjava.graphics;
 
 import com.sun.opengl.util.Animator;
-import com.sun.opengl.util.FPSAnimator;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -102,6 +97,14 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             else if (data.type == DrawData.DRAW_3D_CLIPPED_SPHERE)
             {
                 draw3DClippedSphere(data);
+            }
+            else if (data.type == DrawData.DRAW_2D_CIRCLE)
+            {
+                draw2DCircle(data);
+            }
+            else if (data.type == DrawData.DRAW_2D_FILLED_CIRCLE)
+            {
+                draw2DFilledCircle(data);
             }
             // End cache and save
             if (list != 0)
@@ -345,7 +348,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     }
 
     /**
-     * Drawing a filled box.
+     * Drawing a filled rect.
      */
     private void draw2DFilledRect(DrawData data)
     {
@@ -359,7 +362,7 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     }
 
     /**
-     * Drawing a box.
+     * Drawing a rect.
      */
     private void draw2DRect(DrawData data)
     {
@@ -377,5 +380,29 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glVertex3f(-data.width / 2, data.height / 2, 0);
         gl.glVertex3f(-data.width / 2, -data.height / 2, 0);
         gl.glEnd();
+    }
+
+    /**
+     * Drawing a 2D circle.
+     */
+    private void draw2DCircle(DrawData data)
+    {
+        GLU glu = new GLU();
+        GLUquadric quadric = glu.gluNewQuadric();
+        glu.gluQuadricDrawStyle(quadric, GLU.GLU_LINE);
+        glu.gluDisk(quadric, 0, data.width, 16, 16);
+        glu.gluDeleteQuadric(quadric);
+    }
+
+    /**
+     * Drawing a 2D filled circle.
+     */
+    private void draw2DFilledCircle(DrawData data)
+    {
+        GLU glu = new GLU();
+        GLUquadric quadric = glu.gluNewQuadric();
+        glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
+        glu.gluDisk(quadric, 0, data.width, 16, 16);
+        glu.gluDeleteQuadric(quadric);
     }
 }
