@@ -125,7 +125,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         caps.setDoubleBuffered(true);
         canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
-        canvas.setAutoSwapBufferMode(false);
         component.add(canvas);
         // Adding close operation
         component.addWindowListener(new WindowAdapter()
@@ -271,9 +270,8 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         // Fire draw events
         fireGraphicsUpdateEvent();
-        // Swap buffers
-        long time = System.currentTimeMillis();
-        canvas.swapBuffers();
+        // Flsuh to gpu
+        gl.glFlush();
     }
 
     /**
