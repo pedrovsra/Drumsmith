@@ -2,9 +2,7 @@ package guitarjava.components;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,11 +20,15 @@ public class Library
 
     private Map<String, Image> pictures;
     private Font defaultFont;
+    private Font specialFont;
 
-    public Library()
+    public Library() throws Exception
     {
         pictures = new TreeMap<String, Image>();
-        defaultFont = new Font("arial black", Font.BOLD, 12);
+        defaultFont = new Font("arial black", Font.BOLD, 10);
+        specialFont = Font.createFont(Font.TRUETYPE_FONT, Library.class.getResourceAsStream
+                ("/guitarjava/source/fonts/NightmareHero.ttf"));
+        specialFont = defaultFont.deriveFont(Font.BOLD, 25f);
     }
 
     public Image getPicture(String name, Package p) throws Exception
