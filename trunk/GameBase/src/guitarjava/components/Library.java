@@ -20,15 +20,11 @@ public class Library
 
     private Map<String, Image> pictures;
     private Font defaultFont;
-    private Font specialFont;
 
-    public Library() throws Exception
+    public Library()
     {
         pictures = new TreeMap<String, Image>();
         defaultFont = new Font("arial black", Font.BOLD, 10);
-        specialFont = Font.createFont(Font.TRUETYPE_FONT, Library.class.getResourceAsStream
-                ("/guitarjava/source/fonts/NightmareHero.ttf"));
-        specialFont = defaultFont.deriveFont(Font.BOLD, 25f);
     }
 
     public Image getPicture(String name, Package p) throws Exception
