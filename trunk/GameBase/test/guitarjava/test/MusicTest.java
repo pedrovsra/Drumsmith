@@ -1,6 +1,7 @@
 package guitarjava.test;
 
 import guitarjava.game.Music;
+import guitarjava.game.NoteXml;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,15 +37,6 @@ public class MusicTest
     public void testLoadMusic() throws Exception
     {
         music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
-  
-        music.play();
-
-        int i = 0;
-        while (!music.setSilent(true))
-        {
-            System.out.println(i++);
-        }
-        assertTrue(music.setSilent(true));
 
         assertTrue(music.getVersion().equals(VERSION));
         assertTrue(music.getName().equals(NAME));
@@ -53,7 +45,20 @@ public class MusicTest
         assertTrue(music.getYear() == YEAR);
         assertTrue(music.getLength() == LENGTH);
         assertTrue(music.getNumberOfNotes() == NUMBER_OF_NOTES);
+    }
 
-        Thread.sleep(12000);
+    @Test
+    public void testNotes() throws Exception
+    {
+        float time = 100000;
+
+        music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
+        
+        NoteXml note = music.getNextNote(time);
+        while (note != null)
+        {
+            System.out.println(note.getNumber());
+            note = music.getNextNote(time);
+        }
     }
 }
