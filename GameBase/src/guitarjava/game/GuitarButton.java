@@ -98,7 +98,8 @@ public class GuitarButton extends TrackObject implements BurningInterface
      */
     private boolean collide(Note note)
     {
-        if (note.getY() > y - note.getHeight() && note.getY() < y + note.getHeight())
+        if (note.getY() + note.getHeight() / 2 > y - height && note.getY() + note.getHeight() / 2 <
+                y + height + note.getHeight())
         {
             // Passes this to the note as BurningState so the track extension of the note can check if
             // it still have to burn.
