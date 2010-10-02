@@ -133,4 +133,12 @@ public class Note extends TrackObject
     {
         return noteExtension;
     }
+
+    /**
+     * @return True if this object already sent a miss event.
+     */
+    public boolean isMissed()
+    {
+        return readMiss;
+    }
 }

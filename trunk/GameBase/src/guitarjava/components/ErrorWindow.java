@@ -141,11 +141,11 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
 
             scrollPane.setVisible(false);
 
-            add(intro);
-            add(viewErrorButton);
-            add(okButton);
-            add(scrollPane);
-            add(background);
+            getContentPane().add(intro);
+            getContentPane().add(viewErrorButton);
+            getContentPane().add(okButton);
+            getContentPane().add(scrollPane);
+            getContentPane().add(background);
         }
         catch (Exception e)
         {
