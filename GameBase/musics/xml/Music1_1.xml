@@ -4,17 +4,10 @@
         <Version>0.1</Version>
         <Title>I Love Rock and Roll</Title>
         <Artist>Joan Jett and the Blackhearts</Artist>
-        <Album>Vazio</Album>
+        <Album>Empty</Album>
         <Year>0</Year>
-        <BeatsPerSecond>16.0</BeatsPerSecond>
-        <BeatOffset>0.0</BeatOffset>
-        <HammerOnTime>0.25</HammerOnTime>
-        <PullOffTime>0.25</PullOffTime>
-        <Difficulty>EXPERT</Difficulty>
-        <AllowableErrorTime>0.25</AllowableErrorTime>
+        <Difficulty>Easy</Difficulty>
         <Length>177</Length>
-        <MusicFileName></MusicFileName>
-        <MusicDirectoryHint>C:\</MusicDirectoryHint>
     </Properties>
 
     <Data>

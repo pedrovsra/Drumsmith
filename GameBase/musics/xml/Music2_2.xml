@@ -4,9 +4,9 @@
         <Version>0.1</Version>
         <Title>Smoke on the Water</Title>
         <Artist>Deep Purple</Artist>
-        <Album>Vazio</Album>
+        <Album>Empty</Album>
         <Year>0</Year>
-        <BeatOffset>0.0</BeatOffset>
+        <Difficulty>Medium</Difficulty>
         <Length>358</Length>
     </Properties>
 

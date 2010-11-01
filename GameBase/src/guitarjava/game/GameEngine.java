@@ -62,11 +62,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         lastPownedNoteNumber = -1;
     }
 
-    /**
-     * Start method.
-     * @throws JavaLayerException
-     */
-    public void start() throws JavaLayerException
+    public void init()
     {
         window.addWindowListener(new WindowAdapter()
         {
@@ -88,9 +84,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
 
         input.addInputEventListener(this);
         graphics.addGraphicsUpdateEventListener(this);
-
+    }
+    
+    /**
+     * Start method.
+     * @throws JavaLayerException
+     */
+    public void start() throws JavaLayerException
+    {
         window.showWindow();
-
         music.play();
     }
 
@@ -99,7 +101,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
      */
     public void stop()
     {
-        
+        music.stop();
     }
 
     /**
