@@ -24,6 +24,7 @@ public class GameLoading extends Loading
 {
     private GameEngine gameEngine;
     private Music musicToPlay;
+    private GameWindow gameWindow;
 
     public GameLoading(Music musicToPlay)
     {
@@ -56,10 +57,15 @@ public class GameLoading extends Loading
         return this.gameEngine;
     }
 
+    public GameWindow getGameWindow()
+    {
+        return this.gameWindow;
+    }
+
     private void loadGame()
     {
         setState("Creating game window..");
-        GameWindow gameWindow = new GameWindow(Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
+        gameWindow = new GameWindow(Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
         setProgress(5);
 
         WindowListener gui = getWindowListeners()[0];
