@@ -56,9 +56,12 @@ public class Gui extends WindowAdapter
     @Override
     public void windowClosing(WindowEvent e)
     {
-        GameEngine gameEngine = gameLoading.getGameEngine();
-        gameEngine.stop();
-        createMenuLoading();
+        if (gameLoading != null && e.getSource() == gameLoading.getGameWindow())
+        {
+            GameEngine gameEngine = gameLoading.getGameEngine();
+            gameEngine.stop();
+            createMenuLoading();
+        }
     }
 
     private void createMenuLoading()
