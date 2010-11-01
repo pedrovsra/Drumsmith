@@ -2,6 +2,9 @@ package guitarjava.test;
 
 import guitarjava.game.Music;
 import guitarjava.game.NoteXml;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javazoom.jl.decoder.JavaLayerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +36,7 @@ public class MusicTest
     {
     }
 
-    @Test
+    /*@Test
     public void testLoadMusic() throws Exception
     {
         music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
@@ -59,6 +62,34 @@ public class MusicTest
         {
             System.out.println(note.getNumber());
             note = music.getNextNote(time);
+        }
+    }*/
+
+    @Test
+    public void testThings() throws Exception
+    {
+        for (int i = 0; i < 10; ++i)
+        {
+            music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
+            Thread thread = new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        music.play();
+                    }
+                    catch (JavaLayerException ex)
+                    {
+                        Logger.getLogger(MusicTest.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            
+            thread.start();
+            Thread.sleep(10000);
+            music.stop();
         }
     }
 }

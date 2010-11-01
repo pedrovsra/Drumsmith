@@ -4,16 +4,10 @@
         <Version>0.1</Version>
         <Title>Highway to Hell</Title>
         <Artist>AC/DC</Artist>
-        <Album>No Album Set</Album>
+        <Album>Empty</Album>
         <Year>0</Year>
-        <BeatsPerSecond>16.0</BeatsPerSecond>
-        <BeatOffset>0.0</BeatOffset>
-        <HammerOnTime>0.25</HammerOnTime>
-        <PullOffTime>0.25</PullOffTime>
-        <AllowableErrorTime>0.25</AllowableErrorTime>
         <Length>210</Length>
-        <MusicFileName>song.mp3</MusicFileName>
-        <MusicDirectoryHint>C:\gamesX\Guitar Flash Custom\musicas\Highway to Hell</MusicDirectoryHint>
+	<Difficulty>Easy</Difficulty>
     </Properties>
 
     <Data>

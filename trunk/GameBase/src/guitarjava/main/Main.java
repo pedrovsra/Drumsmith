@@ -1,14 +1,6 @@
 package guitarjava.main;
 
-import guitarjava.components.ErrorWindow;
-import guitarjava.components.GameWindow;
-import guitarjava.game.Constant;
-import guitarjava.game.GameEngine;
-import guitarjava.game.Music;
-import guitarjava.graphics.Graphics3DContext;
-import guitarjava.graphics.GraphicsInterface;
-import guitarjava.input.InputNoRepeatContext;
-import guitarjava.timing.TimingContext;
+import guitarjava.gui.Gui;
 
 /**
  *
@@ -23,15 +15,6 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        GameWindow gameWindow = new GameWindow(Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
-        Thread.setDefaultUncaughtExceptionHandler(new ErrorWindow(gameWindow, null));
-        GraphicsInterface graphicsContext = new Graphics3DContext();
-        TimingContext timingContext = new TimingContext();
-        InputNoRepeatContext inputContext = new InputNoRepeatContext();
-
-        GameEngine gameEngine = new GameEngine(graphicsContext, timingContext, inputContext,
-                gameWindow, new Music("musics/xml/Music3_4.xml", "musics/mp3/Music3.mp3"));
-
-        gameEngine.start();
+        Gui gui = new Gui();
     }
 }

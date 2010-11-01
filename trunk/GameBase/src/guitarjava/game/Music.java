@@ -24,11 +24,13 @@ import org.xml.sax.SAXException;
 public class Music
 {
     private static final int MUSIC_GAIN = 8;
-    
+
+    private String xmlPath;
     private String version;
     private String name;
     private String artist;
     private String album;
+    private String difficulty;
     private int year;
     private int length;
     private int notePointer;
@@ -36,33 +38,28 @@ public class Music
     private List<NoteXml> notes;
     private AdvancedPlayer player;
 
-    /**
-     * @param musicXml Path to the music on xml format.
-     * @param musicMP3 Path to the music on mp3 format.
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws NumberFormatException
-     * @throws NullPointerException
-     * @throws DOMException
-     * @throws JavaLayerException
-     */
     public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
             NumberFormatException, NullPointerException, DOMException, JavaLayerException
     {
+        this.xmlPath = musicXml;
+        
         notes = new ArrayList<NoteXml>();
 
+        readProperties(musicXml);
+
+        FileInputStream input = new FileInputStream(musicMP3);
+        player = new AdvancedPlayer(input);
+    }
+
+    public void readNotes() throws ParserConfigurationException, SAXException, IOException
+    {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
 
-        Document document = documentBuilder.parse(musicXml);
+        Document document = documentBuilder.parse(this.xmlPath);
 
-        readProperties(document);
         readNotes(document);
-
-        FileInputStream input = new FileInputStream(musicMP3);
-        player = new AdvancedPlayer(input);
     }
 
     /**
@@ -103,6 +100,11 @@ public class Music
     public String getAlbum()
     {
         return album;
+    }
+
+    public String getDifficulty()
+    {
+        return difficulty;
     }
 
     /**
@@ -153,6 +155,11 @@ public class Music
         player.play();
     }
 
+    public void stop()
+    {
+        player.close();
+    }
+
     /**
      * @param silent True to mute the music, false to unmute.
      */
@@ -178,16 +185,15 @@ public class Music
         return player.getCurrentPosition();
     }
 
-    /**
-     * Read the properties of the xml document.
-     * @param document The xml document.
-     * @throws NullPointerException
-     * @throws NumberFormatException
-     * @throws DOMException
-     */
-    private void readProperties(Document document) throws NullPointerException, NumberFormatException,
-            DOMException
+    private void readProperties(String musicXml) throws NullPointerException, NumberFormatException,
+            DOMException, ParserConfigurationException, SAXException, IOException
     {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+
+        Document document = documentBuilder.parse(musicXml);
+
         Node rootNode = document.getElementsByTagName("Properties").item(0);
 
         for (Node node = rootNode.getFirstChild(); node != null; node = node.getNextSibling())
@@ -212,6 +218,10 @@ public class Music
             else if (node.getNodeName().equals("Album"))
             {
                 album = node.getTextContent();
+            }
+            else if (node.getNodeName().equals("Difficulty"))
+            {
+                difficulty = node.getTextContent();
             }
             else if (node.getNodeName().equals("Year"))
             {

@@ -4,17 +4,10 @@
         <Version>0.1</Version>
         <Title>Can't Stop</Title>
         <Artist>Red Hot Chili Peppers</Artist>
-        <Album>Vazio</Album>
+        <Album>Empty</Album>
         <Year>0</Year>
-        <BeatsPerSecond>16.0</BeatsPerSecond>
-        <BeatOffset>0.0</BeatOffset>
-        <HammerOnTime>0.25</HammerOnTime>
-        <PullOffTime>0.25</PullOffTime>
-        <Difficulty>EXPERT</Difficulty>
-        <AllowableErrorTime>0.25</AllowableErrorTime>
+        <Difficulty>Hard</Difficulty>
         <Length>267</Length>
-        <MusicFileName>null</MusicFileName>
-        <MusicDirectoryHint>C:\gamesx.com.br\musicas\redhot</MusicDirectoryHint>
     </Properties>
 
     <Data>
