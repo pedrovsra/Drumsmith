@@ -1,9 +1,14 @@
 package guitarjava.graphics;
 
 import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.GLUT;
+import guitarjava.components.Library;
+import guitarjava.game.Constant;
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +27,10 @@ import javax.media.opengl.glu.GLUquadric;
 public class Graphics3DContext implements GraphicsInterface, GLEventListener
 {
 
+    // Glu and Glut
+    GLU glu = new GLU();
+    GLUT glut = new GLUT();
+    // Other
     private static final int MAX_CACHE = 1024; // Max cache DrawDatas
     private List listeners; // Listeners for the graphics update
     private Animator animator; // Animator for OpenGL canvas
@@ -39,9 +48,24 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
     private float cameraToY = 0;
     private float cameraToZ = 0;
     // Light variables
-    private float lightX = 0;
-    private float lightY = 0;
-    private float lightZ = 0;
+    float[] lightPos =
+    {
+        0, 0, 0, 0
+    };
+    float[] lightAmbient =
+    {
+        0.1f, 0.1f, 0.1f, 1.0f
+    };
+    float[] lightDiffuse =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f
+    };
+    boolean updateLight;
+    // Other
+    float[] clearColor =
+    {
+        0, 0, 0, 1.0f
+    };
 
     /**
      * Constructor.
@@ -64,9 +88,10 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             int list = 0;
             // Color and translation
             gl.glLoadIdentity();
-            gl.glColor3f(data.color.getRed() / 256f, data.color.getGreen()
-                    / 256f, data.color.getBlue() / 256f);
-            gl.glTranslatef(data.getX(), mulY * data.getY(), data.getZ());
+            gl.glColor4f(data.color.getRed() * data.colorMul / 256f, data.color.getGreen()
+                    * data.colorMul / 256f, data.color.getBlue() * data.colorMul / 256f,
+                    data.color.getAlpha() / 256f); // Needs to do an alpha multiplier or per color multiplier vector
+            gl.glTranslatef(data.x, mulY * data.y, data.z);
             // Check cache and generate
             if (data.cacheId > 0 && data.cacheId < MAX_CACHE)
             {
@@ -105,6 +130,11 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
             else if (data.type == DrawData.DRAW_2D_FILLED_CIRCLE)
             {
                 draw2DFilledCircle(data);
+            }
+            else if (data.type == DrawData.DRAW_2D_TEXT)
+            {
+                gl.glWindowPos2f(data.x, data.y);
+                draw2DText(data);
             }
             // End cache and save
             if (list != 0)
@@ -169,6 +199,106 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
         gl.glEnable(GL.GL_LIGHTING);
         // Enable multisampling (anti-aliasing)
         gl.glEnable(GL.GL_MULTISAMPLE);
+        // Blending
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    /**
+     * OpenGL reshape method.
+     */
+    @Override
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
+    {
+        gl = drawable.getGL();
+        if (height <= 0) // Avoid a divide by zero error
+        {
+            height = 1;
+        }
+        final float h = (float) width / (float) height;
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluPerspective(45.0f, h, 1.0, zFar);
+        glu.gluLookAt(cameraEyeX, cameraEyeY, cameraEyeZ, cameraToX, cameraToY, cameraToZ, 0, 1, 0);
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glLoadIdentity();
+        // Set light parameters.
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient, 0);
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse, 0);
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPos, 0);
+    }
+
+    /**
+     * OpenGL display method.
+     */
+    @Override
+    public void display(GLAutoDrawable drawable)
+    {
+        gl = drawable.getGL();
+        // Clear the drawing area
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        // Checks light
+        if (updateLight)
+        {
+            updateLight = false;
+            gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient, 0);
+            gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse, 0);
+            gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPos, 0);
+            gl.glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+        }
+        // Fire draw events
+        fireGraphicsUpdateEvent();
+        // Flsuh to gpu
+        gl.glFlush();
+    }
+
+    /**
+     * OpenGL display changed method.
+     */
+    @Override
+    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged)
+    {
+    }
+
+    /**
+     * Stops the context.
+     */
+    @Override
+    public void stop()
+    {
+        animator.stop();
+    }
+
+    /**
+     * Setting camera, used only for 3D contexts.
+     * @param ex camera x position
+     * @param ey camera y position
+     * @param ez camera z position
+     * @param tx looking at x pos
+     * @param ty looking at y pos
+     * @param tz looking at z pos
+     */
+    @Override
+    public void setCamera(float ex, float ey, float ez, float tx, float ty, float tz)
+    {
+        cameraToX = tx; // Center
+        cameraToY = ty;
+        cameraToZ = tz;
+        cameraEyeX = ex; // Eye
+        cameraEyeY = ey;
+        cameraEyeZ = ez;
+        canvas.reshape(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    /**
+     * Set clear color.
+     */
+    @Override
+    public void setClearColor(float[] clearColor)
+    {
+        this.clearColor = clearColor;
+        updateLight = true;
     }
 
     /**
@@ -216,103 +346,22 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      * Setting light position. It will shine to the origin.
      */
     @Override
-    public void setLightPos(float x, float y, float z)
+    public void setLightPos(float[] lightPos)
     {
-        this.lightX = x;
-        this.lightY = y;
-        this.lightZ = z;
-    }
-
-    /**
-     * OpenGL reshape method.
-     */
-    @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
-    {
-        gl = drawable.getGL();
-        GLU glu = new GLU();
-        if (height <= 0) // Avoid a divide by zero error
-        {
-            height = 1;
-        }
-        final float h = (float) width / (float) height;
-        gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, zFar);
-        glu.gluLookAt(cameraEyeX, cameraEyeY, cameraEyeZ, cameraToX, cameraToY, cameraToZ, 0, 1, 0);
-        gl.glMatrixMode(GL.GL_MODELVIEW);
-        gl.glLoadIdentity();
-        // Setting light
-        float[] lightPos =
-        {
-            (float) lightX, (float) lightY, (float) lightZ, 0
-        };
-        float[] lightAmbient =
-        {
-            0.1f, 0.1f, 0.1f, 1.0f
-        };
-        float[] lightDiffuse =
-        {
-            1.0f, 1.0f, 1.0f, 1.0f
-        };
-        // Set light parameters.
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient, 0);
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse, 0);
-        gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPos, 0);
-    }
-
-    /**
-     * OpenGL display method.
-     */
-    @Override
-    public void display(GLAutoDrawable drawable)
-    {
-        gl = drawable.getGL();
-        // Clear the drawing area
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        // Fire draw events
-        fireGraphicsUpdateEvent();
-        // Flsuh to gpu
-        gl.glFlush();
-    }
-
-    /**
-     * OpenGL display changed method.
-     */
-    @Override
-    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged)
-    {
-    }
-
-    /**
-     * Stops the context.
-     */
-    @Override
-    public void stop()
-    {
-        animator.stop();
-    }
-
-    /**
-     * Setting camera, used only for 3D contexts.
-     * @param ex camera x position
-     * @param ey camera y position
-     * @param ez camera z position
-     * @param tx looking at x pos
-     * @param ty looking at y pos
-     * @param tz looking at z pos
-     */
-    @Override
-    public void setCamera(float ex, float ey, float ez, float tx, float ty, float tz)
-    {
-        cameraToX = tx; // Center
-        cameraToY = ty;
-        cameraToZ = tz;
-        cameraEyeX = ex; // Eye
-        cameraEyeY = ey;
-        cameraEyeZ = ez;
+        this.lightPos = lightPos;
         canvas.reshape(0, 0, canvas.getWidth(), canvas.getHeight());
+        updateLight = true;
+    }
+
+    /**
+     * Setting the light.
+     */
+    @Override
+    public void setLight(float[] ambient, float[] diffuse)
+    {
+        lightAmbient = ambient;
+        lightDiffuse = diffuse;
+        updateLight = true;
     }
 
     /**
@@ -320,7 +369,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      */
     private void draw3DClippedSphere(DrawData data)
     {
-        GLU glu = new GLU();
         gl.glTranslated(0, 0, -data.width / 3);
         double[] planeEq =
         {
@@ -340,11 +388,11 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      */
     private void draw3DSphere(DrawData data)
     {
-        GLU glu = new GLU();
         GLUquadric quadric = glu.gluNewQuadric();
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluSphere(quadric, data.width / 2, 16, 16);
         glu.gluDeleteQuadric(quadric);
+
     }
 
     /**
@@ -387,7 +435,6 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      */
     private void draw2DCircle(DrawData data)
     {
-        GLU glu = new GLU();
         GLUquadric quadric = glu.gluNewQuadric();
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_LINE);
         glu.gluDisk(quadric, 0, data.width, 16, 16);
@@ -399,10 +446,17 @@ public class Graphics3DContext implements GraphicsInterface, GLEventListener
      */
     private void draw2DFilledCircle(DrawData data)
     {
-        GLU glu = new GLU();
         GLUquadric quadric = glu.gluNewQuadric();
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluDisk(quadric, 0, data.width, 16, 16);
         glu.gluDeleteQuadric(quadric);
+    }
+
+    /**
+     * Drawing a 2D text.
+     */
+    private void draw2DText(DrawData data)
+    {
+        glut.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, data.text);
     }
 }

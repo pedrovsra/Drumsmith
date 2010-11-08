@@ -11,6 +11,7 @@
     </Properties>
 
     <Data>
+    	<Solo time="206" duration="64" />
         <Note time="2.9375" duration="0.0" track="3" />
         <Note time="3.0625" duration="0.3125" track="1" />
         <Note time="3.0625" duration="0.3125" track="2" />
@@ -140,6 +141,7 @@
         <Note time="25.9375" duration="0.0" track="2" />
         <Note time="26.0625" duration="0.0" track="3" />
         <Note time="26.375" duration="0.0" track="4" />
+
         <Note time="26.75" duration="0.0" track="2" />
         <Note time="26.9375" duration="0.0" track="2" />
         <Note time="27.125" duration="0.0" track="3" />

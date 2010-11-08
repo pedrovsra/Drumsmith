@@ -11,6 +11,7 @@
     </Properties>
 
     <Data>
+    	<Solo time="147" duration="30" />
         <Note time="5.346336" duration="0.0" track="2" special="0" />
         <Note time="5.399350" duration="0.582146" track="3" special="0" />
         <Note time="5.982496" duration="0.0" track="2" special="0" />

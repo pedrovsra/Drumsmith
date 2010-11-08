@@ -15,15 +15,18 @@ public class DrawData
     protected static final int DRAW_2D_FILLED_CIRCLE = 3;
     protected static final int DRAW_3D_CLIPPED_SPHERE = 4;
     protected static final int DRAW_3D_SPHERE = 5;
-    private float x;
-    private float y;
-    private float z;
+    protected static final int DRAW_2D_TEXT = 6;
+    protected float x;
+    protected float y;
+    protected float z;
     protected int cacheId;
     protected float width;
     protected float height;
     protected float depth;
     protected int type;
     protected Color color;
+    protected float colorMul = 1;
+    protected String text;
 
     /**
      * Constructor. Use the id to cache this data, or make it less than 1
@@ -104,11 +107,28 @@ public class DrawData
     }
 
     /**
+     * Create as a 2d text.
+     */
+    public void createAs2DText(String text)
+    {
+        this.text = text;
+        type = DRAW_2D_TEXT;
+    }
+
+    /**
      * Sets the color.
      */
     public void setColor(Color color)
     {
         this.color = color;
+    }
+
+    /**
+     * Sets the color multiplier.
+     */
+    public void setColorMul(float mul)
+    {
+        colorMul = mul;
     }
 
     /**
@@ -143,5 +163,13 @@ public class DrawData
     public float getZ()
     {
         return z;
+    }
+
+    /**
+     *  Gets the color.
+     */
+    public Color getColor()
+    {
+        return color;
     }
 }

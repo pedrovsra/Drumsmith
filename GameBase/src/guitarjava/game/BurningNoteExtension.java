@@ -26,6 +26,8 @@ public class BurningNoteExtension extends NoteExtension
     @Override
     public void think(float deltaTime)
     {
+        updateSolo();
+
         y += TRACK_DEFAULT_SPEED * deltaTime;
 
         if (powning && y > TrackObject.BURNING_POSITION_Y - height / 2)
@@ -33,11 +35,11 @@ public class BurningNoteExtension extends NoteExtension
             // It will burn only when the extension reaches the guitar button y position.
 
             height = Math.max(0, height - TRACK_DEFAULT_SPEED * deltaTime);
-            drawData.createAs2DFilledRect((int) width, (int) height);
+            drawDatas.getFirst().createAs2DFilledRect((int) width, (int) height);
             y -= TRACK_DEFAULT_SPEED * deltaTime / 2;
             powning = burningState.isBurning();
         }
 
-        updateDrawDataPosition();
+        updateDrawDataPosition(drawDatas.getFirst());
     }
 }

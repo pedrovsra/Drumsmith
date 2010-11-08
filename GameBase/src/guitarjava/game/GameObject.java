@@ -2,6 +2,7 @@ package guitarjava.game;
 
 import guitarjava.graphics.DrawData;
 import java.awt.Color;
+import java.util.LinkedList;
 
 /**
  * It is an abstract class containing game object data.
@@ -9,12 +10,13 @@ import java.awt.Color;
  */
 public abstract class GameObject
 {
-    protected DrawData drawData;
+    protected LinkedList<DrawData> drawDatas;
     protected double x;
     protected double y;
     protected double z;
     protected double width;
     protected double height;
+    protected boolean doingSolo;
 
     /**
      * @param x Position x.
@@ -27,7 +29,8 @@ public abstract class GameObject
      */
     public GameObject(double x, double y, double z, double width, double height, Color color, int cacheId)
     {
-        drawData = new DrawData(cacheId);
+        DrawData drawData = new DrawData(cacheId);
+        drawDatas = new LinkedList<DrawData>();
 
         this.x = x;
         this.y = y;
@@ -35,15 +38,24 @@ public abstract class GameObject
         this.width = width;
         this.height = height;
 
-        updateDrawDataPosition();
+        updateDrawDataPosition(drawData);
 
         drawData.setColor(color);
+        drawDatas.add(drawData);
+    }
+
+    /*
+     * Empty contructor.
+     */
+    public GameObject()
+    {
+        drawDatas = new LinkedList<DrawData>();
     }
 
     /**
      * Updates the draw data position with the current object position.
      */
-    public final void updateDrawDataPosition()
+    public final void updateDrawDataPosition(DrawData drawData)
     {
         drawData.setPosition((float) x, (float) y, (float) z);
     }
@@ -54,9 +66,9 @@ public abstract class GameObject
      */
     public abstract void think(float deltaTime);
 
-    public DrawData getDrawData()
+    public LinkedList<DrawData> getDrawDatas()
     {
-        return drawData;
+        return drawDatas;
     }
 
     /**
@@ -97,5 +109,13 @@ public abstract class GameObject
     public double getHeight()
     {
         return height;
+    }
+
+    /**
+     * Set doingSolo.
+     */
+    public void setDoingSolo(boolean set)
+    {
+        doingSolo = set;
     }
 }

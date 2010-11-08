@@ -34,7 +34,7 @@ public interface GraphicsInterface
     /**
      * Setting light position. It will shine to the origin.
      */
-    public void setLightPos(float x, float y, float z);
+    public void setLightPos(float[] lightPos);
 
     /**
      * Draws an object to the context.
@@ -53,4 +53,16 @@ public interface GraphicsInterface
      * @param listener
      */
     public void removeGraphicsUpdateEventListener(GraphicsUpdateListener listener);
+
+    /**
+     * Sets the light.
+     * @param ambient the ambient light
+     * @param diffuse the diffuse light
+     */
+    public void setLight(float[] ambient, float[] diffuse);
+
+    /**
+     * Sets the clear color.
+     */
+    public void setClearColor(float[] clearColor);
 }
