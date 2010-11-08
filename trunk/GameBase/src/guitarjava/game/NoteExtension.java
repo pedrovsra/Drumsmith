@@ -28,14 +28,16 @@ public class NoteExtension extends TrackObject
     {
         super(track, position, 0, WIDTH, height, -1);
 
-        drawData.createAs2DFilledRect(WIDTH, (int) height);
+        drawDatas.getFirst().createAs2DFilledRect(WIDTH, (int) height);
     }
 
     @Override
     public void think(float deltaTime)
     {
+        updateSolo();
+
         y += TRACK_DEFAULT_SPEED * deltaTime;
 
-        updateDrawDataPosition();
+        updateDrawDataPosition(drawDatas.getFirst());
     }
 }

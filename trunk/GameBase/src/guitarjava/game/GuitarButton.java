@@ -1,5 +1,7 @@
 package guitarjava.game;
 
+import guitarjava.graphics.DrawData;
+import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,34 +12,46 @@ import java.util.List;
  */
 public class GuitarButton extends TrackObject implements BurningInterface
 {
+
     private boolean pressed;
     private List<Flame> flames;
+    private DrawData bp;
+    private DrawData bu;
 
     /**
      * @param track Track where it is located.
      */
     public GuitarButton(int track)
     {
-        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE / 2, DEFAULT_OBJECT_SIZE / 2, -1);
+        super(track, BURNING_POSITION_Y, 1, DEFAULT_OBJECT_SIZE / 2, DEFAULT_OBJECT_SIZE / 2, Constant.CACHEID_BUTTON);
 
         this.track = track;
 
         flames = new LinkedList<Flame>();
 
-        drawData.createAs2DCircle((float) width);
+        drawDatas.getFirst().createAs2DCircle((float) width);
+        bu = drawDatas.getFirst();
+        bp = new DrawData(Constant.CACHEID_PBUTTON);
+        bp.createAs2DFilledCircle((float) width);
+        bp.setColor(GuitarButton.getColorByTrack(track));
+        bp.setPosition((float) (START_X + TRACK_SPACEMENT * (track + 1)), BURNING_POSITION_Y, 1);
     }
 
     @Override
     public void think(float deltaTime)
     {
+        updateSolo();
         Iterator<Flame> it = flames.iterator();
         while (it.hasNext())
         {
             Flame flame = it.next();
+            flame.setDoingSolo(doingSolo);
             flame.think(deltaTime);
 
             if (flame.canExtinguish())
+            {
                 it.remove();
+            }
         }
     }
 
@@ -47,7 +61,8 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public void unpress()
     {
         pressed = false;
-        drawData.createAs2DCircle((float) width);
+        drawDatas.removeFirst();
+        drawDatas.add(bu);
     }
 
     /**
@@ -57,7 +72,8 @@ public class GuitarButton extends TrackObject implements BurningInterface
     public int press(List<Note> notes)
     {
         pressed = true;
-        drawData.createAs2DFilledCircle((float) width);
+        drawDatas.removeFirst();
+        drawDatas.add(bp);
 
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
@@ -109,7 +125,7 @@ public class GuitarButton extends TrackObject implements BurningInterface
             double duration = DEFAULT_OBJECT_SIZE / TRACK_DEFAULT_SPEED;
             double totalDuration = duration + note.getDuration() * 1000;
 
-            Flame flame = new Flame(this, track, totalDuration);
+            Flame flame = new Flame(this, track, totalDuration, doingSolo);
             flames.add(flame);
 
             return true;

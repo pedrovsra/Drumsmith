@@ -10,18 +10,20 @@ public class NoteXml
     private float duration;
     private int track;
     private int number;
+    private int special;
 
     /**
      * @param time Time that it appears in the music.
      * @param duration Duration.
      * @param track Track.
      */
-    public NoteXml(float time, float duration, int track, int number)
+    public NoteXml(float time, float duration, int track, int number, int special)
     {
         this.time = time;
         this.duration = duration;
         this.track = track;
         this.number = number;
+        this.special = special;
     }
 
     /**
@@ -54,5 +56,13 @@ public class NoteXml
     public int getNumber()
     {
         return number;
+    }
+
+    /**
+     * @return The special value.
+     */
+    public int getSpecial()
+    {
+        return special;
     }
 }

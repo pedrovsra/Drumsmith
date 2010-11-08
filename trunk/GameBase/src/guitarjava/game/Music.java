@@ -34,8 +34,10 @@ public class Music
     private int year;
     private int length;
     private int notePointer;
+    private int soloPointer;
     private boolean silent;
     private List<NoteXml> notes;
+    private List<SoloXml> solos;
     private AdvancedPlayer player;
 
     public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
@@ -44,6 +46,7 @@ public class Music
         this.xmlPath = musicXml;
         
         notes = new ArrayList<NoteXml>();
+        solos = new ArrayList<SoloXml>();
 
         readProperties(musicXml);
 
@@ -60,6 +63,7 @@ public class Music
         Document document = documentBuilder.parse(this.xmlPath);
 
         readNotes(document);
+        readSolos(document);
     }
 
     /**
@@ -141,6 +145,29 @@ public class Music
         {
             notePointer++;
             return noteXml;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param time The current time of the execution.
+     * @return If the time is equal or greater than the current time, the entity
+     * of the next solo. Null otherwise.
+     */
+    public SoloXml getNextSolo(float time)
+    {
+        if (soloPointer == solos.size())
+        {
+            return null;
+        }
+
+        SoloXml soloXml = solos.get(soloPointer);
+
+        if (time > soloXml.getTime())
+        {
+            soloPointer++;
+            return soloXml;
         }
 
         return null;
@@ -255,19 +282,49 @@ public class Music
             float time = -1;
             float duration = -1;
             int track = -1;
+            int special = 0;
 
             NamedNodeMap attributes = node.getAttributes();
 
             time = Float.parseFloat(attributes.getNamedItem("time").getNodeValue());
             duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
             track = Integer.parseInt(attributes.getNamedItem("track").getNodeValue());
+            //special = Integer.parseInt(attributes.getNamedItem("special").getNodeValue());
 
             if (time != lastTime)
                 number++;
 
             lastTime = time;
             
-            notes.add(new NoteXml(time, duration, track, number));
+            notes.add(new NoteXml(time, duration, track, number, special));
+        }
+    }
+
+    /**
+     * Read the solos of the xml document.
+     * @param document The xml document.
+     * @throws NullPointerException
+     * @throws NumberFormatException
+     */
+    private void readSolos(Document document) throws NullPointerException, NumberFormatException
+    {
+        NodeList nodes = document.getElementsByTagName("Solo");
+        int number = 0;
+        float lastTime = -1;
+
+        for (int i = 0; i < nodes.getLength(); ++i)
+        {
+            Node node = nodes.item(i);
+
+            float time = -1;
+            float duration = -1;
+
+            NamedNodeMap attributes = node.getAttributes();
+
+            time = Float.parseFloat(attributes.getNamedItem("time").getNodeValue());
+            duration = Float.parseFloat(attributes.getNamedItem("duration").getNodeValue());
+
+            solos.add(new SoloXml(time, duration));
         }
     }
 }

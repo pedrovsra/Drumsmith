@@ -1,12 +1,14 @@
 package guitarjava.game;
 
 import guitarjava.components.GameWindow;
+import guitarjava.graphics.DrawData;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
 import guitarjava.input.InputEvent;
 import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -34,6 +36,12 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private float executionTime;
     private int lastPownedNoteNumber;
     private GameWindow window;
+    private Neck neck;
+    private float soloMul;
+    private float soloEnd;
+    private boolean doingSolo;
+    private Score score;
+    private int trackInc;
 
     /**
      * @param graphics
@@ -60,6 +68,12 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         }
 
         lastPownedNoteNumber = -1;
+
+        neck = new Neck();
+        soloMul = 1.0f;
+        doingSolo = false;
+
+        score = new Score();
     }
 
     public void init()
@@ -80,7 +94,10 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         graphics.setCamera(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT / 2,
                 Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_HEIGHT / 2, 0);
 
-        graphics.setLightPos(Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
+        graphics.setLightPos(new float[] { Constant.WINDOW_WIDTH / 2, -Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT, 0 });
+        float[] lightAmbient = { 0.1f, 0.1f, 0.1f, 1.0f };
+        float[] lightDiffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+        graphics.setLight(lightAmbient, lightDiffuse);
 
         input.addInputEventListener(this);
         graphics.addGraphicsUpdateEventListener(this);
@@ -124,6 +141,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         {
             executionTime += deltaTime;
         }
+        System.out.println(executionTime);
 
         // Checks if the music hasn't started yet.
         if (executionTime == 0)
@@ -143,11 +161,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             notes.add(note);
         }
 
+        // Updating solo alpha, the blinking effect
+        TrackObject.updateSoloAlpha();
+
         // Updates notes, checking if they are beeing powned or removing them if necessary.
         Iterator<Note> it = notes.iterator();
         while (it.hasNext())
         {
             Note note = it.next();
+            note.setDoingSolo(doingSolo);
             note.think((float) deltaTime);
             
             if (!note.isVisible())
@@ -158,12 +180,16 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             {    
                 if (note.canDraw())
                 {
-                    graphics.draw(note.getDrawData());
+                    Iterator<DrawData> d = note.getDrawDatas().iterator();
+                    while (d.hasNext())
+                        graphics.draw(d.next());
                 }
 
                 if (note.getNoteExtension() != null)
                 {
-                    graphics.draw(note.getNoteExtension().getDrawData());
+                    Iterator<DrawData> d = note.getNoteExtension().getDrawDatas().iterator();
+                    while (d.hasNext())
+                        graphics.draw(d.next());
                 }
             }
         }
@@ -171,22 +197,68 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         // Do the guitar buttons logic/draw operations.
         for (int i = 0; i < 5; ++i)
         {
+            guitarButtons[i].setDoingSolo(doingSolo);
             guitarButtons[i].think((float) deltaTime);
 
-            graphics.draw(guitarButtons[i].getDrawData());
+            Iterator<DrawData> d = guitarButtons[i].getDrawDatas().iterator();
+            while (d.hasNext())
+                graphics.draw(d.next());
 
             Iterator<Flame> itF = guitarButtons[i].getFlames().iterator();
             while (itF.hasNext())
             {
                 Flame flame = itF.next();
 
-                Iterator itP = flame.getParticles().iterator();
+                Iterator<Particle> itP = flame.getParticles().iterator();
                 while (itP.hasNext())
                 {
-                    graphics.draw(((Particle) itP.next()).getDrawData());
+                    d = itP.next().getDrawDatas().iterator();
+                    while (d.hasNext())
+                        graphics.draw(d.next());
                 }
             }
         }
+
+        // Neck uptade.
+        neck.setDoingSolo(doingSolo);
+        neck.think((float) deltaTime);
+        Iterator<DrawData> d = neck.getDrawDatas().iterator();
+        while (d.hasNext())
+        {
+            DrawData n = d.next();
+            n.setColorMul(soloMul);
+            graphics.draw(n);
+        }
+
+        // Solo check.
+        if (doingSolo)
+        {
+            if (soloMul > 0.1f)
+                soloMul -= 0.01f;
+            if (soloEnd < (float)time)
+            {
+                doingSolo = false;
+                graphics.setClearColor(new float [] {0, 0, 0, 1.0f});
+            }
+        }
+        // Back to normal
+        else if (soloMul < 1.0f)
+            soloMul += 0.01f;
+        else
+        {
+            // Gets new solos
+            SoloXml soloXml = music.getNextSolo((float)time);
+            if (soloXml != null)
+            {
+                doingSolo = true;
+                soloEnd = soloXml.getTime() + soloXml.getDuration();
+            }
+        }
+
+        // Score
+        score.think((float) deltaTime);
+        graphics.draw(score.getDrawDatas().getFirst());
+        graphics.draw(score.getDrawDatas().get(1));
     }
 
     /**
@@ -249,19 +321,37 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
 
         if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED || e.getType() == InputEvent.INPUT_JOYSTICK_PRESSED)
         {
+            ++trackInc;
+            if (trackInc == 5)
+                trackInc = 0;
+            // Update solo color
+            if (doingSolo)
+            {
+                Color col = TrackObject.getColorByTrack(trackInc);
+                graphics.setClearColor(new float[] { col.getRed()/256f, col.getGreen()/256.f, col.getBlue()/256f, 1.0f });
+            }
+            // Press button, checking if missed
             int noteNumber = guitarButton.press(getNotesOfTrack(track));
             if (noteNumber == -1)
             {
                 music.setSilent(true);
+                score.resetStreak();
             }
             else
             {
                 music.setSilent(false);
                 lastPownedNoteNumber = noteNumber;
+                score.addToScore(1);
+                score.incStreak();
             }
         }
         else if (e.getType() == InputEvent.INPUT_KEYBOARD_RELEASED || e.getType() == InputEvent.INPUT_JOYSTICK_RELEASED)
         {
+            if (doingSolo)
+            {
+                //Color col = createColor();
+                //graphics.setClearColor(new float[] { col.getRed()/256f, col.getGreen()/256.f, col.getBlue()/256f, 1.0f });
+            }
             guitarButton.unpress();
         }
     }

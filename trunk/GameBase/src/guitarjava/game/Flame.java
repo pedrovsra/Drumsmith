@@ -25,12 +25,13 @@ public class Flame extends TrackObject
      * @param track Which track the it is in.
      * @param duration The total duration.
      */
-    public Flame(BurningInterface burningState, int track, double duration)
+    public Flame(BurningInterface burningState, int track, double duration, boolean doingSolo)
     {
         super(track, BURNING_POSITION_Y, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT, Color.WHITE, -1);
 
         this.burningState = burningState;
         this.duration = duration;
+        this.doingSolo = doingSolo;
 
         particles = new LinkedList<Particle>();
 
@@ -56,6 +57,7 @@ public class Flame extends TrackObject
         while (it.hasNext())
         {
             Particle p = it.next();
+            p.setDoingSolo(doingSolo);
             p.think(deltaTime);
             if (p.isDead())
                 it.remove();
@@ -72,7 +74,10 @@ public class Flame extends TrackObject
 
         if (particles.size() < FLAME_PARTICLES)
         {
-            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5f,
+            float vel = 0.5f;
+            if (doingSolo)
+                vel = 1.0f;
+            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, vel,
                     TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
         }  
     }

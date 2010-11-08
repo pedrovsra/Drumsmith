@@ -1,5 +1,8 @@
 package guitarjava.game;
 
+import guitarjava.graphics.DrawData;
+import java.awt.Color;
+
 /**
  * Represents a music note.
  * @author lucasjadami
@@ -40,18 +43,21 @@ public class Note extends TrackObject
         double realRadiusSquared = width * width * Z_SURFACE_FACTOR * Z_SURFACE_FACTOR /
                 (2 * Z_SURFACE_FACTOR - 1) / 4;
 
-        drawData.createAs3DClippedSphere((float) (Math.pow(realRadiusSquared, .5) * 2),
+        drawDatas.getFirst().createAs3DClippedSphere((float) (Math.pow(realRadiusSquared, .5) * 2),
                 (float) (Math.pow(realRadiusSquared, .5) * 2 / Z_SURFACE_FACTOR));
     }
 
     @Override
     public void think(float deltaTime)
     {
+        updateSolo();
+
         y += TRACK_DEFAULT_SPEED * deltaTime;
-        updateDrawDataPosition();
+        updateDrawDataPosition(drawDatas.getFirst());
 
         if (noteExtension != null)
         {
+            noteExtension.setDoingSolo(doingSolo);
             noteExtension.think(deltaTime);
         }
 
