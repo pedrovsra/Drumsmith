@@ -92,6 +92,10 @@ public class GameLoading extends Loading
             setState("Loading music notes..");
             musicToPlay.readNotes();
             setProgress(80);
+            // Just in case the same music was being played in the menu.
+            setState("Flushing music..");
+            musicToPlay.reopen();
+            setProgress(86);
         }
         catch (Exception ex)
         {
@@ -101,7 +105,7 @@ public class GameLoading extends Loading
         setState("Creating game engine..");
         gameEngine = new GameEngine(graphicsContext, timingContext, inputContext,
                 gameWindow, musicToPlay);
-        setProgress(90);
+        setProgress(93);
 
         setState("Initializing..");
         gameEngine.init();

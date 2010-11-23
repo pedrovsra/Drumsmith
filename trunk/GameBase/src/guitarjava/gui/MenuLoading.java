@@ -1,11 +1,14 @@
 package guitarjava.gui;
 
 import guitarjava.game.Music;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,12 +65,15 @@ public class MenuLoading extends Loading
             }
         });
 
+        List<File> filesList = Arrays.asList(files);
+        Collections.sort(filesList);
+
         int total = files.length;
         int loaded = 0;
 
         musics = new HashMap<String, List<Music>>();
 
-        for (File file : files)
+        for (File file : filesList)
         {
             setState("Loading music file: " + file.getName());
 

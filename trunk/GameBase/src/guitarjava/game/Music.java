@@ -26,6 +26,7 @@ public class Music
     private static final int MUSIC_GAIN = 8;
 
     private String xmlPath;
+    private String mp3Path;
     private String version;
     private String name;
     private String artist;
@@ -41,17 +42,25 @@ public class Music
     private AdvancedPlayer player;
 
     public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
-            NumberFormatException, NullPointerException, DOMException, JavaLayerException
+            NumberFormatException, NullPointerException, DOMException, JavaLayerException, Exception
     {
         this.xmlPath = musicXml;
+        this.mp3Path = musicMP3;
         
         notes = new ArrayList<NoteXml>();
         solos = new ArrayList<SoloXml>();
 
         readProperties(musicXml);
 
-        FileInputStream input = new FileInputStream(musicMP3);
+        reopen();
+    }
+
+    public final void reopen() throws Exception
+    {
+        FileInputStream input = new FileInputStream(mp3Path);
         player = new AdvancedPlayer(input);
+        notePointer = 0;
+        soloPointer = 0;
     }
 
     public void readNotes() throws ParserConfigurationException, SAXException, IOException
@@ -211,7 +220,7 @@ public class Music
     {
         return player.getCurrentPosition();
     }
-
+    
     private void readProperties(String musicXml) throws NullPointerException, NumberFormatException,
             DOMException, ParserConfigurationException, SAXException, IOException
     {
