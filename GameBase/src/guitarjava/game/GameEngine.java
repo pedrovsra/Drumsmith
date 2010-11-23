@@ -40,6 +40,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private float soloMul;
     private float soloEnd;
     private boolean doingSolo;
+    private boolean safetyEndFlag;
     private Score score;
     private int trackInc;
 
@@ -127,7 +128,12 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
      */
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
-    {       
+    {
+        if (music.getCurrentPosition() == 0 && safetyEndFlag)
+        {
+            // END MUSIC HERE
+        }
+        
         // Gets the delta time and update the execution time.
         double deltaTime = timing.getDeltaTime();
 
@@ -136,12 +142,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             executionTime = music.getCurrentPosition();
             // Set the deltaTime to zero to don't do wrong calculations.
             deltaTime = 0;
+
+            if (executionTime > 0)
+                safetyEndFlag = true;
         }
         else
         {
             executionTime += deltaTime;
         }
-        System.out.println(executionTime);
 
         // Checks if the music hasn't started yet.
         if (executionTime == 0)

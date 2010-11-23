@@ -1,6 +1,7 @@
 package guitarjava.main;
 
 import guitarjava.gui.Gui;
+import javax.swing.UIManager;
 
 /**
  *
@@ -15,6 +16,7 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
+        //UIManager.setLookAndFeel("com.easynth.lookandfeel.EaSynthLookAndFeel");
         Gui gui = new Gui();
     }
 }

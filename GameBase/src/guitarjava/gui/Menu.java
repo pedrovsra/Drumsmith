@@ -117,19 +117,22 @@ public class Menu extends javax.swing.JFrame
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void musicsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_musicsListValueChanged
-        if (evt.getValueIsAdjusting())
+        if (!evt.getValueIsAdjusting())
         {
             showMusicDifficulties();
+            playMusic();
         }
     }//GEN-LAST:event_musicsListValueChanged
 
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<i>") + 3, musicString.indexOf("</i>"));
+        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
 
         List<Music> mapMusics = musics.get(musicName);
 
         musicToPlay = mapMusics.get(musicLevelsList.getSelectedIndex());
+
+        playingMusic.stop();
 
         WindowListener gui = getWindowListeners()[0];
         if (gui != null)
@@ -153,6 +156,8 @@ public class Menu extends javax.swing.JFrame
     private DefaultListModel musicLevelsListModel;
     private Map<String, List<Music>> musics;
     private Music musicToPlay;
+    private Music sampleMusic;
+    private Music playingMusic;
 
     public void translateToMusicsList(Map<String, List<Music>> musics)
     {
@@ -165,7 +170,8 @@ public class Menu extends javax.swing.JFrame
             Music representant = entry.getValue().get(0);
 
             if (representant != null)
-                musicsListModel.addElement("<html><i>" + representant.getName() + "</i> " + representant.getArtist() + "</i></html>");
+                musicsListModel.addElement("<html><music>" + representant.getName() + "</music> - " + representant.getArtist() + " - " +
+                        representant.getAlbum() + " - " + representant.getYear() + "</html>");
         }
 
         musicsList.setSelectedIndex(0);
@@ -180,7 +186,7 @@ public class Menu extends javax.swing.JFrame
     private void showMusicDifficulties()
     {
         String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<i>") + 3, musicString.indexOf("</i>"));
+        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
 
         List<Music> mapMusics = musics.get(musicName);
         if (mapMusics != null)
@@ -194,6 +200,43 @@ public class Menu extends javax.swing.JFrame
         }
 
         musicLevelsList.setSelectedIndex(0);
+    }
+
+    private void playMusic()
+    {
+        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
+        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
+
+        List<Music> mapMusics = musics.get(musicName);
+
+        sampleMusic = mapMusics.get(musicLevelsList.getSelectedIndex());
+        Thread samplePlay = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    if (playingMusic != null)
+                    {
+                        playingMusic.stop();
+                    }
+
+                    if (sampleMusic == playingMusic)
+                        return;
+
+                    playingMusic = sampleMusic;
+                    sampleMusic.reopen();
+                    sampleMusic.play();
+                }
+                catch (Exception e)
+                {
+                    // TODO
+                }
+            }
+        };
+
+        samplePlay.start();
     }
 
     private void centralize()
