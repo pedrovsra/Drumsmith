@@ -43,6 +43,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private boolean safetyEndFlag;
     private Score score;
     private int trackInc;
+    private DrawData paused;
+    private boolean pausedFlag;
 
     /**
      * @param graphics
@@ -75,6 +77,10 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         doingSolo = false;
 
         score = new Score();
+
+        paused = new DrawData(0);
+        paused.createAs2DText("PAUSED! PRESS SPACE OR SELECT TO QUIT!");
+        paused.setPosition(130, 270, 2);
     }
 
     public void init()
@@ -129,11 +135,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
     {
-        if (music.getCurrentPosition() == 0 && safetyEndFlag)
-        {
-            // END MUSIC HERE
-        }
-        
         // Gets the delta time and update the execution time.
         double deltaTime = timing.getDeltaTime();
 
@@ -142,7 +143,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             executionTime = music.getCurrentPosition();
             // Set the deltaTime to zero to don't do wrong calculations.
             deltaTime = 0;
-
             if (executionTime > 0)
                 safetyEndFlag = true;
         }
@@ -156,6 +156,13 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             return;
 
         double time = (TIME_TROUGH_TRACK + executionTime) / 1000;
+
+        if (pausedFlag)
+        {
+            graphics.draw(paused);
+            time = 0;
+            deltaTime = 0;
+        }
 
         // Creates new notes that need to appear on the track.
         for (NoteXml noteXml = music.getNextNote((float) time); noteXml != null; noteXml = music.getNextNote((float) time))
@@ -267,6 +274,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         score.think((float) deltaTime);
         graphics.draw(score.getDrawDatas().getFirst());
         graphics.draw(score.getDrawDatas().get(1));
+
+        // Check if song finished
+        if ((int)time - 5 >= music.getLength())
+        {
+            window.setVisible(false);
+            window.dispose();
+            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+        }
     }
 
     /**
@@ -297,6 +312,10 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
                 case 'K':
                     track = 4;
                     break;
+                case 'P':
+                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED)
+                        doPause();
+                    return;
                 default:
                     return;
             }
@@ -362,6 +381,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             }
             guitarButton.unpress();
         }
+    }
+
+    /**
+     * Pauses the game.
+     */
+    private void doPause()
+    {
+        pausedFlag = !pausedFlag;
     }
 
     @Override
