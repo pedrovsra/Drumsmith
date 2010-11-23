@@ -79,8 +79,8 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     public void showWindow()
     {
         // Fires close window to Main Window
-        if (mainWindow instanceof JFrame)
-            ((JFrame) mainWindow).setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        mainWindow.setVisible(false);
+        mainWindow.dispose();
         mainWindow.dispatchEvent(new WindowEvent(mainWindow, WindowEvent.WINDOW_CLOSING));
         // Adding other events and stuff
         addWindowListener(new WindowAdapter()
