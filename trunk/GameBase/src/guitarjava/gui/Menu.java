@@ -111,6 +111,9 @@ public class Menu extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        if (playingMusic != null)
+            playingMusic.stop();
+
         WindowListener gui = getWindowListeners()[0];
         if (gui != null)
             gui.windowClosed(new WindowEvent(this, CLOSED_TO_REQUEST_REFRESH));
@@ -132,7 +135,8 @@ public class Menu extends javax.swing.JFrame
 
         musicToPlay = mapMusics.get(musicLevelsList.getSelectedIndex());
 
-        playingMusic.stop();
+        if (playingMusic != null)
+            playingMusic.stop();
 
         WindowListener gui = getWindowListeners()[0];
         if (gui != null)
