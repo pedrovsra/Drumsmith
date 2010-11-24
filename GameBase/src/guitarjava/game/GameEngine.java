@@ -40,7 +40,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private float soloMul;
     private float soloEnd;
     private boolean doingSolo;
-    private boolean safetyEndFlag;
     private Score score;
     private int trackInc;
     private DrawData paused;
@@ -143,8 +142,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             executionTime = music.getCurrentPosition();
             // Set the deltaTime to zero to don't do wrong calculations.
             deltaTime = 0;
-            if (executionTime > 0)
-                safetyEndFlag = true;
         }
         else
         {
