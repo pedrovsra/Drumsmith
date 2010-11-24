@@ -36,7 +36,7 @@ public class Flame extends TrackObject
         particles = new LinkedList<Particle>();
 
         for (int x = 0; x < FLAME_PARTICLES / 5; ++x)
-            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, 0.5,
+            particles.add(new Particle(x, y, z, 0.5,
                     TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
     }
 
