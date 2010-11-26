@@ -79,7 +79,9 @@ public class MenuLoading extends Loading
 
             try
             {
-                Music music = new Music(file.getPath(), "musics/mp3/" + file.getName().substring(0, file.getName().length() - 6) + ".mp3");
+                Music music = new Music(file.getPath(), "musics/mp3/" + file.getName().substring
+			(0, file.getName().length() - 6) + ".mp3", "musics/score/" + file.getName().substring
+			(0, file.getName().length() - 6) + ".sco");
 
                 String key = music.getName();
                 
@@ -95,7 +97,7 @@ public class MenuLoading extends Loading
             }
             catch (Exception e)
             {
-                System.out.println(e.getMessage());
+                System.out.println(e);
             }
 
             loaded++;

@@ -44,6 +44,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private int trackInc;
     private DrawData paused;
     private boolean pausedFlag;
+    private boolean finished;
 
     /**
      * @param graphics
@@ -275,6 +276,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         // Check if song finished
         if ((int)time - 5 >= music.getLength())
         {
+	    finished = true;
             window.setVisible(false);
             window.dispose();
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
@@ -416,5 +418,22 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         }
 
         return trackNotes;
+    }
+
+    /**
+     * @return if there is a beaten high score
+     */
+    public boolean hasHighScore()
+    {
+	return score.getScore() > music.getHighScore() && finished;
+    }
+
+    /**
+     * Saves the high score.
+     * @param player the player name
+     */
+    public void saveHighScore(String player)
+    {
+	music.saveHighScore(player, score.getScore());
     }
 }

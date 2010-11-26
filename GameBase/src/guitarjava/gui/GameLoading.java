@@ -72,7 +72,7 @@ public class GameLoading extends Loading
         gameWindow.addWindowListener(gui);
 
         setState("Creating exception handler..");
-        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.components.ErrorWindow(gameWindow, null));
+        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.components.ErrorWindow(gameWindow, "http://www.google.com"));
         setProgress(15);
 
         setState("Creating graphics context..");

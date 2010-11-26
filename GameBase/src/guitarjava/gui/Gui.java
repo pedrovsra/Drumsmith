@@ -8,7 +8,9 @@ package guitarjava.gui;
 import guitarjava.game.GameEngine;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 import javazoom.jl.decoder.JavaLayerException;
+import guitarjava.components.ErrorWindow;
 
 /**
  *
@@ -56,10 +58,16 @@ public class Gui extends WindowAdapter
     @Override
     public void windowClosing(WindowEvent e)
     {
-        if (gameLoading != null && e.getSource() == gameLoading.getGameWindow())
+        if (gameLoading != null && e.getSource() == gameLoading.getGameWindow() && !ErrorWindow.hasError())
         {
             GameEngine gameEngine = gameLoading.getGameEngine();
             gameEngine.stop();
+            if (gameEngine.hasHighScore())
+            {
+                String player = JOptionPane.showInputDialog
+			("You beat this music highscore! Enter your name!");
+		gameEngine.saveHighScore(player);
+            }
             createMenuLoading();
         }
     }

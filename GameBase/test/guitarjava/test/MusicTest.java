@@ -70,7 +70,7 @@ public class MusicTest
     {
         for (int i = 0; i < 10; ++i)
         {
-            music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3");
+            music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3", "musics/score/Music1.sco");
             Thread thread = new Thread()
             {
                 @Override
