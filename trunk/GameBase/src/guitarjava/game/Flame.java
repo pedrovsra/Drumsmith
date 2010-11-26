@@ -35,9 +35,13 @@ public class Flame extends TrackObject
 
         particles = new LinkedList<Particle>();
 
-        for (int x = 0; x < FLAME_PARTICLES / 5; ++x)
-            particles.add(new Particle(x, y, z, 0.5,
+        for (int x = 0; x < FLAME_PARTICLES / 4; ++x)
+        {
+            double px = x + Math.random() * DEFAULT_WIDTH - DEFAULT_WIDTH/2;
+            double py = y + Math.random() * DEFAULT_WIDTH - DEFAULT_WIDTH/2;
+            particles.add(new Particle(px, py, z, 0.5,
                     TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
+        }
     }
 
     /**
@@ -77,7 +81,9 @@ public class Flame extends TrackObject
             float vel = 0.5f;
             if (doingSolo)
                 vel = 1.0f;
-            particles.add(new Particle(x, y, z - Particle.PARTICLE_WIDTH, vel,
+            double px = x + Math.random() * DEFAULT_WIDTH - DEFAULT_WIDTH/2;
+            double py = y + Math.random() * DEFAULT_WIDTH - DEFAULT_WIDTH/2;
+            particles.add(new Particle(px, py, z, vel,
                     TrackObject.getColorByTrack(track), Constant.CACHEID_FLAME));
         }  
     }

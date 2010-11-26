@@ -69,7 +69,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
         else
         {
             ErrorWindow error = new ErrorWindow(new RuntimeException("Could not find any Graphic context to add Input listeners."),
-                    component, null);
+                    component, "http://www.google.com");
             error.showWindow();
         }
         // Adding close listener
@@ -262,7 +262,7 @@ public class InputNoRepeatContext implements InputInterface, KeyListener, Joysti
                         quit = true;
                         ErrorWindow error = new ErrorWindow(
                                 new RuntimeException("Joystick removed, it may cause library leakages, please restart the app."),
-                                mainWindow, null);
+                                mainWindow, "http://www.google.com");
                         error.showWindow();
                     }
                 }

@@ -1,9 +1,18 @@
 package guitarjava.game;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,6 +36,7 @@ public class Music
 
     private String xmlPath;
     private String mp3Path;
+    private String musicScore;
     private String version;
     private String name;
     private String artist;
@@ -40,12 +50,15 @@ public class Music
     private List<NoteXml> notes;
     private List<SoloXml> solos;
     private AdvancedPlayer player;
+    private int highscore;
+    private String highPlayer;
 
-    public Music(String musicXml, String musicMP3) throws ParserConfigurationException, SAXException, IOException,
+    public Music(String musicXml, String musicMP3, String musicScore) throws ParserConfigurationException, SAXException, IOException,
             NumberFormatException, NullPointerException, DOMException, JavaLayerException, Exception
     {
         this.xmlPath = musicXml;
         this.mp3Path = musicMP3;
+	this.musicScore = musicScore;
         
         notes = new ArrayList<NoteXml>();
         solos = new ArrayList<SoloXml>();
@@ -53,6 +66,8 @@ public class Music
         readProperties(musicXml);
 
         reopen();
+
+	loadHighScore();
     }
 
     public final void reopen() throws Exception
@@ -335,5 +350,53 @@ public class Music
 
             solos.add(new SoloXml(time, duration));
         }
+    }
+
+    /**
+     * @return the music high score
+     */
+    int getHighScore()
+    {
+	return highscore;
+    }
+
+    /**
+     * Loads the high score and player name
+     */
+    private void loadHighScore()
+    {
+	try
+	{
+	    Scanner scanner = new Scanner(new File(musicScore), "UTF-8");
+	    highscore = Integer.parseInt(scanner.next());
+	    highPlayer = scanner.next();
+	    scanner.close();
+	}
+	catch (FileNotFoundException ex)
+	{
+	    System.out.println("Error loading highscores!");
+	}
+    }
+
+    /**
+     * Saves the high score.
+     * @param player the player name
+     * @param score the high score
+     */
+    void saveHighScore(String player, int score)
+    {
+	try
+	{
+	    Writer output = new BufferedWriter(new FileWriter(musicScore));
+	    output.write(score + " " + player);
+	    this.highscore = score;
+	    this.highPlayer = player;
+	    output.flush();
+	    output.close();
+	}
+	catch (IOException ex)
+	{
+	    System.out.println("Error saving highscores!");
+	}
     }
 }

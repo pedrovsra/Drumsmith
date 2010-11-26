@@ -34,7 +34,15 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
     private Throwable ex; // Exception
     private ScrollPane scrollPane; // Scroll pane of text area
     private Window mainWindow; // The Main Window
+    static private boolean showing;
 
+    /**
+     * If an error has ocurred and error windows is being showed.
+     */
+    static public boolean hasError()
+    {
+	return showing;
+    }
     /**
      * Default constructor.
      */
@@ -78,6 +86,7 @@ public class ErrorWindow extends JDialog implements ActionListener, Thread.Uncau
      */
     public void showWindow()
     {
+	ErrorWindow.showing = true;
         // Fires close window to Main Window
         mainWindow.setVisible(false);
         mainWindow.dispose();
