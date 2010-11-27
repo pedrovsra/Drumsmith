@@ -57,6 +57,8 @@ public class Menu extends javax.swing.JFrame
         musicLevelsList = new javax.swing.JList();
         scrollPane1 = new javax.swing.JScrollPane();
         musicsList = new javax.swing.JList();
+        highscorePanel = new javax.swing.JPanel();
+        highscoreLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 400));
@@ -105,6 +107,13 @@ public class Menu extends javax.swing.JFrame
 
         centerPanel.add(scrollPane1, java.awt.BorderLayout.PAGE_START);
 
+        highscoreLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        highscoreLabel.setForeground(new java.awt.Color(0, 255, 0));
+        highscoreLabel.setText("Highscores");
+        highscorePanel.add(highscoreLabel);
+
+        centerPanel.add(highscorePanel, java.awt.BorderLayout.PAGE_END);
+
         getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -121,6 +130,7 @@ public class Menu extends javax.swing.JFrame
     private void musicsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_musicsListValueChanged
         if (!evt.getValueIsAdjusting())
         {
+            showMusicHighscore();
             showMusicDifficulties();
             playMusic();
         }
@@ -144,6 +154,8 @@ public class Menu extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerPanel;
     private javax.swing.JButton goButton;
+    private javax.swing.JLabel highscoreLabel;
+    private javax.swing.JPanel highscorePanel;
     private javax.swing.JPanel lowerPanel;
     private javax.swing.JList musicLevelsList;
     private javax.swing.JList musicsList;
@@ -173,8 +185,7 @@ public class Menu extends javax.swing.JFrame
 
             if (representant != null)
                 musicsListModel.addElement("<html><b><music>" + representant.getName() + "</music></b> - " + representant.getArtist() + " - " +
-                        representant.getAlbum() + " - " + representant.getYear() + " - <font color='#00FF00'>Record by " +
-                        representant.getHighPlayer() + " (" + representant.getHighScore() + ")</font></html>");
+                        representant.getAlbum() + " - " + representant.getYear() + "</html>");
         }
 
         musicsList.setSelectedIndex(0);
@@ -184,6 +195,21 @@ public class Menu extends javax.swing.JFrame
     public Music getMusicToPlay()
     {
         return musicToPlay;
+    }
+
+    private void showMusicHighscore()
+    {
+        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
+        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
+
+        List<Music> mapMusics = musics.get(musicName);
+        if (mapMusics.size() > 0)
+        {
+            Music music = mapMusics.get(0);
+            highscoreLabel.setText("Music highscore: " + music.getHighPlayer() + "(" + music.getHighScore() + ")");
+        }
+        else
+            highscoreLabel.setText("Highscores");
     }
 
     private void showMusicDifficulties()
