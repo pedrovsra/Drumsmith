@@ -62,7 +62,7 @@ public class Menu extends javax.swing.JFrame
         setMinimumSize(new java.awt.Dimension(500, 400));
         setResizable(false);
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 1, 18));
+        titleLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         titleLabel.setText("Select one music to play:");
         upperPanel.add(titleLabel);
 
@@ -114,9 +114,8 @@ public class Menu extends javax.swing.JFrame
         if (playingMusic != null)
             playingMusic.stop();
 
-        WindowListener gui = getWindowListeners()[0];
-        if (gui != null)
-            gui.windowClosed(new WindowEvent(this, CLOSED_TO_REQUEST_REFRESH));
+        for (WindowListener gui : getWindowListeners())
+                    gui.windowClosed(new WindowEvent(this, CLOSED_TO_REQUEST_REFRESH));
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void musicsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_musicsListValueChanged
@@ -138,8 +137,7 @@ public class Menu extends javax.swing.JFrame
         if (playingMusic != null)
             playingMusic.stop();
 
-        WindowListener gui = getWindowListeners()[0];
-        if (gui != null)
+        for (WindowListener gui : getWindowListeners())
             gui.windowClosed(new WindowEvent(this, CLOSED_TO_PLAY));
     }//GEN-LAST:event_goButtonActionPerformed
 

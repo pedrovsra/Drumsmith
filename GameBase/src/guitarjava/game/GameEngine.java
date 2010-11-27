@@ -16,6 +16,8 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -114,14 +116,14 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
      * Start method.
      * @throws JavaLayerException
      */
-    public void start() throws JavaLayerException
+    public void start() throws JavaLayerException, Exception
     {
         window.showWindow();
         music.play();
     }
 
     /**
-     * Stops everything.
+     * Stops the music.
      */
     public void stop()
     {
@@ -137,7 +139,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     {
         // Gets the delta time and update the execution time.
         double deltaTime = timing.getDeltaTime();
-
+        
         if (executionTime == 0)
         {
             executionTime = music.getCurrentPosition();
@@ -158,8 +160,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         if (pausedFlag)
         {
             graphics.draw(paused);
-            time = 0;
-            deltaTime = 0;
         }
 
         // Creates new notes that need to appear on the track.
@@ -312,7 +312,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
                     track = 4;
                     break;
                 case 'P':
-                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED)
+                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED && 1 == 0)
                         doPause();
                     return;
                 default:
@@ -388,6 +388,18 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private void doPause()
     {
         pausedFlag = !pausedFlag;
+        if (pausedFlag)
+            music.stop();
+        else
+        {
+            try {
+                music.play(true);
+            } catch (JavaLayerException ex) {
+                Logger.getLogger(GameEngine.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(GameEngine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override

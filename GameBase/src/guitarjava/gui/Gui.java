@@ -106,5 +106,9 @@ public class Gui extends WindowAdapter
         {
             // TODO
         }
+        catch (Exception ex)
+        {
+            
+        }
     }
 }
