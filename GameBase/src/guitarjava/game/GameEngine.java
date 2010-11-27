@@ -81,8 +81,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         score = new Score();
 
         paused = new DrawData(0);
-        paused.createAs2DText("PAUSED! PRESS SPACE OR SELECT TO QUIT!");
-        paused.setPosition(130, 270, 2);
+        paused.createAs2DText("PAUSED! PRESS ESC TO QUIT!");
+        paused.setPosition(140, 270, 2);
     }
 
     public void init()
