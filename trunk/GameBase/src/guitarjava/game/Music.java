@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,7 @@ public class Music
     private AdvancedPlayer player;
     private int highscore;
     private String highPlayer;
+    private Thread musicThread;
 
     public Music(String musicXml, String musicMP3, String musicScore) throws ParserConfigurationException, SAXException, IOException,
             NumberFormatException, NullPointerException, DOMException, JavaLayerException, Exception
@@ -74,8 +74,6 @@ public class Music
     {
         FileInputStream input = new FileInputStream(mp3Path);
         player = new AdvancedPlayer(input);
-        notePointer = 0;
-        soloPointer = 0;
     }
 
     public void readNotes() throws ParserConfigurationException, SAXException, IOException
@@ -197,13 +195,40 @@ public class Music
         return null;
     }
 
+    public void play() throws JavaLayerException, Exception
+    {
+        this.play(false);
+    }
+
     /**
      * Plays the music.
      * @throws JavaLayerException
      */
-    public void play() throws JavaLayerException
+    public void play(boolean reopen) throws JavaLayerException, Exception
     {
-        player.play();
+        final int readFrames = Math.max(0, player.getReadFrames());
+        if (reopen)
+        {
+            this.reopen();
+        }
+
+        musicThread = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    player.play(readFrames, Integer.MAX_VALUE);
+                }
+                catch (JavaLayerException ex)
+                {
+                    Logger.getLogger(Music.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+
+        musicThread.start();
     }
 
     public void stop()
@@ -234,6 +259,11 @@ public class Music
     public int getCurrentPosition()
     {
         return player.getCurrentPosition();
+    }
+
+    public int getLastPosition()
+    {
+        return player.getLastPosition();
     }
     
     private void readProperties(String musicXml) throws NullPointerException, NumberFormatException,

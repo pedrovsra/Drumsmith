@@ -37,8 +37,7 @@ public class MenuLoading extends Loading
             {
                 loadMusics();
 
-                WindowListener gui = getWindowListeners()[0];
-                if (gui != null)
+                for (WindowListener gui : getWindowListeners())
                     gui.windowClosed(new WindowEvent(MenuLoading.this, 0));
             }
 

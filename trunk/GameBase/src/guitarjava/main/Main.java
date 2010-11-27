@@ -2,6 +2,8 @@ package guitarjava.main;
 
 import guitarjava.gui.Gui;
 import javax.swing.UIManager;
+import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
+
 
 /**
  *
@@ -16,7 +18,7 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        //UIManager.setLookAndFeel("com.easynth.lookandfeel.EaSynthLookAndFeel");
+        UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
         Gui gui = new Gui();
     }
 }

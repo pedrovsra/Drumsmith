@@ -42,8 +42,7 @@ public class GameLoading extends Loading
             {
                 loadGame();
 
-                WindowListener gui = getWindowListeners()[0];
-                if (gui != null)
+                for (WindowListener gui : getWindowListeners())
                     gui.windowClosed(new WindowEvent(GameLoading.this, 0));
             }
 
@@ -68,8 +67,8 @@ public class GameLoading extends Loading
         gameWindow = new GameWindow(Constant.WINDOW_WIDTH, Constant.WINDOW_HEIGHT);
         setProgress(5);
 
-        WindowListener gui = getWindowListeners()[0];
-        gameWindow.addWindowListener(gui);
+        for (WindowListener gui : getWindowListeners())
+           gameWindow.addWindowListener(gui);
 
         setState("Creating exception handler..");
         Thread.setDefaultUncaughtExceptionHandler(new guitarjava.components.ErrorWindow(gameWindow, "http://www.google.com"));
