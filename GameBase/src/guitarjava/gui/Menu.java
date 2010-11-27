@@ -172,8 +172,9 @@ public class Menu extends javax.swing.JFrame
             Music representant = entry.getValue().get(0);
 
             if (representant != null)
-                musicsListModel.addElement("<html><music>" + representant.getName() + "</music> - " + representant.getArtist() + " - " +
-                        representant.getAlbum() + " - " + representant.getYear() + "</html>");
+                musicsListModel.addElement("<html><b><music>" + representant.getName() + "</music></b> - " + representant.getArtist() + " - " +
+                        representant.getAlbum() + " - " + representant.getYear() + " - <font color='#00FF00'>Record by " +
+                        representant.getHighPlayer() + " (" + representant.getHighScore() + ")</font></html>");
         }
 
         musicsList.setSelectedIndex(0);

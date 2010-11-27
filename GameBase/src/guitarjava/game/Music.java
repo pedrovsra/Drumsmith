@@ -385,9 +385,14 @@ public class Music
     /**
      * @return the music high score
      */
-    int getHighScore()
+    public int getHighScore()
     {
 	return highscore;
+    }
+
+    public String getHighPlayer()
+    {
+        return highPlayer;
     }
 
     /**
@@ -413,7 +418,7 @@ public class Music
      * @param player the player name
      * @param score the high score
      */
-    void saveHighScore(String player, int score)
+    public void saveHighScore(String player, int score)
     {
 	try
 	{
