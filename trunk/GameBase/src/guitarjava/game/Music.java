@@ -404,7 +404,14 @@ public class Music
 	{
 	    Scanner scanner = new Scanner(new File(musicScore), "UTF-8");
 	    highscore = Integer.parseInt(scanner.next());
-	    highPlayer = scanner.next();
+            highPlayer = scanner.next();
+
+            while (scanner.hasNext())
+            {
+                String s = scanner.next();
+                highPlayer += " " + s;
+            }
+            
 	    scanner.close();
 	}
 	catch (FileNotFoundException ex)
