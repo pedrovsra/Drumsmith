@@ -1,7 +1,6 @@
 package guitarjava.gui;
 
 import guitarjava.game.Music;
-import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -14,24 +13,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * The gui class that loads the musics from the disk.
  * @author lucasjadami
  */
 public class MenuLoading extends Loading
 {
-    Map<String, List<Music>> musics;
-    
+    Map<String, List<Music>> musics; // Map containing all musics.
+
+    /**
+     * Contructor.
+     */
     public MenuLoading()
     {
         
     }
 
+    /**
+     * Loads (async) all the musics from the disk.
+     */
     @Override
     public void load()
     {
         loadThread = new Thread()
         {
-
             @Override
             public void run()
             {
@@ -46,11 +50,17 @@ public class MenuLoading extends Loading
         super.load();
     }
 
+    /**
+     * @return The map containing all the musics.
+     */
     public Map<String, List<Music>> getMusics()
     {
         return musics;
     }
-    
+
+    /**
+     * Reads the musics from the disk and creates the music map.
+     */
     private void loadMusics()
     {
         File folder = new File("musics/xml/");
@@ -65,6 +75,7 @@ public class MenuLoading extends Loading
         });
 
         List<File> filesList = Arrays.asList(files);
+        // Sorts the files.
         Collections.sort(filesList);
 
         int total = files.length;

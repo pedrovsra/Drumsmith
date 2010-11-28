@@ -19,8 +19,8 @@ import java.net.URI;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Lucas
+ * Error window class.
+ * @author lucasjadami
  */
 public class ErrorWindow extends javax.swing.JDialog implements Thread.UncaughtExceptionHandler{
 

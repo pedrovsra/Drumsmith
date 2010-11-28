@@ -21,8 +21,8 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 
 /**
- *
- * @author Lucas
+ * Class of the gui used to choose the music to play.
+ * @author lucasjadami
  */
 public class Menu extends javax.swing.JFrame
 {
@@ -120,27 +120,27 @@ public class Menu extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+
         if (playingMusic != null)
             playingMusic.stop();
 
         for (WindowListener gui : getWindowListeners())
-                    gui.windowClosed(new WindowEvent(this, CLOSED_TO_REQUEST_REFRESH));
+            gui.windowClosed(new WindowEvent(this, CLOSED_TO_REQUEST_REFRESH));
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void musicsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_musicsListValueChanged
         if (!evt.getValueIsAdjusting())
         {
-            showMusicHighscore();
-            showMusicDifficulties();
-            playMusic();
+            List<Music> mapMusics = getSelectedMusicList();
+            showMusicHighscore(mapMusics);
+            showMusicDifficulties(mapMusics);
+            playMusic(mapMusics);
         }
     }//GEN-LAST:event_musicsListValueChanged
 
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
-        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
-
-        List<Music> mapMusics = musics.get(musicName);
+        
+        List<Music> mapMusics = getSelectedMusicList();
 
         musicToPlay = mapMusics.get(musicLevelsList.getSelectedIndex());
 
@@ -166,13 +166,17 @@ public class Menu extends javax.swing.JFrame
     private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 
-    private DefaultListModel musicsListModel;
-    private DefaultListModel musicLevelsListModel;
-    private Map<String, List<Music>> musics;
-    private Music musicToPlay;
-    private Music sampleMusic;
-    private Music playingMusic;
+    private DefaultListModel musicsListModel; // Model for the musics list.
+    private DefaultListModel musicLevelsListModel; // Model for the music dificulties list.
+    private Map<String, List<Music>> musics; // All musics loaded.
+    private Music musicToPlay; // Music to play.
+    private Music sampleMusic; // Music selected to play as sample.
+    private Music playingMusic; // Music playing as sample.
 
+    /**
+     * Given the map of the musics, translate them to the lists of the menu,
+     * @param musics Map of the musics.
+     */
     public void translateToMusicsList(Map<String, List<Music>> musics)
     {
         this.musics = musics;
@@ -181,28 +185,33 @@ public class Menu extends javax.swing.JFrame
 
         for (Map.Entry<String, List<Music>> entry : musics.entrySet())
         {
+            if (entry.getValue().isEmpty())
+                continue;
+            
             Music representant = entry.getValue().get(0);
 
-            if (representant != null)
-                musicsListModel.addElement("<html><b><music>" + representant.getName() + "</music></b> - " + representant.getArtist() + " - " +
-                        representant.getAlbum() + " - " + representant.getYear() + "</html>");
+            musicsListModel.addElement("<html><b><music>" + representant.getName() + "</music></b> - " + representant.getArtist() + " - " +
+                representant.getAlbum() + " - " + representant.getYear() + "</html>");
         }
 
         musicsList.setSelectedIndex(0);
-        showMusicDifficulties();
+        showMusicDifficulties(getSelectedMusicList());
     }
 
+    /**
+     * @return THe music to be played on the game.
+     */
     public Music getMusicToPlay()
     {
         return musicToPlay;
     }
 
-    private void showMusicHighscore()
+    /**
+     * Show the highscore of the selected music.
+     * @param mapMusics The list with the selected music.
+     */
+    private void showMusicHighscore(List<Music> mapMusics)
     {
-        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
-
-        List<Music> mapMusics = musics.get(musicName);
         if (mapMusics.size() > 0)
         {
             Music music = mapMusics.get(0);
@@ -212,13 +221,13 @@ public class Menu extends javax.swing.JFrame
             highscoreLabel.setText("Highscores");
     }
 
-    private void showMusicDifficulties()
+    /**
+     * Shows the selected music difficulties.
+     * @param mapMusics The list with the selected music.
+     */
+    private void showMusicDifficulties(List<Music> mapMusics)
     {
-        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
-
-        List<Music> mapMusics = musics.get(musicName);
-        if (mapMusics != null)
+        if (!mapMusics.isEmpty())
         {
             musicLevelsListModel.clear();
 
@@ -231,13 +240,12 @@ public class Menu extends javax.swing.JFrame
         musicLevelsList.setSelectedIndex(0);
     }
 
-    private void playMusic()
+    /**
+     * Plays the selected music as sample.
+     * @param mapMusics The list with the selected music.
+     */
+    private void playMusic(List<Music> mapMusics)
     {
-        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
-        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
-
-        List<Music> mapMusics = musics.get(musicName);
-
         sampleMusic = mapMusics.get(musicLevelsList.getSelectedIndex());
         Thread samplePlay = new Thread()
         {
@@ -268,6 +276,21 @@ public class Menu extends javax.swing.JFrame
         samplePlay.start();
     }
 
+    /**
+     * @return A list containing the selected music with all difficulties.
+     */
+    private List<Music> getSelectedMusicList()
+    {
+        String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
+        String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
+        List<Music> mapMusics = musics.get(musicName);
+
+        return mapMusics;
+    }
+
+    /**
+     * Centralize the form.
+     */
     private void centralize()
     {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
