@@ -10,7 +10,6 @@ import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
 import java.awt.Color;
-import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * It is the game engine.
