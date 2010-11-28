@@ -44,8 +44,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private boolean doingSolo;
     private Score score;
     private int trackInc;
-    private DrawData paused;
-    private boolean pausedFlag;
     private boolean finished;
 
     /**
@@ -79,10 +77,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         doingSolo = false;
 
         score = new Score();
-
-        paused = new DrawData(0);
-        paused.createAs2DText("PAUSED! PRESS ESC TO QUIT!");
-        paused.setPosition(140, 270, 2);
     }
 
     /**
@@ -167,11 +161,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             return;
 
         double time = (TIME_TROUGH_TRACK + executionTime) / 1000;
-
-        if (pausedFlag)
-        {
-            graphics.draw(paused);
-        }
 
         // Creates new notes that need to appear on the track.
         for (NoteXml noteXml = music.getNextNote((float) time); noteXml != null; noteXml = music.getNextNote((float) time))
@@ -322,10 +311,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
                 case 'K':
                     track = 4;
                     break;
-                case 'P':
-                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED)
-                        doPause();
-                    return;
                 default:
                     return;
             }
@@ -391,14 +376,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
             }
             guitarButton.unpress();
         }
-    }
-
-    /**
-     * Pauses the game.
-     */
-    private void doPause()
-    {
-        pausedFlag = !pausedFlag;
     }
 
     @Override
