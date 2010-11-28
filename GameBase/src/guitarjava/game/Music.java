@@ -53,8 +53,13 @@ public class Music
     private String highPlayer;
     private Thread musicThread;
 
-    public Music(String musicXml, String musicMP3, String musicScore) throws ParserConfigurationException, SAXException, IOException,
-            NumberFormatException, NullPointerException, DOMException, JavaLayerException, Exception
+    /**
+     * @param musicXml The path for the xml file.
+     * @param musicMP3 The path for the mp3 file.
+     * @param musicScore The path for the score file
+     * @throws Exception If loading the xml file or the highscore fails, this exception is thrown.
+     */
+    public Music(String musicXml, String musicMP3, String musicScore) throws Exception
     {
         this.xmlPath = musicXml;
         this.mp3Path = musicMP3;
@@ -64,19 +69,24 @@ public class Music
         solos = new ArrayList<SoloXml>();
 
         readProperties(musicXml);
-
-        reopen();
-
 	loadHighScore();
     }
 
+    /**
+     * Reopen the music player.
+     * @throws Exception Thrown if an error occurs.
+     */
     public final void reopen() throws Exception
     {
         FileInputStream input = new FileInputStream(mp3Path);
         player = new AdvancedPlayer(input);
     }
 
-    public void readNotes() throws ParserConfigurationException, SAXException, IOException
+    /**
+     * Reads the music notes.
+     * @throws Exception If an error occurs.
+     */
+    public void readNotes() throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -195,23 +205,12 @@ public class Music
         return null;
     }
 
-    public void play() throws JavaLayerException, Exception
-    {
-        this.play(false);
-    }
-
     /**
-     * Plays the music.
-     * @throws JavaLayerException
+     * Plays the music async.
+     * @throws Exception If an error while playing occurs.
      */
-    public void play(boolean reopen) throws JavaLayerException, Exception
+    public void play() throws Exception
     {
-        final int readFrames = Math.max(0, player.getReadFrames());
-        if (reopen)
-        {
-            this.reopen();
-        }
-
         musicThread = new Thread()
         {
             @Override
@@ -219,11 +218,16 @@ public class Music
             {
                 try
                 {
-                    player.play(readFrames, Integer.MAX_VALUE);
+                    reopen();
+                    player.play();
                 }
                 catch (JavaLayerException ex)
                 {
                     Logger.getLogger(Music.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (Exception ex)
+                {
+                    
                 }
             }
         };
@@ -231,6 +235,9 @@ public class Music
         musicThread.start();
     }
 
+    /**
+     * Stop the music imediately.
+     */
     public void stop()
     {
         player.close();
@@ -261,13 +268,20 @@ public class Music
         return player.getCurrentPosition();
     }
 
+    /**
+     * @return The position of the music when it got stopped.
+     */
     public int getLastPosition()
     {
         return player.getLastPosition();
     }
-    
-    private void readProperties(String musicXml) throws NullPointerException, NumberFormatException,
-            DOMException, ParserConfigurationException, SAXException, IOException
+
+    /**
+     * Reads the music properties.
+     * @param musicXml THe path to the xml file.
+     * @throws Exception If an IO error occurs.
+     */
+    private void readProperties(String musicXml) throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -390,6 +404,9 @@ public class Music
 	return highscore;
     }
 
+    /**
+     * @return The name of the owner of the highscore.
+     */
     public String getHighPlayer()
     {
         return highPlayer;

@@ -1,6 +1,6 @@
 package guitarjava.game;
 
-import guitarjava.components.GameWindow;
+import guitarjava.gui.GameWindow;
 import guitarjava.graphics.DrawData;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
@@ -16,8 +16,6 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -312,7 +310,7 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
                     track = 4;
                     break;
                 case 'P':
-                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED && 1 == 0)
+                    if (e.getType() == InputEvent.INPUT_KEYBOARD_PRESSED)
                         doPause();
                     return;
                 default:
@@ -388,18 +386,6 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     private void doPause()
     {
         pausedFlag = !pausedFlag;
-        if (pausedFlag)
-            music.stop();
-        else
-        {
-            try {
-                music.play(true);
-            } catch (JavaLayerException ex) {
-                Logger.getLogger(GameEngine.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(GameEngine.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     @Override

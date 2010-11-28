@@ -1,4 +1,4 @@
-package guitarjava.components;
+package guitarjava.gui;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

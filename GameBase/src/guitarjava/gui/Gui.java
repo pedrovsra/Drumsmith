@@ -10,7 +10,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javazoom.jl.decoder.JavaLayerException;
-import guitarjava.components.ErrorWindow;
 
 /**
  *

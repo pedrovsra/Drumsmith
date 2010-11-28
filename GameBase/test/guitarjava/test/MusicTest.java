@@ -57,7 +57,7 @@ public class MusicTest
         System.out.println("TEST END");
     }*/
 
-    @Test
+    /*@Test
     public void testThings() throws Exception
     {
         music = new Music("musics/xml/Music1_4.xml", "musics/mp3/Music1.mp3", "musics/score/Music1.sco");
@@ -68,5 +68,5 @@ public class MusicTest
         Thread.sleep(5000);
         music.play(true);
         Thread.sleep(10000);
-    }
+    }*/
 }
