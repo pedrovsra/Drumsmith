@@ -1,7 +1,5 @@
 package guitarjava.game;
 
-import guitarjava.gui.ErrorWindow;
-import java.awt.Window;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +10,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -243,7 +238,8 @@ public class Music
      */
     public void stop()
     {
-        player.close();
+        if (player != null)
+            player.close();
     }
 
     /**
