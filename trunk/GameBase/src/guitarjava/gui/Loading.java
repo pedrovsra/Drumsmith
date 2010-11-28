@@ -15,6 +15,7 @@ public class Loading extends javax.swing.JFrame
     {
         initComponents();
         centralize();
+        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.gui.ErrorWindow(this, "http://www.google.com"));
     }
 
     /** This method is called from within the constructor to

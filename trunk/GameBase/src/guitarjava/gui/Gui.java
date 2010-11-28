@@ -31,6 +31,9 @@ public class Gui extends WindowAdapter
     @Override
     public void windowClosed(WindowEvent e)
     {
+        if (ErrorWindow.hasError())
+            return;
+        
         if (e.getSource() == menuLoading)
         {
             menuLoading.setVisible(false);
@@ -71,7 +74,10 @@ public class Gui extends WindowAdapter
             {
                 String player = JOptionPane.showInputDialog
 			("You beat this music highscore! Enter your name!");
-		gameEngine.saveHighScore(player);
+		boolean success = gameEngine.saveHighScore(player);
+
+                if (!success)
+                    JOptionPane.showMessageDialog(menuLoading, "Could not save the highscore!");
             }
             createMenuLoading();
         }
@@ -115,17 +121,6 @@ public class Gui extends WindowAdapter
      */
     private void createGame()
     {
-        try
-        {
-            gameLoading.getGameEngine().start();
-        }
-        catch (JavaLayerException ex)
-        {
-            // TODO
-        }
-        catch (Exception ex)
-        {
-            
-        }
+        gameLoading.getGameEngine().start();
     }
 }

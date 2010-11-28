@@ -26,12 +26,12 @@ public class Score extends GameObject
         DrawData data = new DrawData(0);
         data.createAs2DText("SCORE: 0");
         data.setColor(Color.WHITE);
-        data.setPosition(10, 540, 2);
+        data.setPosition(10, 510, 20);
         drawDatas.add(data);
         data = new DrawData(0);
         data.createAs2DText("STREAK: 0");
         data.setColor(Color.WHITE);
-        data.setPosition(10, 510, 2);
+        data.setPosition(10, 480, 20);
         drawDatas.add(data);
     }
 

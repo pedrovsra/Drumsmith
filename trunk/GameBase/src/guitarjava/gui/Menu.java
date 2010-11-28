@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListModel;
@@ -36,6 +37,7 @@ public class Menu extends javax.swing.JFrame
         musicLevelsListModel = new DefaultListModel();
         initComponents();
         centralize();
+        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.gui.ErrorWindow(this, "http://www.google.com"));
     }
 
     /** This method is called from within the constructor to
@@ -139,6 +141,8 @@ public class Menu extends javax.swing.JFrame
     }//GEN-LAST:event_musicsListValueChanged
 
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
+        if (musicLevelsList.getSelectedIndex() == -1)
+            return;
         
         List<Music> mapMusics = getSelectedMusicList();
 
@@ -252,24 +256,18 @@ public class Menu extends javax.swing.JFrame
             @Override
             public void run()
             {
-                try
+                if (playingMusic != null)
                 {
-                    if (playingMusic != null)
-                    {
-                        playingMusic.stop();
-                    }
-
-                    if (sampleMusic == playingMusic)
-                        return;
-
-                    playingMusic = sampleMusic;
-                    sampleMusic.reopen();
-                    sampleMusic.play();
+                    playingMusic.stop();
                 }
-                catch (Exception e)
-                {
-                    // TODO
-                }
+
+                if (sampleMusic == playingMusic)
+                    return;
+
+                playingMusic = sampleMusic;
+                sampleMusic.play();
+
+                // In this case, the thread will end here and no errors of the music will be handled.
             }
         };
 
@@ -281,6 +279,9 @@ public class Menu extends javax.swing.JFrame
      */
     private List<Music> getSelectedMusicList()
     {
+        if (musicsList.getSelectedIndex() == -1)
+            return new ArrayList<Music>();
+        
         String musicString = (String) musicsListModel.elementAt(musicsList.getSelectedIndex());
         String musicName = musicString.substring(musicString.indexOf("<music>") + 7, musicString.indexOf("</music>"));
         List<Music> mapMusics = musics.get(musicName);

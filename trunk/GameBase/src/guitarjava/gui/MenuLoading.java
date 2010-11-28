@@ -107,7 +107,8 @@ public class MenuLoading extends Loading
             }
             catch (Exception e)
             {
-                System.out.println(e);
+                ErrorWindow error = new ErrorWindow(e, this, "http://www.google.com");
+                error.showWindow();
             }
 
             loaded++;
