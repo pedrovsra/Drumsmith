@@ -49,6 +49,7 @@ public class AdvancedPlayer {
     private int lastPosition = 0;
     /** Listener for the playback process */
     private PlaybackListener listener;
+    private int readFrames;
 
     /**
      * Creates a new <code>Player</code> instance.
@@ -90,6 +91,15 @@ public class AdvancedPlayer {
         play(Integer.MAX_VALUE);
     }
 
+    public int getReadFrames()
+    {
+        return readFrames;
+    }
+
+    public int getLastPosition()
+    {
+        return lastPosition;
+    }
     /**
      * Plays a number of MPEG audio frames.
      *
@@ -106,7 +116,8 @@ public class AdvancedPlayer {
             listener.playbackStarted(createEvent(PlaybackEvent.STARTED));
         }
 
-        while (frames-- > 0 && ret) {
+        while (frames-- > 0 && ret) 
+        {
             ret = decodeFrame();
         }
 
@@ -178,7 +189,7 @@ public class AdvancedPlayer {
                     out.write(output.getBuffer(), 0, output.getBufferLength());
                 }
             }
-
+            readFrames++;
             bitstream.closeFrame();
         } catch (RuntimeException ex) {
             throw new JavaLayerException("Exception decoding audio frame", ex);
@@ -196,6 +207,7 @@ public class AdvancedPlayer {
             return false;
         }
         bitstream.closeFrame();
+        readFrames++;
         return true;
     }
 
