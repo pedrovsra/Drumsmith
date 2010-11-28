@@ -4,11 +4,13 @@ import guitarjava.gui.GameWindow;
 import guitarjava.graphics.DrawData;
 import guitarjava.graphics.GraphicsInterface;
 import guitarjava.graphics.GraphicsUpdateListener;
+import guitarjava.gui.ErrorWindow;
 import guitarjava.input.InputEvent;
 import guitarjava.input.InputInterface;
 import guitarjava.input.InputListener;
 import guitarjava.timing.TimingInterface;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -83,6 +85,9 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
         paused.setPosition(140, 270, 2);
     }
 
+    /**
+     * Inits the engine.
+     */
     public void init()
     {
         window.addWindowListener(new WindowAdapter()
@@ -112,9 +117,8 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     
     /**
      * Start method.
-     * @throws JavaLayerException
      */
-    public void start() throws JavaLayerException, Exception
+    public void start()
     {
         window.showWindow();
         music.play();
@@ -135,6 +139,15 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     @Override
     public synchronized void graphicsUpdateEvent(EventObject e)
     {
+        // Allways check if the music got an error while playing.
+        if (music.getPlayException() != null)
+        {
+            music.stop();
+            ErrorWindow error = new ErrorWindow(music.getPlayException(),
+                    window, "http://www.google.com");
+            error.showWindow();
+        }
+
         // Gets the delta time and update the execution time.
         double deltaTime = timing.getDeltaTime();
         
@@ -429,9 +442,10 @@ public class GameEngine implements GraphicsUpdateListener, InputListener, NoteLi
     /**
      * Saves the high score.
      * @param player the player name
+     * @return True if success.
      */
-    public void saveHighScore(String player)
+    public boolean saveHighScore(String player)
     {
-	music.saveHighScore(player, score.getScore());
+	return music.saveHighScore(player, score.getScore());
     }
 }

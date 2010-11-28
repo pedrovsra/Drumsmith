@@ -2,6 +2,7 @@ package guitarjava.test;
 
 import guitarjava.gui.GameWindow;
 import guitarjava.gui.*;
+import javax.swing.JFrame;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +27,8 @@ public class ErrorWindowTest
     @Test
     public void testShowWindow() throws Exception
     {
-        GameWindow gameWindow = new GameWindow(800, 600);
-        ErrorWindow errorWindow = new ErrorWindow(new RuntimeException("Test message."), gameWindow, null);
+        JFrame f = new JFrame("JOW");
+        ErrorWindow errorWindow = new ErrorWindow(new RuntimeException("Test message."), f, null);
         errorWindow.showWindow();
     }
 }

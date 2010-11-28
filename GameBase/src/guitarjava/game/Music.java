@@ -1,5 +1,7 @@
 package guitarjava.game;
 
+import guitarjava.gui.ErrorWindow;
+import java.awt.Window;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,6 +45,7 @@ public class Music
     private int notePointer;
     private int soloPointer;
     private boolean silent;
+    private Exception playException;
     private List<NoteXml> notes;
     private List<SoloXml> solos;
     private AdvancedPlayer player;
@@ -204,9 +207,8 @@ public class Music
 
     /**
      * Plays the music async.
-     * @throws Exception If an error while playing occurs.
      */
-    public void play() throws Exception
+    public void play()
     {
         musicThread = new Thread()
         {
@@ -218,18 +220,22 @@ public class Music
                     reopen();
                     player.play();
                 }
-                catch (JavaLayerException ex)
-                {
-                    Logger.getLogger(Music.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 catch (Exception ex)
                 {
-                    
+                    Music.this.playException = ex;
                 }
             }
         };
 
         musicThread.start();
+    }
+
+    /**
+     * @return If the music got an exception while playing, return its object.
+     */
+    public Exception getPlayException()
+    {
+        return playException;
     }
 
     /**
@@ -430,7 +436,8 @@ public class Music
 	}
 	catch (FileNotFoundException ex)
 	{
-	    System.out.println("Error loading highscores!");
+	    highscore = 0;
+            highPlayer = "Player";
 	}
     }
 
@@ -438,8 +445,9 @@ public class Music
      * Saves the high score.
      * @param player the player name
      * @param score the high score
+     * @return True if success.
      */
-    public void saveHighScore(String player, int score)
+    public boolean saveHighScore(String player, int score)
     {
 	try
 	{
@@ -452,7 +460,9 @@ public class Music
 	}
 	catch (IOException ex)
 	{
-	    System.out.println("Error saving highscores!");
+	    return false;
 	}
+
+        return true;
     }
 }

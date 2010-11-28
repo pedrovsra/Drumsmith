@@ -16,6 +16,8 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -135,10 +137,7 @@ public class ErrorWindow extends javax.swing.JDialog implements Thread.UncaughtE
     public void showWindow()
     {
 	ErrorWindow.showing = true;
-        // Fires close window to Main Window
         mainWindow.setVisible(false);
-        mainWindow.dispose();
-        mainWindow.dispatchEvent(new WindowEvent(mainWindow, WindowEvent.WINDOW_CLOSING));
         // Adding other events and stuff
         addWindowListener(new WindowAdapter()
         {
@@ -148,8 +147,25 @@ public class ErrorWindow extends javax.swing.JDialog implements Thread.UncaughtE
                 trueClose();
             }
         });
+
+        String trace = "Could not get stack trace.";
+        
+        try
+        {
+            trace = prepareTrace(ex);
+        }
+        catch (Exception ex)
+        {
+            // Do nothing.
+        }
+
+        textArea.setText(trace);
+
         setLocationRelativeTo(null);
         setVisible(true);
+        // Fires close window to Main Window
+        mainWindow.dispose();
+        mainWindow.dispatchEvent(new WindowEvent(mainWindow, WindowEvent.WINDOW_CLOSING));
     }
 
     /**
@@ -163,7 +179,7 @@ public class ErrorWindow extends javax.swing.JDialog implements Thread.UncaughtE
 
         for (int x = 0; x < stackTrace.length; ++x)
         {
-            message += "\n\t" + stackTrace[x].toString();
+            message += "\n  " + stackTrace[x].toString();
         }
 
         return message;

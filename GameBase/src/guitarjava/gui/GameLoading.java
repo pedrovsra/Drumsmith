@@ -84,13 +84,13 @@ public class GameLoading extends Loading
         for (WindowListener gui : getWindowListeners())
            gameWindow.addWindowListener(gui);
 
-        setState("Creating exception handler..");
+        setState("Setting exception handler..");
         Thread.setDefaultUncaughtExceptionHandler(new guitarjava.gui.ErrorWindow(gameWindow, "http://www.google.com"));
-        setProgress(15);
+        setProgress(20);
 
         setState("Creating graphics context..");
         GraphicsInterface graphicsContext = new Graphics3DContext();
-        setProgress(30);
+        setProgress(25);
 
         setState("Creating timing context..");
         TimingContext timingContext = new TimingContext();
@@ -108,7 +108,8 @@ public class GameLoading extends Loading
         }
         catch (Exception ex)
         {
-            // TODO
+            ErrorWindow error = new ErrorWindow(ex, this, "http://www.google.com");
+            error.showWindow();
         }
 
         setState("Creating game engine..");
