@@ -16,20 +16,26 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- *
+ * This class load the game.
  * @author lucasjadami
  */
 public class GameLoading extends Loading
 {
-    private GameEngine gameEngine;
-    private Music musicToPlay;
-    private GameWindow gameWindow;
+    private GameEngine gameEngine; // Game engine.
+    private Music musicToPlay; // Music to play.
+    private GameWindow gameWindow; // The game window.
 
+    /**
+     * @param musicToPlay The music to play on the game.
+     */
     public GameLoading(Music musicToPlay)
     {
         this.musicToPlay = musicToPlay;
     }
 
+    /**
+     * Loads the game.
+     */
     @Override
     public void load()
     {
@@ -50,16 +56,25 @@ public class GameLoading extends Loading
         super.load();
     }
 
+    /**
+     * @return The game engine ready to be played.
+     */
     public GameEngine getGameEngine()
     {
         return this.gameEngine;
     }
 
+    /**
+     * @return The game window.
+     */
     public GameWindow getGameWindow()
     {
         return this.gameWindow;
     }
 
+    /**
+     * Loads the game.
+     */
     private void loadGame()
     {
         setState("Creating game window..");
@@ -90,10 +105,6 @@ public class GameLoading extends Loading
             setState("Loading music notes..");
             musicToPlay.readNotes();
             setProgress(80);
-            // Just in case the same music was being played in the menu.
-            setState("Flushing music..");
-            musicToPlay.reopen();
-            setProgress(86);
         }
         catch (Exception ex)
         {

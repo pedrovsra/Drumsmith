@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 /**
- *
+ * The loading base class.
  * @author lucasjadami
  */
 public class Loading extends javax.swing.JFrame
@@ -61,29 +61,44 @@ public class Loading extends javax.swing.JFrame
     private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 
-    protected Thread loadThread;
-    
+    protected Thread loadThread; // The load thread. It must be created anonymous on the derivated class.
+
+    /**
+     * Starts the thread.
+     */
     public void load()
     {
         if (loadThread != null)
             loadThread.start();
     }
-    
+
+    /**
+     * @param state The new state of the loading.
+     */
     protected void setState(String state)
     {
         stateLabel.setText(state);
     }
 
+    /**
+     * @param progress The new value of the progress bar.
+     */
     protected void setProgress(int progress)
     {
         progressBar.setValue(progress);
     }
 
+    /**
+     * @return The progress bar value.
+     */
     protected int getProgress()
     {
         return progressBar.getValue();
     }
 
+    /**
+     * Centralizes the form.
+     */
     private void centralize()
     {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

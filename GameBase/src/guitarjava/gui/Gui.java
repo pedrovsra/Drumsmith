@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package guitarjava.gui;
 
 import guitarjava.game.GameEngine;
@@ -12,20 +7,27 @@ import javax.swing.JOptionPane;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
- *
- * @author Lucas
+ * This class controls all the gui of the game.
+ * @author lucasjadami
  */
 public class Gui extends WindowAdapter
 {
-    private MenuLoading menuLoading;
-    private GameLoading gameLoading;
-    private Menu menu;
+    private MenuLoading menuLoading; // Menu loading gui.
+    private GameLoading gameLoading; // Game loading gui.
+    private Menu menu; // Menu gui.
 
+    /**
+     * Create the gui, starts the menu loading gui
+     */
     public Gui()
     {
         createMenuLoading();
     }
 
+    /**
+     * Closed window event.
+     * @param e Window event.
+     */
     @Override
     public void windowClosed(WindowEvent e)
     {
@@ -54,6 +56,10 @@ public class Gui extends WindowAdapter
         }
     }
 
+    /**
+     * Window closing event. Called when the game is closed.
+     * @param e Window event.
+     */
     @Override
     public void windowClosing(WindowEvent e)
     {
@@ -71,6 +77,9 @@ public class Gui extends WindowAdapter
         }
     }
 
+    /**
+     * Creates the menu loading.
+     */
     private void createMenuLoading()
     {
         menuLoading = new MenuLoading();
@@ -79,6 +88,9 @@ public class Gui extends WindowAdapter
         menuLoading.load();
     }
 
+    /**
+     * Creates the menu to choose the musics.
+     */
     private void createMenu()
     {      
         menu = new Menu();
@@ -87,6 +99,9 @@ public class Gui extends WindowAdapter
         menu.setVisible(true);
     }
 
+    /**
+     * Creates the game loading.
+     */
     private void createGameLoading()
     {
         gameLoading = new GameLoading(menu.getMusicToPlay());
@@ -94,7 +109,10 @@ public class Gui extends WindowAdapter
         gameLoading.setVisible(true);
         gameLoading.load();
     }
-    
+
+    /**
+     * Creates the game.
+     */
     private void createGame()
     {
         try
