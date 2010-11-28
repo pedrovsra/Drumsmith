@@ -5,7 +5,6 @@
 
 package guitarjava.gui;
 
-import guitarjava.components.GameWindow;
 import guitarjava.game.Constant;
 import guitarjava.game.GameEngine;
 import guitarjava.game.Music;
@@ -71,7 +70,7 @@ public class GameLoading extends Loading
            gameWindow.addWindowListener(gui);
 
         setState("Creating exception handler..");
-        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.components.ErrorWindow(gameWindow, "http://www.google.com"));
+        Thread.setDefaultUncaughtExceptionHandler(new guitarjava.gui.ErrorWindow(gameWindow, "http://www.google.com"));
         setProgress(15);
 
         setState("Creating graphics context..");

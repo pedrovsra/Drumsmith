@@ -2,13 +2,9 @@ package guitarjava.graphics;
 
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.GLUT;
-import guitarjava.components.Library;
-import guitarjava.game.Constant;
-import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

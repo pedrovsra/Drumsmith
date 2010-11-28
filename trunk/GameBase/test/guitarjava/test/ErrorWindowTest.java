@@ -1,6 +1,7 @@
 package guitarjava.test;
 
-import guitarjava.components.*;
+import guitarjava.gui.GameWindow;
+import guitarjava.gui.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

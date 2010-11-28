@@ -2,7 +2,7 @@ package guitarjava.input;
 
 import com.centralnexus.input.Joystick;
 import com.centralnexus.input.JoystickListener;
-import guitarjava.components.ErrorWindow;
+import guitarjava.gui.ErrorWindow;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * An Input context. It ignores key repeats.
