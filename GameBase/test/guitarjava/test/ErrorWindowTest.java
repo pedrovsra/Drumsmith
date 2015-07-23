@@ -1,7 +1,7 @@
 package guitarjava.test;
 
-import guitarjava.gui.GameWindow;
-import guitarjava.gui.*;
+import drumsmith.gui.ErrorWindow;
+import drumsmith.gui.GameWindow;
 import javax.swing.JFrame;
 import org.junit.After;
 import org.junit.Before;

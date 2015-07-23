@@ -1,7 +1,7 @@
 package guitarjava.test;
 
-import guitarjava.game.Music;
-import guitarjava.game.NoteXml;
+import drumsmith.game.Music;
+import drumsmith.game.NoteXml;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
